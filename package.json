@@ -1,0 +1,26 @@
+{
+  "name": "restaurant_app",
+  "version": "1.0.0",
+  "description": "ShaPrath Technologies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prathameshbhavsar555/Technologies.git"
+  },
+  "author": "Prathamesh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prathameshbhavsar555/Technologies/issues"
+  },
+  "homepage": "https://github.com/prathameshbhavsar555/Technologies#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1"
+  }
+}
