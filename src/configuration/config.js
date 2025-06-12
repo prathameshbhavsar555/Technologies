@@ -2,8 +2,8 @@ let mysql = require("mysql2");
  let conn = mysql.createConnection({
     host :"localhost",
     user : "root",
-    password :"Root",
-    database : "restaurant_app"
+    password :"Root@1234",
+    database : "Restaurant_App"
  });
 
  conn.connect((err)=>{
