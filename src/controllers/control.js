@@ -1,3 +1,18 @@
 exports.home=(req,res)=>{
     res.render("home.ejs");
 }
+exports.adminlogin=(req,res)=>{
+    res.render("adminlogin.ejs");
+}
+exports.adminsignup=(req,res)=>{
+    res.render("adminsignup.ejs");
+}
+exports.admindasboard=(req,res)=>{
+    res.render("admindasboard.ejs");
+}
+exports.addcategory=(req,res)=>{
+    res.render("addcategory.ejs");
+}
+exports.viewcategory=(req,res)=>{
+    res.render("viewcategory.ejs");
+}
