@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Restaurant Webpage</title>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    nav {
+      background-color: #0d0d0d;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #f8b400;
+      letter-spacing: 1px;
+    }
+
+    ul.nav-links {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    ul.nav-links li {
+      position: relative;
+    }
+
+    ul.nav-links li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      font-size: 16px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    ul.nav-links li a:hover {
+      background-color: #f8b400;
+      color: #0d0d0d;
+    }
+
+    /* Dropdown */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #1c1c1c;
+      min-width: 100px;
+      border-radius: 4px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }
+
+    .dropdown-content a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 15px;
+      color: white;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f8b400;
+      color: #0d0d0d;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* Sections */
+    section {
+      height: 100vh;
+      padding: 40px;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #0d0d0d;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .social-links {
+      margin-bottom: 15px;
+    }
+
+    .social-links a {
+      color: #f8b400;
+      margin: 0 12px;
+      font-size: 22px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: white;
+    }
+
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: none;
+      background-color: #f8b400;
+      color: #0d0d0d;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+
+    #backToTop:hover {
+      background-color: #e09e00;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      ul.nav-links {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      ul.nav-links li {
+        width: 100%;
+      }
+
+      ul.nav-links li a {
+        display: block;
+        width: 100%;
+      }
+
+      .dropdown-content {
+        position: static;
+        box-shadow: none;
+        background-color: transparent;
+      }
+
+      .dropdown-content a {
+        padding-left: 30px;
+        background-color: #1c1c1c;
+      }
+
+      .social-links a {
+        font-size: 18px;
+        margin: 0 8px;
+      }
+
+      footer p {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">🍽️ MyRestaurant</div>
+    <ul class="nav-links">
+      <li><a href="#home"> Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#chef">Chef</a></li>
+      <li class="dropdown">
+        <a href="#login">Login ▾</a>
+        <div class="dropdown-content">
+          <a href="/admin-login"><i class="fa-solid fa-user-tie"></i> Admin </a>
+          <a href="/user-login"><i class="fa-solid fa-users"></i> User </a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Dummy sections -->
+  <section id="home" style="background: #eee;">Home Section</section>
+  <section id="about" style="background: #ddd;">About Section</section>
+  <section id="menu" style="background: #ccc;">Menu Section</section>
+  <section id="gallery" style="background: #bbb;">Gallery Section</section>
+  <section id="chef" style="background: #aaa;">Chef Section</section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+      <h3>ShaPrath Technoloies</h3><br>
+      <p>&copy; 2025 MyRestaurant. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" title="Back to Top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    const topButton = document.getElementById("backToTop");
+    window.onscroll = () => {
+      topButton.style.display = (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) ? "block" : "none";
+    };
+    topButton.onclick = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  </script>
+
+</body>
+</html>
