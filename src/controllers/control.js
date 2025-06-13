@@ -4,6 +4,8 @@ let regmodel = require("../modules/module.js");
 
 
 // prathm
+// new updated
+
 exports.adminlogin=(req,res)=>{
     res.render("adminlogin.ejs");
 }
