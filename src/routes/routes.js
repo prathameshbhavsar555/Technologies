@@ -4,7 +4,7 @@ let regCtrl=require("../controllers/control.js");
 
 let router=routes.Router();
 // he file change kele aahe bho
-
+//
 // changed regControl routes 
 router.get("/",regCtrl.home);
 //prath
