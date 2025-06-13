@@ -3,7 +3,8 @@ let regCtrl=require("../controllers/control.js");
 
 
 let router=routes.Router();
-
+// he file change kele aahe bho
+router.get("/",regCtrl.home);
 //prath
 router.get("/adminlogin",regCtrl.adminlogin);
 router.get("/adminsingup",regCtrl.adminsignup);
