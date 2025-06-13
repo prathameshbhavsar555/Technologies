@@ -7,7 +7,7 @@ let regmodel = require("../modules/module.js");
 // new updated
 
 exports.adminlogin=(req,res)=>{
-    res.render("adminlogin.ejs");
+    res.render("adminlogin.ejs",{msg:""});
 }
 exports.adminsignup=(req,res)=>{
     res.render("adminsignup.ejs");
@@ -43,7 +43,7 @@ exports.saveLogin = (req, res) => {
 
     let { name, email, contact, salary } = req.body;
     let result = regmodel.acceptRegData(name, email, contact, salary);
-    res.render("usersingup", { msg: "user added" });
+    res.render("usersingup", { msg: "Added Successfully" });
     return true;
 }
 exports.checkUser = (req, res) => {
@@ -62,5 +62,17 @@ exports.checkUser = (req, res) => {
         res.end();
     })
 }
+let admin={
+    admin1:"shaheel",
+    admin2:"prathamesh"
+}
+exports.adminentry = (req, res) => {
 
+    let {username,password} = req.body;
+    if((username==admin.admin1 || username==admin.admin2)&&(password=='4444'||password=='5555')){
+        res.render("admindasboard");
+    }else{
+        res.render("adminlogin", { msg: "Invalid UserName & Password" });
+    }
+}
 

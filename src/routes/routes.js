@@ -18,6 +18,7 @@ router.get("/userlogin",regCtrl.userlogin);
 router.get("/usersignup",regCtrl.usersignup);
 router.post("/saveLogin",regCtrl.saveLogin);
 router.post("/checkUser",regCtrl.checkUser);
+router.post("/adminentry",regCtrl.adminentry);
 
 module.exports=router;
 
