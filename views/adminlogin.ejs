@@ -132,7 +132,7 @@
     </div>
     <div class="login-title">Admin Login</div>
 
-    <form action="/admindasboard" method="POST">
+    <form action="/adminentry" method="POST">
       <div class="input-wrapper">
         <i class="fas fa-user"></i>
         <input type="text" name="username" placeholder="Username" required />
@@ -145,11 +145,10 @@
 
       <button type="submit" class="login-button">Login</button>
     </form>
-
-    <form action="/adminsingup" method="GET">
+    <!-- <form action="/adminsingup" method="GET">
       <button type="submit" class="signup-button">Sign Up</button>
-    </form>
-
+    </form> -->
+     <span style="color: red;"><%=msg%></span>
     <div class="footer">
       &copy; 2025 Admin Panel. All rights reserved.
     </div>

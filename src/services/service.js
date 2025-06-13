@@ -7,8 +7,6 @@ exports.checkData=(...checkUser)=>{
                 if(err){
                     reject(err);
                 }else{
-                    console.log(result);
-                    
                     resolve(result);                                                                                                            
                 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         })                                                                                                                                                                                                              
