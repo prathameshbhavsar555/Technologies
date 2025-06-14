@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 //    saveUninitialized : false
 // }));
 app.use(express.static("public"));
+app.use(express.static("assect"));
 app.use("/",router);
 app.set("view engine","ejs");
 

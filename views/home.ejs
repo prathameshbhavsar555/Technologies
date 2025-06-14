@@ -4,234 +4,162 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Restaurant Webpage</title>
-
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    nav {
-      background-color: #0d0d0d;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 40px;
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #f8b400;
-      letter-spacing: 1px;
-    }
-
-    ul.nav-links {
-      list-style: none;
-      display: flex;
-      gap: 24px;
-      align-items: center;
-    }
-
-    ul.nav-links li {
-      position: relative;
-    }
-
-    ul.nav-links li a {
-      text-decoration: none;
-      color: white;
-      font-weight: 500;
-      font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 4px;
-      transition: background-color 0.3s ease;
-    }
-
-    ul.nav-links li a:hover {
-      background-color: #f8b400;
-      color: #0d0d0d;
-    }
-
-    /* Dropdown */
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background-color: #1c1c1c;
-      min-width: 100px;
-      border-radius: 4px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      z-index: 1000;
-    }
-
-    .dropdown-content a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 15px;
-      color: white;
-      text-decoration: none;
-      transition: background 0.2s ease;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #f8b400;
-      color: #0d0d0d;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    /* Sections */
-    section {
-      height: 100vh;
-      padding: 40px;
-    }
-
-    /* Footer */
-    footer {
-      background-color: #0d0d0d;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-      margin-top: auto;
-    }
-
-    .footer-container {
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .social-links {
-      margin-bottom: 15px;
-    }
-
-    .social-links a {
-      color: #f8b400;
-      margin: 0 12px;
-      font-size: 22px;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .social-links a:hover {
-      color: white;
-    }
-
-    /* Back to Top Button */
-    #backToTop {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      display: none;
-      background-color: #f8b400;
-      color: #0d0d0d;
-      border: none;
-      padding: 12px 16px;
-      border-radius: 50%;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      z-index: 1000;
-      transition: background-color 0.3s ease;
-    }
-
-    #backToTop:hover {
-      background-color: #e09e00;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      ul.nav-links {
-        flex-direction: column;
-        width: 100%;
-        margin-top: 10px;
-      }
-
-      ul.nav-links li {
-        width: 100%;
-      }
-
-      ul.nav-links li a {
-        display: block;
-        width: 100%;
-      }
-
-      .dropdown-content {
-        position: static;
-        box-shadow: none;
-        background-color: transparent;
-      }
-
-      .dropdown-content a {
-        padding-left: 30px;
-        background-color: #1c1c1c;
-      }
-
-      .social-links a {
-        font-size: 18px;
-        margin: 0 8px;
-      }
-
-      footer p {
-        font-size: 14px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="./master.css">
 </head>
 <body>
+ <!-- Navbar Start -->
+<nav>
+  <div class="logo">🍽️ MyRestaurant</div>
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#chef">Chef</a></li>
+    <li class="dropdown">
+      <a href="#login">Login ▾</a>
+      <div class="dropdown-content">
+        <a href="/adminlogin"><i class="fa-solid fa-user-tie"></i> Admin </a>
+        <a href="/user-login"><i class="fa-solid fa-users"></i> User </a>
+      </div>
+    </li>
+  </ul>
+</nav>
+<!-- Responsive Navbar End -->
+<!-- Home -->
+<section id="home" class="slider-section">
+  <div class="slider-overlay"></div>
+  <div class="slider-content">
+    <h1>Welcome to <span>MyRestaurant</span></h1>
+    <p>Taste the finest dishes, crafted with passion and served with elegance.</p>
+    <a href="#menu">Explore Our Menu</a>
+  </div>
+</section>
 
-  <nav>
-    <div class="logo">🍽️ MyRestaurant</div>
-    <ul class="nav-links">
-      <li><a href="#home"> Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#menu">Menu</a></li>
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#chef">Chef</a></li>
-      <li class="dropdown">
-        <a href="#login">Login ▾</a>
-        <div class="dropdown-content">
-          <a href="/adminlogin"><i class="fa-solid fa-user-tie"></i> Admin </a>
-          <a href="/userlogin"><i class="fa-solid fa-users"></i> Staff </a>
+<!-- about section -->
+<section id="about" class="about-section">
+  <div class="about-container">
+    <div class="about-image">
+      <img src="./images/imagee.png" 
+           alt="Restaurant Interior" 
+           class="about-img" />
+    </div>
+    <div class="about-content">
+      <h2 class="about-title">
+        About <span class="about-highlight">MyRestaurant</span>
+      </h2>
+      <p class="about-description">
+        At MyRestaurant, we believe dining is more than just food — it’s an experience. 
+        Our chefs create mouth-watering dishes with love, while our cozy ambiance makes every moment memorable. 
+        Join us for a culinary journey full of flavor, elegance, and hospitality.
+      </p>
+      <a href="#menu" class="about-menu-link">
+        View Menu
+      </a>
+    </div>
+  </div>
+</section>
+ 
+<!-- menu section -->
+<section id="menu" class="menu-section">
+  <div class="menu-container">
+    <h2 class="menu-title">
+      🍽️ Our Signature <span class="menu-highlight">Dishes</span>
+    </h2>
+
+    <div class="menu-grid">
+      <!-- Item 1 -->
+      <div class="menu-item">
+        <img src="./images/meanu/meanu1.png" alt="Butter Chicken" class="menu-img">
+        <div class="menu-item-content">
+          <h3 class="menu-item-title">Butter Chicken</h3>
+          <p class="menu-item-desc">Rich creamy gravy, tender chicken, Indian spices.</p>
+          <strong class="menu-item-price">₹399</strong>
         </div>
-      </li>
-    </ul>
-  </nav>
+      </div>
 
-  <!-- Dummy sections -->
-  <section id="home" style="background: #eee;">Home Section</section>
-  <section id="about" style="background: #ddd;">About Section</section>
-  <section id="menu" style="background: #ccc;">Menu Section</section>
-  <section id="gallery" style="background: #bbb;">Gallery Section</section>
-  <section id="chef" style="background: #aaa;">Chef Section</section>
+      <!-- Item 2 -->
+      <div class="menu-item">
+        <img src="./images/meanu/meanu2.png" alt="Tandoori Platter" class="menu-img">
+        <div class="menu-item-content">
+          <h3 class="menu-item-title">Tandoori Platter</h3>
+          <p class="menu-item-desc">Aromatic kebabs, paneer, and veggies grilled to perfection.</p>
+          <strong class="menu-item-price">₹479</strong>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="menu-item">
+        <img src="./images/meanu/biryani.png" alt="Biryani" class="menu-img">
+        <div class="menu-item-content">
+          <h3 class="menu-item-title">Royal Chicken Biryani</h3>
+          <p class="menu-item-desc">Layered with saffron rice, slow-cooked chicken, and herbs.</p>
+          <strong class="menu-item-price">₹349</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Restaurant gallery -->
+<section id="gallery" class="gallery-section">
+  <div class="gallery-container"> 
+    <h2 class="gallery-title">📸 Our <span class="gallery-highlight">Gallery</span></h2>
+    <div class="gallery-grid">
+      <img src="./images/gallary/gallary9.png" alt="Dish 1" class="gallery-img" />
+      <img src="./images/gallary/gallary2.png" alt="Dish 2" class="gallery-img" />
+      <img src="./images/gallary/gallary4.png" alt="Dish 3" class="gallery-img" />
+      <img src="./images/gallary/gallary3.png" alt="Interior" class="gallery-img" />
+      <img src="./images/gallary/gallary6.png" alt="Dish 1" class="gallery-img" />
+      <img src="./images/gallary/gallary7.png" alt="Dish 2" class="gallery-img" />
+      <img src="./images/gallary/gallary8.png" alt="Dish 3" class="gallery-img" />
+      <img src="./images/gallary/gallary5.png" alt="Interior" class="gallery-img" />
+    </div>
+  </div>
+</section>
+
+<!-- chef section -->
+<section id="chef" class="chef-section">
+  <div class="chef-container">
+    <h2 class="chef-title">Meet Our <span class="chef-highlight">Master Chef</span></h2>
+    <p class="chef-intro">
+      Behind every unforgettable dish is a master artist. Our head chef brings world-class expertise and passion to the table,
+      ensuring every bite is a masterpiece.
+    </p>
+
+    <div class="chef-flex">
+      <div class="chef-img-wrapper">
+        <img src="./images/chef.png "
+             alt="Chef Portrait"
+             class="chef-img" />
+      </div>
+
+      <div class="chef-details">
+        <h3 class="chef-name">Chef Yaman Shaikh</h3>
+        <p class="chef-bio">
+          With over 20 years of experience from Italy to India, Chef Yaman blends traditional Mediterranean flavors with modern fusion techniques. 
+          He believes in sourcing the finest ingredients and creating dishes that are both art and soul.
+        </p>
+        <div class="chef-rating">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star-half-stroke"></i>
+          <span class="chef-rating-text">4.8 rating</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- Footer -->
   <footer>
@@ -259,8 +187,35 @@
     topButton.onclick = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+   </script>
 
-    // kola
-  </script>
+  <script>
+  // Hamburger menu toggle
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.onclick = () => {
+    navLinks.classList.toggle('active');
+    hamburger.classList.toggle('open');
+    document.body.classList.toggle('menu-open', navLinks.classList.contains('active'));
+  };
+
+  // Close menu on link click (for single-page navigation)
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.onclick = () => {
+      navLinks.classList.remove('active');
+      hamburger.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    };
+  });
+
+  // Back to Top Button
+  const topButton = document.getElementById("backToTop");
+  window.onscroll = () => {
+    topButton.style.display = (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) ? "block" : "none";
+  };
+  topButton.onclick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+</script>
 </body>
 </html>

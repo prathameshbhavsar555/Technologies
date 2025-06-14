@@ -81,6 +81,10 @@
       cursor: pointer;
       transition: var(--transition);
     }
+    .menu-item a{
+      color: #555;
+      text-decoration: none;
+    }
 
     .menu-item:hover {
       background: var(--hover-bg);
@@ -168,8 +172,8 @@
         <i class="fas fa-chevron-down"></i>
       </div>
       <div class="submenu" id="menuMenu">
-        <a href="#">Add Menu</a>
-        <a href="#">View Menu</a>
+        <a href="/addmeanu">Add Menu</a>
+        <a href="/viewmeanu">View Menu</a>
       </div>
 
       <div class="menu-item" onclick="toggleMenu('staffMenu')">
@@ -199,7 +203,7 @@
       </div>
 
       <div class="menu-item">
-        <span><i class="fas fa-sign-out-alt"></i> Logout</span>
+        <span><i class="fas fa-sign-out-alt"></i><a href="/">Logout</a></span>
       </div>
     </div>
 
