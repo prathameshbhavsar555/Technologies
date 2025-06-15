@@ -16,11 +16,17 @@ exports.admindasboard=(req,res)=>{
     res.render("admindasboard.ejs");
 }
 exports.addcategory=(req,res)=>{
-    res.render("addcategory.ejs");
+    res.render("addcategory.ejs",{msg:""});
 }
-exports.viewcategory=(req,res)=>{
-    res.render("viewcategory.ejs");
-}
+exports.viewcategory = (req, res) => {
+  conn.query("SELECT * FROM category", (err, result) => {
+    if (err) {
+      console.error("Error fetching categories:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.render("viewcategory", { data: result });
+  });
+};
 //today changes
 exports.addmeanu=(req,res)=>{
     res.render("addmeanu.ejs");
@@ -28,36 +34,16 @@ exports.addmeanu=(req,res)=>{
 exports.viewmeanu=(req,res)=>{
     res.render("viewmeanu.ejs");
 }
-//shaheel
-exports.getAllcategories=(req,res)=>{
-    conn.query("select * from category",(err,result)=>{
-        if(err){
-            return res.status(500).json({message:"error getting category"});
-        }
-        console.log("data",result);
-        
-        res.json(result);
-    });
-}
-exports.insertcategories=(req,res)=>{
-    let{name}=req.body;
-   
-    
-    conn.query("insert into category values('0',?)",
-        [name],(err)=>{
-            if(err){
-                console.log("not saved");
-                 return res.status(500).json({ success: false, message: "Failed to insert" });
-                
-            }else{
-                console.log("saved data");
-               return res.status(200).json({ success: true, message: "Category inserted" });
-                
-            }
-        })
-
-}
-//end
+exports.insertcategories = (req, res) => {
+  let { name } = req.body;
+  conn.query("INSERT INTO category VALUES (0, ?)", [name], (err) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: "Failed to insert" });
+    } else {
+      return res.render("addcategory", { msg: "Category added" });
+    }
+  });
+};
 let admin={
     admin1:"shaheel",
     admin2:"prathamesh"
@@ -99,9 +85,16 @@ exports.checkUser = (req, res) => {
             res.render("userlogin.ejs", { msg: "Invalid  username and password" });
         }
     }).catch((err) => {
-        // res.render("userlogin")
         res.render("userlogin.ejs", { msg: "Invalid  username and password" });
         res.end();
     })
 }
 
+
+//today changes
+exports.addminprofile =((req,res)=>{
+    res.render("addminprofile.ejs");
+})
+exports.addminEdit =((req,res)=>{
+    res.render("addminEdit.ejs");
+})

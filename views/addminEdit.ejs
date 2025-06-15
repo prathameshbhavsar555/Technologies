@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Admin Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f4f8;
+      margin: 0;
+      padding: 0;
+    }
+    .edit-container {
+      max-width: 700px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .edit-container h2 {
+      text-align: center;
+      color: #ff6b6b;
+      margin-bottom: 30px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+    input:focus, textarea:focus {
+      border-color: #ff6b6b;
+      outline: none;
+    }
+    .btn-save {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: #ff6b6b;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-save:hover {
+      background: #e85c5c;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="edit-container">
+    <h2><i class="fas fa-user-edit"></i> Edit Admin Profile</h2>
+    <form action="/update-profile" method="POST">
+      
+      <!-- Admin Info -->
+      <div class="form-group">
+        <label for="adminName">Full Name</label>
+        <input type="text" id="adminName" name="adminName" value="Prathamesh Bhavsar" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="adminEmail">Email</label>
+        <input type="email" id="adminEmail" name="adminEmail" value="prathamesh@example.com" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="adminUsername">Username</label>
+        <input type="text" id="adminUsername" name="adminUsername" value="prathamesh_admin">
+      </div>
+
+      <!-- Restaurant Info -->
+      <div class="form-group">
+        <label for="restaurantName">Restaurant Name</label>
+        <input type="text" id="restaurantName" name="restaurantName" value="Spicy Garden" required>
+      </div>
+
+      <div class="form-group">
+        <label for="restaurantAddress">Address</label>
+        <textarea id="restaurantAddress" name="restaurantAddress" rows="3">MG Road, Pune</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="restaurantContact">Contact Number</label>
+        <input type="text" id="restaurantContact" name="restaurantContact" value="+91 9876543210">
+      </div>
+
+      <div class="form-group">
+        <label for="hours">Opening Hours</label>
+        <input type="text" id="hours" name="hours" value="11:00 AM – 11:00 PM">
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-save"><i class="fas fa-save"></i> Save Changes</button>
+    </form>
+  </div>
+
+</body>
+</html>

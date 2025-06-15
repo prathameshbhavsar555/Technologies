@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register Category</title>
 </head>
 <body>
-    <h1>Hii Add Category PAGE</h1>
+
+  <h2 style="text-align: center;">📝 Register Category</h2>
+  <form action="/insertcategories" method="POST" style="max-width: 400px; margin: auto;">
+    <label for="name">Category Name:</label><br>
+    <input type="text" id="name" name="name" required style="width: 100%; padding: 8px; margin: 10px 0;"><br>
+    
+    <button type="submit" style="padding: 8px 16px;">Register</button>
+    <span>
+    <%= msg %>
+  </span>
+  </form>
+
 </body>
 </html>

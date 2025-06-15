@@ -10,12 +10,13 @@ router.get("/adminsingup",regCtrl.adminsignup);
 router.post("/admindasboard",regCtrl.admindasboard);
 router.get("/addcategory",regCtrl.addcategory);
 router.get("/viewcategory",regCtrl.viewcategory);
+
 //today changes
 router.get("/addmeanu",regCtrl.addmeanu);
 router.get("/viewmeanu",regCtrl.viewmeanu);
-//shaheel
-//router.get("/categories",regCtrl.getAllcategories);
-//router.post("/insertcategories",regCtrl.insercategories);
+
+router.post("/insertcategories",regCtrl.insertcategories);
+//router.get("/updatecategory",regCtrl.updatecategory);
 
 //USER ROUTES
 router.get("/userlogin",regCtrl.userlogin);
@@ -25,4 +26,9 @@ router.post("/checkUser",regCtrl.checkUser);
 router.post("/adminentry",regCtrl.adminentry);
 
 module.exports=router;
+
+//today changes
+router.get("/addminprofile",regCtrl.addminprofile);
+router.get("/addminEdit",regCtrl.addminEdit);
+
 
