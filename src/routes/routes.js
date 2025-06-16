@@ -19,12 +19,6 @@ router.post("/admindasboard",regCtrl.admindasboard);
 //router.post("/insertcategories",regCtrl.insertcategories);
 //router.get("/updatecategory",regCtrl.updatecategory);
 
-//USER ROUTES
-router.get("/userlogin",regCtrl.userlogin);
-router.get("/usersignup",regCtrl.usersignup);
-router.post("/saveLogin",regCtrl.saveLogin);
-router.post("/checkUser",regCtrl.checkUser);
-router.post("/adminentry",regCtrl.adminentry);
 
 module.exports=router;
 
@@ -50,3 +44,17 @@ router.get("/updatecategory",regCtrl.updatecategory);
 router.post("/updatecategoryH",regCtrl.updatecategoryH);
 router.get("/deletecategory",regCtrl.delcategory);
 
+//USER ROUTES
+router.get("/userlogin",regCtrl.userlogin);
+//router.get("/usersignup",regCtrl.usersignup);
+router.post("/saveLogin",regCtrl.saveLogin);
+router.post("/checkUser",regCtrl.checkUser);
+router.post("/adminentry",regCtrl.adminentry);
+
+//staff
+router.get("/viewstaff",regCtrl.viewstaff)
+router.get("/addstaff",regCtrl.addstaff);
+router.post("/addstaffH",regCtrl.addstaffH);
+router.get("/deletestaff",regCtrl.deletestaff);
+router.get("/updatestaff",regCtrl.updatestaff);
+router.post("/updatestaffH",regCtrl.updatestaffH);

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Staff</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f4f6f9;
+      min-height: 100vh;
+      padding-top: 50px;
+    }
+    .table-wrapper {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    .page-title {
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="table-wrapper">
+      <h1 class="page-title">All Staff Members</h1>
+
+      <% if (data.length > 0) { %>
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Contact No</th>
+              <th scope="col">Salary (₹)</th>
+              <th scope="col" style="width: 20%;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.forEach(function(staff, index) { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= staff.name %></td>
+                <td><%= staff.email %></td>
+                <td><%= staff.contact_no %></td>
+                <td><%= staff.salary %></td>
+                <td>
+                  <div class="d-flex justify-content-center gap-2">
+                    <a href="/updatestaff?id=<%= staff.staff_id %>" class="btn btn-warning btn-sm">Update</a>
+                    <a href="/deletestaff?id=<%= staff.staff_id %>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this staff member?')">Delete</a>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <div class="alert alert-info text-center">No staff found</div>
+      <% } %>
+    </div>
+  </div>
+
+</body>
+</html>

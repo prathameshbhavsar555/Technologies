@@ -264,3 +264,65 @@ exports.addminprofile =((req,res)=>{
 exports.addminEdit =((req,res)=>{
     res.render("addminEdit.ejs");
 })
+
+
+
+// stafff
+exports.viewstaff = (req, res) => {
+  conn.query("SELECT * FROM staff", (err, result) => {
+    if (err) {
+      console.error("Error fetching categories:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.render("viewstaff", { data: result });
+  });
+};
+
+exports.deletestaff = (req, res) => {
+  const id=parseInt(req.query.id);
+  console.log("the delete id: ",id);
+  
+  conn.query("delete from staff where staff_id=?",[id], (err, result) => {
+    if (err) {
+      console.error("Error fetching categories:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.redirect("/viewstaff")
+  });
+};
+
+exports.updatestaff = (req, res) => {
+  const staff_id=parseInt(req.query.id);
+  // console.log("the updated id: ",id);
+  
+  conn.query("select *from staff where staff_id=?",[staff_id], (err, result) => {
+    if (err) {
+      console.error("Error fetching categories:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.render("updatestaff",{staff:result[0]})
+  });
+};
+exports.updatestaffH = (req, res) => {
+  let {staff_id,name,email,contact_no,salary}=req.body;
+  // console.log("the updated id: ",id);
+  
+  conn.query("update staff set name=?,email=?,contact_no=?,salary=? where staff_id=?",[name,email,contact_no,salary,staff_id], (err, result) => {
+    if (err) {
+      console.error("Error fetching categories:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.redirect("/viewstaff")
+  });
+};
+exports.addstaff = (req, res) => {
+    res.render("addstaff.ejs", { msg: "" })
+
+}
+exports.addstaffH = (req, res) => {
+
+    let { name, email, contact, salary } = req.body;
+    let result = regmodel.acceptRegData(name, email, contact, salary);
+    res.render("addstaff", { msg: "Added Successfully" });
+    return true;
+}
