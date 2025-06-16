@@ -1,45 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Category Table</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Category List</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 40px 20px;
+    }
+
+    .header {
+      max-width: 800px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header h2 {
+      color: #ff6b6b;
+      font-size: 1.8rem;
+    }
+
+    .header a {
+      background-color: #ff6b6b;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .header a:hover {
+      background-color: #e65c5c;
+    }
+
+    .search-box {
+      max-width: 800px;
+      margin: 0 auto 15px auto;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    table {
+      width: 90%;
+      max-width: 800px;
+      margin: auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px 20px;
+      text-align: center;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    th {
+      background-color: #ff6b6b;
+      color: white;
+      font-size: 1rem;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    a.action {
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .action-icons i {
+      margin: 0 6px;
+      cursor: pointer;
+    }
+
+    .action-icons i.fa-pen-to-square {
+      color: #17a2b8;
+    }
+
+    .action-icons i.fa-trash {
+      color: #dc3545;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
 
-<section>
-  <table border="1" style="width: 60%; margin: 20px auto; text-align: center;">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Update</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if (data.length === 0) { %>
+  <div class="header">
+    <h2><i class="fas fa-list"></i> Category List</h2>
+    <a href="/addcategory"><i class="fas fa-plus-circle"></i> New Category</a>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Search categories... (JS not yet applied)">
+  </div>
+
+  <section>
+    <table>
+      <thead>
         <tr>
-          <td colspan="4">
-            <h3>Oops, there is no data</h3>
-          </td>
+          <th>#</th>
+          <th>Category Name</th>
+          <th>Update</th>
+          <th>Delete</th>
         </tr>
-      <% } else {
-        data.forEach((item, index) => { %>
+      </thead>
+      <tbody>
+        <% if (data.length === 0) { %>
           <tr>
-            <td><%= index + 1 %></td>
-            <td><%= item.name %></td>
-            <td>
-              <a href="/updatecategory?id=<%= item.id %>">Update</a>
-            </td>
-            <td>
-              <a href="/deletecategory?id=<%= item.id %>">Delete</a>
-            </td>
+            <td colspan="4" class="no-data">🙁 Oops, no categories available.</td>
           </tr>
-      <% }) } %>
-    </tbody>
-  </table>
-</section>
+        <% } else {
+          data.forEach((item, index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= item.name %></td>
+              <td class="action-icons">
+                <a href="/updatecategory?id=<%= item.id %>">
+                  <i class="fas fa-pen-to-square"></i>
+                </a>
+              </td>
+              <td class="action-icons">
+                <a href="/deletecategory?id=<%= item.id %>" onclick="return confirm('Are you sure you want to delete this category?')">
+                  <i class="fas fa-trash"></i>
+                </a>
+              </td>
+            </tr>
+        <% }) } %>
+      </tbody>
+    </table>
+  </section>
 
 </body>
 </html>
