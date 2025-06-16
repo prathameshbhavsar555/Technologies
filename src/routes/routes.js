@@ -1,5 +1,6 @@
 let routes = require("express");
 let regCtrl=require("../controllers/control.js");
+const upload = require("../controllers/control.js").upload; // export upload from control.js
 
 let router=routes.Router();
 router.get("/",regCtrl.home);
@@ -8,14 +9,14 @@ router.get("/",regCtrl.home);
 router.get("/adminlogin",regCtrl.adminlogin);
 router.get("/adminsingup",regCtrl.adminsignup);
 router.post("/admindasboard",regCtrl.admindasboard);
-router.get("/addcategory",regCtrl.addcategory);
-router.get("/viewcategory",regCtrl.viewcategory);
+//router.get("/addcategory",regCtrl.addcategory);
+//router.get("/viewcategory",regCtrl.viewcategory);
 
 //today changes
-router.get("/addmeanu",regCtrl.addmeanu);
-router.get("/viewmeanu",regCtrl.viewmeanu);
+//router.get("/addmeanu",regCtrl.addmeanu);
+//router.get("/viewmeanu",regCtrl.viewmeanu);
 
-router.post("/insertcategories",regCtrl.insertcategories);
+//router.post("/insertcategories",regCtrl.insertcategories);
 //router.get("/updatecategory",regCtrl.updatecategory);
 
 //USER ROUTES
@@ -31,4 +32,21 @@ module.exports=router;
 router.get("/addminprofile",regCtrl.addminprofile);
 router.get("/addminEdit",regCtrl.addminEdit);
 
+//today shaheel changes
+//menu
+router.get("/addmeanu",regCtrl.addmeanu);
+router.get("/viewmeanu",regCtrl.viewmeanu);
+router.get("/deletemenus",regCtrl.deletemenus);
+router.get("/updatemenus",regCtrl.updatemenus);
+router.post("/addmenuInDB", upload.single("image"), regCtrl.addmenuInDB);
+router.post("/updateMenuHandler", upload.single("image"), regCtrl.updateMenuHandler);
+// router.post("/updateMenuHandler", regCtrl.updateMenuHandler);
+
+//category
+router.get("/addcategory",regCtrl.addcategory);
+router.get("/viewcategory",regCtrl.viewcategory);
+router.post("/insertcategories",regCtrl.insertcategories);
+router.get("/updatecategory",regCtrl.updatecategory);
+router.post("/updatecategoryH",regCtrl.updatecategoryH);
+router.get("/deletecategory",regCtrl.delcategory);
 

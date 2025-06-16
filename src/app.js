@@ -16,6 +16,7 @@ app.use(express.json());
 // }));
 app.use(express.static("public"));
 app.use(express.static("assect"));
+app.use('/uploads', express.static('uploads'));
 app.use("/",router);
 app.set("view engine","ejs");
 
