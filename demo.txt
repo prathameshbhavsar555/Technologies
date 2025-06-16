@@ -1,0 +1,37 @@
+// CHANGE START: Fixed and complete ajaxImpl function in ajax.js
+
+let searchEmployee = (str) => {
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let tableBody = document.getElementById("staffbody");
+            tableBody.innerHTML = "";
+
+            let jsonObj = JSON.parse(this.responseText);
+
+            if (jsonObj.length === 0) {
+                let row = document.createElement("tr");
+                row.innerHTML = `<td colspan="7" class="text-center text-danger">No student found</td>`;
+                tableBody.appendChild(row);
+            } else {
+                jsonObj.forEach((item, index) => {
+                    let row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${item.name}</td>
+                        <td>${item.contact}</td>
+                        <td>${item.salary}</td>
+                        <td><a href='/delstaffByid?id=${item.id}' class='btn btn-danger btn-sm'>Delete</a></td>
+                        <td><a href='/updatestaffByid?id=${item.id}' class='btn btn-warning btn-sm'>Update</a></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        }
+    };
+    xhttp.open("GET", "/search?sd=" + str, true);
+    xhttp.send();
+};
+
+// CHANGE END

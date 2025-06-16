@@ -58,3 +58,20 @@ router.post("/addstaffH",regCtrl.addstaffH);
 router.get("/deletestaff",regCtrl.deletestaff);
 router.get("/updatestaff",regCtrl.updatestaff);
 router.post("/updatestaffH",regCtrl.updatestaffH);
+
+
+//search category
+router.get("/searchCategory",regCtrl.searchCategory);
+router.get("/searchmenu",regCtrl.searchmenu);
+router.get("/searchStaff",regCtrl.searchStaff);
+
+
+
+//table
+router.get("/addtable",regCtrl.addtable);
+router.post("/addtableIndb",regCtrl.addtableIndb);
+router.get("/viewtable",regCtrl.viewtable);
+router.get("/deletetable",regCtrl.deletetable);
+router.get("/updatetable",regCtrl.updatetable);
+router.get("/searchtable",regCtrl.searchtable);
+router.post("/updatetableH",regCtrl.updatetableH);

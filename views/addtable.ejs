@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Dining Table</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Add Dining Table</h2>
+    <form action="/addtableIndb" method="POST">
+      
+      <!-- Table ID -->
+      <div class="mb-3">
+        <label for="table_id" class="form-label">Table ID</label>
+        <input type="number" class="form-control" id="table_id" name="table_id" required>
+      </div>
+
+      <!-- Capacity -->
+      <div class="mb-3">
+        <label for="capacity" class="form-label">Capacity</label>
+        <input type="number" class="form-control" id="capacity" name="capacity" required>
+      </div>
+
+      <!-- Availability Status -->
+      <div class="mb-3">
+        <label for="availability_status" class="form-label">Availability Status</label>
+        <select class="form-control" id="availability_status" name="availability_status" required>
+          <option value="Available">Available</option>
+          <option value="Occupied">Occupied</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <span class="text-success"><%= msg %></span>
+    </form>
+  </div>
+</body>
+</html>

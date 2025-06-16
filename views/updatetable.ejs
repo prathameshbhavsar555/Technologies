@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Dining Table</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <div class="container mt-5">
+    <h2 class="mb-4">Update Dining Table</h2>
+
+    <form action="/updatetableH" method="POST" class="border p-4 bg-white rounded shadow-sm">
+      <input type="hidden" name="table_id" value="<%= table.table_id %>" />
+
+      <div class="mb-3">
+        <label for="capacity" class="form-label">Capacity</label>
+        <input type="number" class="form-control" id="capacity" name="capacity" value="<%= table.capacity %>" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="availability_status" class="form-label">Availability Status</label>
+        <select class="form-select" name="availability_status" id="availability_status" required>
+          <option value="Available" <%= table.availability_status === 'Available' ? 'selected' : '' %>>Available</option>
+          <option value="Occupied" <%= table.availability_status === 'Occupied' ? 'selected' : '' %>>Occupied</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Update Table</button>
+    </form>
+  </div>
+
+</body>
+</html>

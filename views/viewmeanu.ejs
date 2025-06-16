@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>All Categories</title>
+  <title>All Menus</title>
 
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="/menuAjax.js"></script>
 
   <style>
     body {
@@ -14,63 +16,78 @@
       min-height: 100vh;
       padding-top: 50px;
     }
+
     .table-wrapper {
       background: #fff;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
+
     .table th {
       background-color: #f1f1f1;
     }
+
     .page-title {
       font-size: 2rem;
       font-weight: bold;
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
+    <div class="top-bar d-flex justify-content-center my-4">
+      <input type="text" class="text-start" id="searchInput" placeholder="Search ..."
+        onkeyup="searchMenu(this.value)" />
+    </div>
+
+
     <div class="table-wrapper">
       <h1 class="mb-4 text-center page-title">All Menus</h1>
 
-      <% if (data.length > 0) { %>
+      <% if (data.length> 0) { %>
         <table class="table table-bordered table-hover align-middle">
           <thead class="table-light">
             <tr>
               <th scope="col" style="width: 10%;">#</th>
-              <th scope="col">Category Name</th>
+              <th scope="col">Menu Name</th>
               <th scope="col" style="width: 25%;">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="searchMenu">
             <% data.forEach(function(item, index) { %>
               <tr>
-                <td><%= index + 1 %></td>
+                <td>
+                  <%= index + 1 %>
+                </td>
                 <td><input type="text" class="form-control-plaintext" value="<%= item.item_name %>" readonly></td>
                 <td><input type="text" class="form-control-plaintext" value="<%= item.category_id %>" readonly></td>
                 <td><input type="text" class="form-control-plaintext" value="<%= item.price %>" readonly></td>
                 <td><input type="text" class="form-control-plaintext" value="<%= item.description %>" readonly></td>
-               <td>
-  <img src="/uploads/<%= item.image %>" alt="menu image" width="50" height="50" style="object-fit: cover; border-radius: 6px;">
-</td>
+                <td>
+                  <img src="/uploads/<%= item.image %>" alt="menu image" width="50" height="50"
+                    style="object-fit: cover; border-radius: 6px;">
+                </td>
 
                 <td>
                   <div class="d-flex gap-2 justify-content-center">
                     <a href="/updatemenus?id=<%= item.id %>" class="btn btn-warning btn-sm">Update</a>
-                    <a href="/deletemenus?id=<%= item.id %>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this menus?')">Delete</a>
+                    <a href="/deletemenus?id=<%= item.id %>" class="btn btn-danger btn-sm"
+                      onclick="return confirm('Are you sure you want to delete this menus?')">Delete</a>
                   </div>
                 </td>
               </tr>
-            <% }); %>
+              <% }); %>
           </tbody>
         </table>
-      <% } else { %>
-        <div class="alert alert-info text-center">No menus found</div>
-      <% } %>
+        <% } else { %>
+          <div class="alert alert-info text-center">No menus found</div>
+          <% } %>
     </div>
   </div>
 
 </body>
+
 </html>

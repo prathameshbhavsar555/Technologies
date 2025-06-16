@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dining Table List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/tableAjax.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-light">
+
+  <div class="container mt-5">
+
+    <div class="top-bar d-flex justify-content-center my-4">
+      <input type="text" class="text-start" id="searchInput" placeholder="Search by..."
+        onkeyup="searchtable(this.value)" />
+    </div>
+
+    <h2 class="mb-4">Dining Table List</h2>
+
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Table ID</th>
+          <th>Capacity</th>
+          <th>Availability</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="searchtable">
+        <% if (data.length > 0) { %>
+          <% data.forEach(row => { %>
+            <tr>
+              <td><%= row.table_id %></td>
+              <td><%= row.capacity %></td>
+              <td>
+                <% if (row.availability_status === 'Available') { %>
+                  <span class="badge bg-success">Available</span>
+                <% } else { %>
+                  <span class="badge bg-danger">Occupied</span>
+                <% } %>
+              </td>
+              <td>
+                <a href="/updatetable?id=<%= row.table_id %>" class="text-primary me-3">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <a href="/deletetable?id=<%= row.table_id %>" class="text-danger" onclick="return confirm('Are you sure you want to delete this table?');">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="4" class="text-center">No dining tables found.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>

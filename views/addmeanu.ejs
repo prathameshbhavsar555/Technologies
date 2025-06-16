@@ -46,12 +46,19 @@
 
     .form-group input[type="text"],
     .form-group input[type="number"],
-    .form-group input[type="file"] {
+    .form-group input[type="file"],
+    .form-group select {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .form-group select {
+      background-color: #fff;
+      appearance: none;
     }
 
     .form-group input[type="submit"] {
@@ -69,6 +76,14 @@
     .form-group input[type="submit"]:hover {
       background: #0056b3;
     }
+
+    .message {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: green;
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
@@ -83,8 +98,13 @@
       </div>
 
       <div class="form-group">
-        <label for="category_id">Category ID</label>
-        <input type="text" id="category_id" name="category_id" required>
+        <label for="category_id">Category</label>
+        <select name="category_id" id="category_id" required>
+          <option value="" disabled selected>Select a category</option>
+          <% data.forEach(item => { %>
+            <option value="<%= item.id %>"><%= item.name %></option>
+          <% }) %>
+        </select>
       </div>
 
       <div class="form-group">
@@ -105,9 +125,11 @@
       <div class="form-group">
         <input type="submit" value="Add Menu">
       </div>
-      
     </form>
-    <span><%=msg%></span>
+    
+    <% if (typeof msg !== "undefined") { %>
+      <span class="message"><%= msg %></span>
+    <% } %>
   </div>
 
 </body>

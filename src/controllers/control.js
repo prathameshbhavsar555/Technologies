@@ -71,12 +71,33 @@ let admin={
 }
 exports.adminentry = (req, res) => {
 
-    let {username,password} = req.body;
-    if((username==admin.admin1 || username==admin.admin2)&&(password=='4444'||password=='5555')){
+  let {username,password} = req.body;
+  if(username=="shaheel" || username=="prathamesh"){
+      if((username==admin.admin1 || username==admin.admin2)&&(password=='4444'||password=='5555')){
         res.render("admindasboard");
-    }else{
+    }
+      else{
         res.render("adminlogin", { msg: "Invalid UserName & Password" });
     }
+  }
+  else{
+      conn.query("select *from staff where name=? and contact_no=?",[username,password],(err,result)=>{
+
+        if(err){
+          console.log("username and password: ",username,password);
+          return res.status(500).send("internal error");
+
+        }
+        else{d
+           res.render("userdashboard");
+        }
+        
+        
+      })
+
+      
+    }
+   
 }
 
 
@@ -156,7 +177,14 @@ exports.deletemenus = (req, res) => {
   });
 };
 exports.addmeanu=(req,res)=>{
-    res.render("addmeanu.ejs",{msg:""});
+  conn.query("select *from category",(err,result)=>{
+    if(err){
+      console.log("error when featching data from category");
+      return res.status(500).send("internal serveer error");
+      
+    }
+    res.render("addmeanu.ejs",{msg:"",data:result});
+  })    
 }
 exports.viewmeanu=(req,res)=>{
      conn.query("SELECT * FROM menu", (err, result) => {
@@ -179,26 +207,41 @@ exports.addmenuInDB = (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid category ID" });
   }
     else {
-      return res.render("addmeanu", { msg: "menu added in db" });
+       conn.query("SELECT * FROM category", (err, categories) => {
+        if (err) {
+          console.log("Error fetching categories:", err);
+          return res.status(500).send("Internal Server Error");
+        }
+        return res.render("addmeanu", { msg: "menu added in db",data:categories});
+      });
     }
   });
 };
 exports.updatemenus = (req, res) => {
-  // console.log("the updtate id: ",id);
-  let id=req.query.id;
-  
-  conn.query("SELECT * FROM menu where id=?",[id], (err, result) => {
+  let id = req.query.id;
+
+  conn.query("SELECT * FROM menu WHERE id = ?", [id], (err, menuResult) => {
     if (err) {
-      console.error("Error fetching categories:", err);
+      console.error("Error fetching menu item:", err);
       return res.status(500).send("Internal Server Error");
     }
-    res.render("updatemenu", { data: result[0] });
+
+    if (menuResult.length === 0) {
+      return res.status(404).send("Menu item not found");
+    }
+
+    conn.query("SELECT * FROM category", (catErr, categoryResult) => {
+      if (catErr) {
+        console.error("Error fetching categories:", catErr);
+        return res.status(500).send("Internal Server Error");
+      }
+
+      res.render("updatemenu", {data: menuResult[0],categories: categoryResult});
+    });
   });
 };
 exports.updateMenuHandler = (req, res) => {
-  //  let kid=req.query.id;
-  // console.log("the updtate id: ",kid);
-  
+
    const { id, item_name, category_id, price, description } = req.body;
   let image = req.file ? req.file.filename : null;
 
@@ -326,3 +369,177 @@ exports.addstaffH = (req, res) => {
     res.render("addstaff", { msg: "Added Successfully" });
     return true;
 }
+
+//seraching category
+
+exports.searchCategory =  (req, res) => {
+    const searchValue = req.query.sd;
+    console.log("searchvalue : ",searchValue);
+    
+    const query = `
+        SELECT id,name
+        FROM category 
+        WHERE id LIKE ? OR name LIKE ? 
+    `;
+    const likeSearch = `%${searchValue}%`;
+    conn.query(query, [likeSearch, likeSearch], (err, data) => {
+        if (err) {
+            console.log("Search error:", err);
+            res.json([]);
+        } else {
+            res.json(data);
+        }
+    });
+};
+
+//search menu
+exports.searchmenu =  (req, res) => {
+    const searchValue = req.query.sd;
+    console.log("searchvalue : ", searchValue);
+
+    const likeSearch = `%${searchValue}%`;
+
+    const query = `
+        SELECT m.id, m.item_name, m.category_id, m.price, m.description, m.image, c.name AS category_name
+        FROM menu m
+        LEFT JOIN category c ON m.category_id = c.id
+        WHERE m.item_name LIKE ? OR m.description LIKE ? OR c.name LIKE ?
+    `;
+
+    conn.query(query, [likeSearch, likeSearch, likeSearch], (err, data) => {
+        if (err) {
+            console.log("Search error:", err);
+            res.json([]);
+        } else {
+            res.json(data);
+        }
+    });
+};
+//search staff
+    exports.searchStaff = (req, res) => {
+    const searchValue = req.query.sd;
+    console.log("searchvalue : ", searchValue);
+
+    const likeSearch = `%${searchValue}%`;
+
+    const query = `
+        SELECT staff_id, name, email, contact_no, salary 
+        FROM staff 
+        WHERE name LIKE ? OR email LIKE ? OR contact_no LIKE ?
+    `;
+
+    conn.query(query, [likeSearch, likeSearch, likeSearch], (err, data) => {
+        if (err) {
+            console.log("Search error:", err);
+            res.json([]);
+        } else {
+            res.json(data);
+        }
+    });
+};
+
+// table:
+exports.addtable = (req, res) => {
+    res.render("addtable.ejs",{msg:""})
+
+}
+exports.addtableIndb = (req, res) => {
+ let { table_id, capacity, availability_status } = req.body;
+
+  conn.query(
+    "INSERT INTO dinning_table (table_id, capacity, availability_status) VALUES (?, ?, ?)",
+    [table_id, capacity, availability_status],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(400).json({ success: false, message: "Insert failed" });
+      }
+      res.render("addtable", { msg: "Added to table" });
+    }
+  );
+
+}
+
+exports.viewtable = (req, res) => {
+  conn.query("SELECT * FROM dinning_table ", (err, result) => {
+    if (err) {
+      console.error("Error fetching categories:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    console.log("result: ",result);
+    
+    res.render("viewtable", { data:result });
+  });
+};
+
+exports.deletetable = (req, res) => {
+  const id=parseInt(req.query.id);
+  console.log("the delete id: ",id);
+  
+  conn.query("delete from dinning_table where table_id=?",[id], (err, result) => {
+    if (err) {
+      console.error("Error fetching categories:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.redirect("/viewtable")
+  });
+};
+
+
+
+exports.updatetable = (req, res) => {
+  const table_id=parseInt(req.query.id);
+  // console.log("the updated id: ",id);
+  
+  conn.query("select *from dinning_table where table_id=?",[table_id], (err, result) => {
+    if (err) {
+      console.error("Error fetching categories:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.render("updatetable",{table:result[0]})
+  });
+};
+
+
+exports.updatetableH = (req, res) => {
+ const { table_id, capacity, availability_status } = req.body;
+
+  conn.query(
+    "UPDATE dinning_table SET capacity = ?, availability_status = ? WHERE table_id = ?",
+    [capacity, availability_status, table_id],
+    (err, result) => {
+      if (err) {
+        console.error("Error updating table:", err);
+        return res.status(500).send("Internal Server Error");
+      }
+      res.redirect("/viewtable"); // redirect to view after update
+    }
+  );
+};
+
+
+
+//search staff
+  exports.searchtable = (req, res) => {
+   let keyword = req.query.sd;
+
+  conn.query(
+    `SELECT * FROM dinning_table WHERE 
+     table_id LIKE ? OR 
+     capacity LIKE ? OR 
+     availability_status LIKE ?`,
+    [`%${keyword}%`, `%${keyword}%`, `%${keyword}%`],
+    (err, result) => {
+      if (err) {
+        console.error("Search error:", err);
+        return res.status(500).json([]);
+      }
+      console.log("result hai",result);
+      
+      res.json(result); // Send result as JSON
+    }
+  );
+
+};
+
+

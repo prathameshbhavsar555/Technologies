@@ -7,6 +7,7 @@
 
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="/staffAjax.js"></script>
 
   <style>
     body {
@@ -31,6 +32,12 @@
 <body>
 
   <div class="container">
+
+    <div class="top-bar d-flex justify-content-center my-4">
+      <input type="text" class="text-start" id="searchInput" placeholder="Search by..."
+        onkeyup="searchStaff(this.value)" />
+    </div>
+
     <div class="table-wrapper">
       <h1 class="page-title">All Staff Members</h1>
 
@@ -46,7 +53,7 @@
               <th scope="col" style="width: 20%;">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="searchStaff">
             <% data.forEach(function(staff, index) { %>
               <tr>
                 <td><%= index + 1 %></td>
