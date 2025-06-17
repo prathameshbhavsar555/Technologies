@@ -4,6 +4,7 @@ let regmodel = require("../modules/module.js");
 
 const multer = require("multer");
 const path = require("path");
+const { createCipheriv } = require("crypto");
 
 // Set up Multer storage
 const storage = multer.diskStorage({
@@ -33,10 +34,10 @@ exports.adminsignup=(req,res)=>{
     res.render("adminsignup.ejs");
 }
 exports.admindasboard=(req,res)=>{
-    res.render("admindasboard.ejs");
+    res.render("admindasboard.ejs",{filename:"no"});
 }
 exports.addcategory=(req,res)=>{
-    res.render("addcategory.ejs",{msg:""});
+    res.render("addcategory.ejs",{filename:"addcategory.ejs", msg:""});
 }
 exports.viewmeanu=(req,res)=>{
     res.render("viewmeanu.ejs");
@@ -45,206 +46,241 @@ let admin={
     admin1:"shaheel",
     admin2:"prathamesh"
 }
-exports.adminentry = (req, res) => {
+exports.adminentry = async(req, res) => {
+try{
+  const {username,password}=req.body;
+  let result=await regmodel.adminentry(username,password);
+console.log("result response: ",result);
 
-  let {username,password} = req.body;
-  if(username=="shaheel" || username=="prathamesh"){
-      if((username==admin.admin1 || username==admin.admin2)&&(password=='4444'||password=='5555')){
-        res.render("admindasboard");
-    }
-      else{
-        res.render("adminlogin", { msg: "Invalid UserName & Password" });
-    }
+  if(result.status==='admin'){
+     res.render("admindasboard");
+  }else if(result.status==='staff'){
+
+      res.render("userdashboard");
+  }else{
+
+      res.render("adminlogin", { msg: "Invalid UserName & Password" });
   }
-  else{
-      conn.query("select *from staff where name=? and contact_no=?",[username,password],(err,result)=>{
-
-        if(err){
-          console.log("username and password: ",username,password);
-          return res.status(500).send("internal error");
-
-        }
-        else{d
-           res.render("userdashboard");
-        }
-        
-        
-      })
-    }
+}
+catch{
+  console.log("error in entry",err);
+  res.status(500).send("internal server error");
+}
 }
 
 //Category CRUD Operation
-//view Category
-exports.viewcategory = (req, res) => {
-  conn.query("select * from category", (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.render("viewcategory", { data: result });
-  });
+
+exports.viewcategory = async(req, res) => {
+ try{
+  let result=await regmodel.viewcategory();
+  res.render("viewcategory",{data:result})
+ }
+ catch(err){
+  console.log("error fetching categories",err);
+  res.status(500).send("internal server error");
+ }
 };
-//update Category
-exports.updatecategory = (req, res) => {
-  const id=parseInt(req.query.id);
-  console.log("the updated id: ",id);
-  
-  conn.query("select * from category where id=?",[id], (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.render("updatecategory", { data: result[0] });
-  });
+
+// 
+exports.updatecategory = async(req, res) => {
+  try{
+    const id=parseInt(req.query.id);
+    let result=await regmodel.updatecategory(id);
+    res.render("updatecategory",{data:result[0]})
+  }
+  catch(err){
+    res.status(500).send("internal server error");
+  }
 };
 //Delete Category
-exports.delcategory = (req, res) => {
+// 
+exports.delcategory = async(req, res) => {
+  try{
   const id=parseInt(req.query.id);
-  console.log("the delete id: ",id);
-  
-  conn.query("delete from category where id=?",[id], (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.redirect("/viewcategory")
-  });
+  let result=await regmodel.delcategory(id);
+  res.redirect("/viewcategory")
+  }
+  catch(err){
+  res.status(500).send("internal server error");
+  }
 };
 //Insert Category
-exports.insertcategories = (req, res) => {
+// 
+exports.insertcategories =async (req, res) => {
+  try{
   let { name } = req.body;
-  conn.query("insert into category values (0, ?)", [name], (err) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: "Failed to insert" });
-    } else {
-      return res.render("addcategory", { msg: "Category added" });
-    }
-  });
+  let result=await regmodel.insertcategories(name);
+  res.render("addcategory",{msg:"category added"});
+  }
+  catch(err){
+    res.status(500).json({ success: false, message: "Failed to insert" });
+  }
 };
 //Update By POST Method Category
-exports.updatecategoryH = (req, res) => {
-  let {id,name}=req.body;
-  console.log("the updated id: ",id);
-  
-  conn.query("update category set name=? where id=?",[name,id], (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
+// 
+exports.updatecategoryH = async(req, res) => {
+  try{
+    let {id,name}=req.body;
+
+      let result=await regmodel.updatecategoryH(id,name);
+      res.redirect("/viewcategory");
+  }
+  catch(err){
       return res.status(500).send("Internal Server Error");
-    }
-    res.redirect("/viewcategory")
-  });
+  }
+
+};
+//seraching category
+// 
+exports.searchCategory = async (req, res) => {
+  try{
+    const searchValue = req.query.sd;
+    let result=await regmodel.searchCategory(searchValue);
+    res.json(result);
+  }
+  catch(err){
+    res.json(result);
+  }
 };
 
-
+// _______________________________________________________
 //Menu CRUD Opearation
 //Delete Menu
-exports.deletemenus = (req, res) => {
-  const id=parseInt(req.query.id);
-  console.log("the delete id: ",id);
-  
-  conn.query("delete from menu where id=?",[id], (err, result) => {
-    if (err) {
-      console.error("Error fetching menu:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.redirect("/viewmeanu")
-  });
-};
-//Add Menu
-exports.addmeanu=(req,res)=>{
-  conn.query("select *from category",(err,result)=>{
-    if(err){
-      console.log("error when featching data from category");
-      return res.status(500).send("internal serveer error");
-      
-    }
-    res.render("addmeanu.ejs",{msg:"",data:result});
-  })    
-}
-//View Menu
-exports.viewmeanu=(req,res)=>{
-     conn.query("SELECT * FROM menu", (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.render("viewmeanu", { data: result });
-  });
-}
-//ADD Meanu Database
-exports.addmenuInDB = (req, res) => {
-  let {item_name,category_id,price,description } = req.body;
-  const image=req.file.filename;
-    // console.log("Body:", req.body);
-    // console.log("File:", req.file); 
-  conn.query("insert into menu values (0,?,?,?,?,?)", [item_name,category_id,price,description,image], (err,result) => {
-     if (err || result.length === 0) {
-   
-      return res.status(400).json({ success: false, message: "Invalid category ID" });
+
+
+exports.deletemenus = async (req, res) => {
+  try {
+    const id = parseInt(req.query.id);
+    console.log("the delete id: ", id);
+    await regmodel.deletemenus(id);
+    res.redirect("/viewmeanu");
+  } catch (err) {
+    console.error("Error deleting menu:", err);
+    res.status(500).send("Internal Server Error");
   }
-    else {
-       conn.query("select * from category", (err, categories) => {
-        if (err) {
-          console.log("Error fetching categories:", err);
-          return res.status(500).send("Internal Server Error");
-        }
-        return res.render("addmeanu", { msg: "menu added in db",data:categories});
-      });
-    }
-  });
 };
-//Update Menu
-exports.updatemenus = (req, res) => {
-  let id = req.query.id;
 
-  conn.query("select * from menu where id = ?", [id], (err, menuResult) => {
-    if (err) {
-      console.error("Error fetching menu item:", err);
-      return res.status(500).send("Internal Server Error");
-    }
+exports.addmeanu = async (req, res) => {
+  try {
+    const result = await regmodel.getAllCategories();
+    res.render("addmeanu.ejs", { msg: "", data: result });
+  } catch (err) {
+    console.log("Error when fetching data from category:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
+exports.viewmeanu = async (req, res) => {
+  try {
+    const result = await regmodel.viewmeanu();
+    res.render("viewmeanu", { data: result });
+  } catch (err) {
+    console.error("Error fetching menus:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+exports.addmenuInDB = async (req, res) => {
+  try {
+    const { item_name, category_id, price, description } = req.body;
+    const image = req.file.filename;
+    await regmodel.addmenuInDB(item_name, category_id, price, description, image);
+
+    const categories = await regmodel.getAllCategories();
+    res.render("addmeanu", { msg: "menu added in db", data: categories });
+  } catch (err) {
+    console.error("Error inserting menu:", err);
+    res.status(400).json({ success: false, message: "Invalid category ID" });
+  }
+};
+
+exports.updatemenus = async (req, res) => {
+  try {
+    const id = req.query.id;
+    const menuResult = await regmodel.getMenuById(id);
     if (menuResult.length === 0) {
       return res.status(404).send("Menu item not found");
     }
-
-    conn.query("select * from category", (catErr, categoryResult) => {
-      if (catErr) {
-        console.error("Error fetching categories:", catErr);
-        return res.status(500).send("Internal Server Error");
-      }
-
-      res.render("updatemenu", {data: menuResult[0],categories: categoryResult});
-    });
-  });
-};
-//Update Menu
-exports.updateMenuHandler = (req, res) => {
-
-   const { id, item_name, category_id, price, description } = req.body;
-  let image = req.file ? req.file.filename : null;
-
-  let query = `update menu set item_name = ?, category_id = ?, price = ?, description = ?`;
-  let values = [item_name, category_id, price, description];
-
-  if (image) {
-    query += `, image = ?`;
-    values.push(image);
+    const categoryResult = await regmodel.getAllCategories();
+    res.render("updatemenu", { data: menuResult[0], categories: categoryResult });
+  } catch (err) {
+    console.error("Error fetching menu or categories:", err);
+    res.status(500).send("Internal Server Error");
   }
+};
+exports.updateMenuHandler = async (req, res) => {
+  try {
+    const { id, item_name, category_id, price, description } = req.body;
+    const image = req.file ? req.file.filename : null;
 
-  query += ` WHERE id = ?`;
-  values.push(id);
-
-  conn.query(query, values, (err, result) => {
-    if (err) {
-      console.error("Error updating menu:", err);
-      return res.status(500).send("Update Failed");
-    }
-
-    res.redirect("/viewmeanu"); // Redirect to list page or wherever
-  });
+    await regmodel.updateMenuHandler(id, item_name, category_id, price, description, image);
+    res.redirect("/viewmeanu");
+  } catch (err) {
+    console.error("Error updating menu:", err);
+    res.status(500).send("Update Failed");
+  }
 };
 
+// stafff
 
+exports.viewstaff = async (req, res) => {
+  try {
+    let result = await regmodel.viewstaff();
+    res.render("viewstaff", { data: result });
+  } catch (err) {
+    console.error("Error fetching staff:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+exports.deletestaff = async (req, res) => {
+  try {
+    const id = parseInt(req.query.id);
+    console.log("the delete id: ", id);
+    await regmodel.deletestaff(id);
+    res.redirect("/viewstaff");
+  } catch (err) {
+    console.error("Error deleting staff:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+exports.updatestaff = async (req, res) => {
+  try {
+    const staff_id = parseInt(req.query.id);
+    let result = await regmodel.updatestaff(staff_id);
+    res.render("updatestaff", { staff: result[0] });
+  } catch (err) {
+    console.error("Error fetching staff:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+exports.updatestaffH = async (req, res) => {
+  try {
+    let { staff_id, name, email, contact_no, salary } = req.body;
+    await regmodel.updatestaffH(staff_id, name, email, contact_no, salary);
+    res.redirect("/viewstaff");
+  } catch (err) {
+    console.error("Error updating staff:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+exports.addstaff = (req, res) => {
+  res.render("addstaff.ejs", { msg: "" });
+};
+
+exports.addstaffH = async (req, res) => {
+  try {
+    let { name, email, contact, salary } = req.body;
+    await regmodel.acceptRegData(name, email, contact, salary);
+    res.render("addstaff", { msg: "Added Successfully" });
+  } catch (err) {
+    console.error("Error adding staff:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
 //USER ROUTS
 exports.userlogin = (req, res) => {
     res.render("userlogin.ejs", { msg: "" })
@@ -254,13 +290,18 @@ exports.usersignup = (req, res) => {
     res.render("usersingup.ejs", { msg: "" })
 
 }
-exports.saveLogin = (req, res) => {
 
+exports.saveLogin = async (req, res) => {
+  try {
     let { name, email, contact, salary } = req.body;
-    let result = regmodel.acceptRegData(name, email, contact, salary);
+    await regmodel.acceptRegData(name, email, contact, salary);
     res.render("usersingup", { msg: "Added Successfully" });
-    return true;
-}
+  } catch (error) {
+    console.error("Error saving login data:", error);
+    res.status(500).render("usersingup", { msg: "Something went wrong!" });
+  }
+};
+
 exports.checkUser = (req, res) => {
     let { email, password } = req.body;
     let result = serCtrl.checkData(email, password);
@@ -276,8 +317,6 @@ exports.checkUser = (req, res) => {
         res.end();
     })
 }
-
-
 //today changes
 exports.addminprofile =((req,res)=>{
     res.render("addminprofile.ejs");
@@ -285,237 +324,117 @@ exports.addminprofile =((req,res)=>{
 exports.addminEdit =((req,res)=>{
     res.render("addminEdit.ejs");
 })
-
-// stafff
-exports.viewstaff = (req, res) => {
-  conn.query("SELECT * FROM staff", (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.render("viewstaff", { data: result });
-  });
-};
-
-exports.deletestaff = (req, res) => {
-  const id=parseInt(req.query.id);
-  console.log("the delete id: ",id);
-  
-  conn.query("delete from staff where staff_id=?",[id], (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.redirect("/viewstaff")
-  });
-};
-
-exports.updatestaff = (req, res) => {
-  const staff_id=parseInt(req.query.id);
-  // console.log("the updated id: ",id);
-  
-  conn.query("select *from staff where staff_id=?",[staff_id], (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.render("updatestaff",{staff:result[0]})
-  });
-};
-exports.updatestaffH = (req, res) => {
-  let {staff_id,name,email,contact_no,salary}=req.body;
-  // console.log("the updated id: ",id);
-  
-  conn.query("update staff set name=?,email=?,contact_no=?,salary=? where staff_id=?",[name,email,contact_no,salary,staff_id], (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.redirect("/viewstaff")
-  });
-};
-exports.addstaff = (req, res) => {
-    res.render("addstaff.ejs", { msg: "" })
-
-}
-exports.addstaffH = (req, res) => {
-
-    let { name, email, contact, salary } = req.body;
-    let result = regmodel.acceptRegData(name, email, contact, salary);
-    res.render("addstaff", { msg: "Added Successfully" });
-    return true;
-}
-
-//seraching category
-
-exports.searchCategory =  (req, res) => {
-    const searchValue = req.query.sd;
-    console.log("searchvalue : ",searchValue);
-    
-    const query = `
-        SELECT id,name
-        FROM category 
-        WHERE id LIKE ? OR name LIKE ? 
-    `;
-    const likeSearch = `%${searchValue}%`;
-    conn.query(query, [likeSearch, likeSearch], (err, data) => {
-        if (err) {
-            console.log("Search error:", err);
-            res.json([]);
-        } else {
-            res.json(data);
-        }
-    });
-};
-
-//search menu
-exports.searchmenu =  (req, res) => {
-    const searchValue = req.query.sd;
-    console.log("searchvalue : ", searchValue);
-
-    const likeSearch = `%${searchValue}%`;
-
-    const query = `
-        SELECT m.id, m.item_name, m.category_id, m.price, m.description, m.image, c.name AS category_name
-        FROM menu m
-        LEFT JOIN category c ON m.category_id = c.id
-        WHERE m.item_name LIKE ? OR m.description LIKE ? OR c.name LIKE ?
-    `;
-
-    conn.query(query, [likeSearch, likeSearch, likeSearch], (err, data) => {
-        if (err) {
-            console.log("Search error:", err);
-            res.json([]);
-        } else {
-            res.json(data);
-        }
-    });
-};
-//search staff
-    exports.searchStaff = (req, res) => {
-    const searchValue = req.query.sd;
-    console.log("searchvalue : ", searchValue);
-
-    const likeSearch = `%${searchValue}%`;
-
-    const query = `
-        SELECT staff_id, name, email, contact_no, salary 
-        FROM staff 
-        WHERE name LIKE ? OR email LIKE ? OR contact_no LIKE ?
-    `;
-
-    conn.query(query, [likeSearch, likeSearch, likeSearch], (err, data) => {
-        if (err) {
-            console.log("Search error:", err);
-            res.json([]);
-        } else {
-            res.json(data);
-        }
-    });
-};
-
-// table:
+// // table:
 exports.addtable = (req, res) => {
-    res.render("addtable.ejs",{msg:""})
-
-}
-exports.addtableIndb = (req, res) => {
- let { table_id, capacity, availability_status } = req.body;
-
-  conn.query(
-    "INSERT INTO dinning_table (table_id, capacity, availability_status) VALUES (?, ?, ?)",
-    [table_id, capacity, availability_status],
-    (err, result) => {
-      if (err) {
-        console.error(err);
-        return res.status(400).json({ success: false, message: "Insert failed" });
-      }
-      res.render("addtable", { msg: "Added to table" });
-    }
-  );
-
-}
-
-exports.viewtable = (req, res) => {
-  conn.query("SELECT * FROM dinning_table ", (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    console.log("result: ",result);
-    
-    res.render("viewtable", { data:result });
-  });
+  res.render("addtable.ejs", { msg: "" });
 };
 
-exports.deletetable = (req, res) => {
-  const id=parseInt(req.query.id);
-  console.log("the delete id: ",id);
-  
-  conn.query("delete from dinning_table where table_id=?",[id], (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.redirect("/viewtable")
-  });
+exports.addtableIndb = async (req, res) => {
+  try {
+    let { table_id, capacity, availability_status } = req.body;
+    await regmodel.addtableIndb(table_id, capacity, availability_status);
+    res.render("addtable", { msg: "Added to table" });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ success: false, message: "Insert failed" });
+  }
 };
 
-
-
-exports.updatetable = (req, res) => {
-  const table_id=parseInt(req.query.id);
-  // console.log("the updated id: ",id);
-  
-  conn.query("select *from dinning_table where table_id=?",[table_id], (err, result) => {
-    if (err) {
-      console.error("Error fetching categories:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    res.render("updatetable",{table:result[0]})
-  });
+exports.viewtable = async (req, res) => {
+  try {
+    let result = await regmodel.viewtable();
+    console.log("result: ", result);
+    res.render("viewtable", { data: result });
+  } catch (err) {
+    console.error("Error fetching table:", err);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
-
-exports.updatetableH = (req, res) => {
- const { table_id, capacity, availability_status } = req.body;
-
-  conn.query(
-    "UPDATE dinning_table SET capacity = ?, availability_status = ? WHERE table_id = ?",
-    [capacity, availability_status, table_id],
-    (err, result) => {
-      if (err) {
-        console.error("Error updating table:", err);
-        return res.status(500).send("Internal Server Error");
-      }
-      res.redirect("/viewtable"); // redirect to view after update
-    }
-  );
+exports.deletetable = async (req, res) => {
+  try {
+    const id = parseInt(req.query.id);
+    console.log("the delete id: ", id);
+    await regmodel.deletetable(id);
+    res.redirect("/viewtable");
+  } catch (err) {
+    console.error("Error deleting table:", err);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
+exports.updatetable = async (req, res) => {
+  try {
+    const table_id = parseInt(req.query.id);
+    let result = await regmodel.updatetable(table_id);
+    res.render("updatetable", { table: result[0] });
+  } catch (err) {
+    console.error("Error fetching table for update:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
+exports.updatetableH = async (req, res) => {
+  try {
+    const { table_id, capacity, availability_status } = req.body;
+    await regmodel.updatetableH(table_id, capacity, availability_status);
+    res.redirect("/viewtable");
+  } catch (err) {
+    console.error("Error updating table:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+//seraching category
+// 
+exports.searchCategory = async (req, res) => {
+  try{
 
-//search staff
-  exports.searchtable = (req, res) => {
-   let keyword = req.query.sd;
+    const searchValue = req.query.sd;
 
-  conn.query(
-    `SELECT * FROM dinning_table WHERE 
-     table_id LIKE ? OR 
-     capacity LIKE ? OR 
-     availability_status LIKE ?`,
-    [`%${keyword}%`, `%${keyword}%`, `%${keyword}%`],
-    (err, result) => {
-      if (err) {
-        console.error("Search error:", err);
-        return res.status(500).json([]);
-      }
-      console.log("result hai",result);
-      
-      res.json(result); // Send result as JSON
-    }
-  );
+    let result=await regmodel.searchCategory(searchValue);
+    res.json(result);
 
+  }
+  catch(err){
+    res.json([]);
+  }
+ 
+};
+
+exports.searchtable = async (req, res) => {
+  try {
+    let keyword = req.query.sd;
+    let result = await regmodel.searchtable(keyword);
+    console.log("result hai", result);
+    res.json(result);
+  } catch (err) {
+    console.error("Search error:", err);
+    res.status(500).json([]);
+  }
+};
+
+exports.searchStaff = async (req, res) => {
+  try {
+    const searchValue = req.query.sd;
+    console.log("searchvalue : ", searchValue);
+    const result = await regmodel.searchStaff(searchValue);
+    res.json(result);
+  } catch (err) {
+    console.error("Search error:", err);
+    res.json([]);
+  }
+};
+
+exports.searchmenu = async (req, res) => {
+  try {
+    const searchValue = req.query.sd;
+    console.log("searchvalue : ", searchValue);
+    const result = await regmodel.searchmenu(searchValue);
+    res.json(result);
+  } catch (err) {
+    console.error("Search error:", err);
+    res.json([]);
+  }
 };
 
 
