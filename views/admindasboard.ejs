@@ -11,7 +11,7 @@
       --sidebar-bg: #f8f9fa;
       --hover-bg: #e9ecef;
       --text-dark: #333;
-      --primary: #d8b51c;
+      --primary: #dace2c;
       --transition: all 0.3s ease;
     }
 
@@ -147,16 +147,17 @@
 
   <div class="dashboard">
     <div class="sidebar" id="sidebar">
+    
       <h2>Admin Panel</h2>
 
       <div class="menu-item" onclick="toggleMenu('dashboardMenu')">
         <span><i class="fas fa-chart-line"></i> Dashboard</span>
-        <i class="fas fa-chevron-down"></i>
+        <!-- <i class="fas fa-chevron-down"></i> -->
       </div>
-      <div class="submenu" id="dashboardMenu">
+      <!-- <div class="submenu" id="dashboardMenu">
         <a href="#">Week</a>
         <a href="#">Month</a>
-      </div>
+      </div> -->
 
       <div class="menu-item" onclick="toggleMenu('categoryMenu')">
         <span><i class="fas fa-list"></i> Category</span>
@@ -208,8 +209,15 @@
     </div>
 
     <div class="main-content">
-      <h2>Welcome Admin 🍽️</h2>
-      <p>This layout is now fully responsive and mobile-friendly.</p>
+      <!-- <h2>Welcome Admin 🍽️</h2>
+      <p>This layout is now fully responsive and mobile-friendly.</p> -->
+
+      <%if(filename!=="no")
+      {
+            %>
+            <%-include(filename)%>
+          <%
+      }%>
     </div>
   </div>
 

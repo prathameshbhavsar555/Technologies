@@ -36,7 +36,7 @@ exports.admindasboard=(req,res)=>{
     res.render("admindasboard.ejs");
 }
 exports.addcategory=(req,res)=>{
-    res.render("addcategory.ejs",{msg:""});
+    res.render("admindasboard.ejs",{msg:""});
 }
 exports.viewmeanu=(req,res)=>{
     res.render("viewmeanu.ejs");
@@ -50,7 +50,7 @@ exports.adminentry = (req, res) => {
   let {username,password} = req.body;
   if(username=="shaheel" || username=="prathamesh"){
       if((username==admin.admin1 || username==admin.admin2)&&(password=='4444'||password=='5555')){
-        res.render("admindasboard");
+        res.render("admindasboard",{filename:"no"});
     }
       else{
         res.render("adminlogin", { msg: "Invalid UserName & Password" });
