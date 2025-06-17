@@ -1,145 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    :root {
-      --bg-light: #ffffff;
-      --sidebar-bg: #f8f9fa;
-      --hover-bg: #e9ecef;
-      --text-dark: #333;
-      --primary: #dace2c;
-      --transition: all 0.3s ease;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    body {
-      background: var(--bg-light);
-      color: var(--text-dark);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .navbar {
-      background: var(--bg-light);
-      padding: 1rem 2rem;
-      border-bottom: 1px solid #ddd;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .navbar h1 {
-      font-size: 1.4rem;
-      color: var(--primary);
-    }
-
-    .toggle-btn {
-      display: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .dashboard {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .sidebar {
-      width: 260px;
-      background: var(--sidebar-bg);
-      height: calc(100vh - 65px);
-      overflow-y: auto;
-      transition: var(--transition);
-    }
-
-    .sidebar h2 {
-      text-align: center;
-      padding: 1rem;
-      color: var(--primary);
-    }
-
-    .menu-item {
-      padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .menu-item a{
-      color: #555;
-      text-decoration: none;
-    }
-
-    .menu-item:hover {
-      background: var(--hover-bg);
-    }
-
-    .submenu {
-      display: none;
-      background: #f1f3f5;
-    }
-
-    .submenu a {
-      display: block;
-      padding: 0.8rem 2.5rem;
-      font-size: 0.95rem;
-      color: #555;
-      text-decoration: none;
-    }
-
-    .submenu a:hover {
-      color: var(--primary);
-    }
-
-    .main-content {
-      flex: 1;
-      padding: 2rem;
-      overflow-y: auto;
-    }
-
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-      .toggle-btn {
-        display: block;
-      }
-
-      .sidebar {
-        position: fixed;
-        top: 65px;
-        left: -260px;
-        z-index: 1000;
-        height: calc(100vh - 65px);
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-      }
-
-      .sidebar.active {
-        left: 0;
-      }
-
-      .main-content {
-        padding: 1rem;
-      }
-    }
-  </style>
-</head>
-<body>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="./dashboard.css">
   <div class="navbar">
     <h1>Restaurant Admin</h1>
     <i class="fas fa-bars toggle-btn" id="toggleSidebar"></i>
@@ -164,8 +24,8 @@
         <i class="fas fa-chevron-down"></i>
       </div>
       <div class="submenu" id="categoryMenu">
-        <a href="/addcategory">Add Category</a>
-        <a href="/viewcategory">View Category</a>
+        <a href="/addcategory" class="menu-link">Add Category</a>
+        <a href="/viewcategory" class="menu-link">View Category</a>
       </div>
 
       <div class="menu-item" onclick="toggleMenu('menuMenu')">
@@ -173,8 +33,8 @@
         <i class="fas fa-chevron-down"></i>
       </div>
       <div class="submenu" id="menuMenu">
-        <a href="/addmeanu">Add Menu</a>
-        <a href="/viewmeanu">View Menu</a>
+        <a href="/addmeanu" class="menu-link">Add Menu</a>
+        <a href="/viewmeanu" class="menu-link">View Menu</a>
       </div>
 
       <div class="menu-item" onclick="toggleMenu('staffMenu')">
@@ -182,8 +42,8 @@
         <i class="fas fa-chevron-down"></i>
       </div>
       <div class="submenu" id="staffMenu">
-        <a href="/addstaff">Add Staff</a>
-        <a href="/viewstaff">View Staff</a>
+        <a href="/addstaff" class="menu-link">Add Staff</a>
+        <a href="/viewstaff" class="menu-link">View Staff</a>
       </div>
 
       <div class="menu-item" onclick="toggleMenu('tableMenu')">
@@ -191,8 +51,8 @@
         <i class="fas fa-chevron-down"></i>
       </div>
       <div class="submenu" id="tableMenu">
-        <a href="/addtable">Add Table</a>
-        <a href="/viewtable">View Table</a>
+        <a href="/addtable" class="menu-link">Add Table</a>
+        <a href="/viewtable" class="menu-link">View Table</a>
       </div>
 
       <div class="menu-item">
@@ -200,7 +60,7 @@
       </div>
 
       <div class="menu-item">
-        <span><i class="fas fa-user-cog"></i><a href="/addminprofile"> Admin Profile</a></span>
+        <span><i class="fas fa-user-cog"></i><a href="/addminprofile " class="menu-link"> Admin Profile</a></span>
       </div>
 
       <div class="menu-item">
@@ -208,16 +68,9 @@
       </div>
     </div>
 
-    <div class="main-content">
-      <!-- <h2>Welcome Admin 🍽️</h2>
-      <p>This layout is now fully responsive and mobile-friendly.</p> -->
-
-      <%if(filename!=="no")
-      {
-            %>
-            <%-include(filename)%>
-          <%
-      }%>
+    <div class="main-content" id="content-area">
+      <h2>Welcome Admin 🍽️</h2>
+      <p>This layout is now fully responsive and mobile-friendly.</p>
     </div>
   </div>
 
@@ -238,6 +91,3 @@
       target.style.display = target.style.display === 'block' ? 'none' : 'block';
     }
   </script>
-
-</body>
-</html>

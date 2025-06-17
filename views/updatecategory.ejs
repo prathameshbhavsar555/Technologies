@@ -5,51 +5,139 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Update Category</title>
 
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background-color: #f8f9fa;
-      padding-top: 80px;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f9f9f9, #e3eaf2);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .form-container {
-      max-width: 500px;
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+    .card {
+      background-color: #ffffff;
+      padding: 40px 35px;
+      border-radius: 18px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 480px;
+      animation: popIn 0.6s ease;
     }
-    .form-heading {
-      font-weight: bold;
-      font-size: 1.8rem;
-      margin-bottom: 20px;
+
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .card h2 {
       text-align: center;
-      color: #343a40;
+      font-size: 28px;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      color: #666;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 12px 12px 40px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: 0.3s ease;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: #3498db;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #3498db, #2c80b4);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, #2c80b4, #1f5f87);
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #3498db;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .back-link i {
+      margin-right: 6px;
+    }
+
+    .back-link:hover {
+      color: #2c80b4;
     }
   </style>
 </head>
 <body>
 
-  <div class="container d-flex justify-content-center">
-    <div class="form-container">
-      <h2 class="form-heading">Update Category</h2>
+  <div class="card">
+    <h2><i class="fas fa-pen-to-square"></i> Update Category</h2>
+    <form action="/updatecategoryH" method="POST">
+      <!-- Hidden Category ID -->
+      <input type="hidden" name="id" value="<%= data.id %>">
 
-      <form action="/updatecategoryH" method="POST">
-        <!-- Hidden input for Category ID -->
-        <input type="hidden" name="id" value="<%= data.id %>">
+      <div class="input-group">
+        <i class="fas fa-tag"></i>
+        <input type="text" name="name" value="<%= data.name %>" required placeholder="Enter category name">
+      </div>
 
-        <div class="mb-3">
-          <label for="name" class="form-label">Category Name</label>
-          <input type="text" class="form-control" id="name" name="name" value="<%= data.name %>" required>
-        </div>
+      <button type="submit" class="btn-submit">
+        <i class="fas fa-save"></i> Update Category
+      </button>
+    </form>
 
-        <button type="submit" class="btn btn-primary w-100">Update Category</button>
-      </form>
-    </div>
+    <!-- Back Button -->
+    <a href="/categorylist" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to Category List
+    </a>
   </div>
 
-  <!-- Bootstrap JS (optional) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <title>Login - Restaurant Billing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     * {
@@ -14,8 +14,8 @@
     }
 
     body {
-      font-family: 'Roboto', sans-serif;
-      background: #f0f2f5;
+      font-family: 'Inter', sans-serif;
+      background: #f9f9f9;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -28,30 +28,30 @@
       border-radius: 16px;
       width: 100%;
       max-width: 420px;
-      box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
     }
 
     .login-logo {
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .login-logo i {
-      font-size: 38px;
-      color: #2f80ed;
+      font-size: 40px;
+      color: #fa541c;
     }
 
     .login-title {
       text-align: center;
-      font-size: 24px;
+      font-size: 26px;
       color: #2c3e50;
       font-weight: 600;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
 
     .input-wrapper {
       position: relative;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .input-wrapper i {
@@ -63,51 +63,45 @@
       font-size: 16px;
     }
 
-    .input-wrapper input {
+    .input-wrapper input, .input-wrapper select {
       width: 100%;
-      padding: 12px 12px 12px 42px;
+      padding: 12px 12px 12px 40px;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 15px;
       transition: 0.3s;
     }
 
-    .input-wrapper input:focus {
-      border-color: #2f80ed;
+    .input-wrapper input:focus,
+    .input-wrapper select:focus {
+      border-color: #fa541c;
       outline: none;
-      box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.15);
+      box-shadow: 0 0 0 3px rgba(250, 84, 28, 0.15);
     }
 
-    .login-button, .signup-button {
+    .login-button {
       width: 100%;
       padding: 12px;
       border: none;
       border-radius: 8px;
       font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .login-button {
-      background-color: #2f80ed;
+      font-weight: 600;
       color: #fff;
+      background-color: #fa541c;
+      cursor: pointer;
+      transition: background 0.3s;
       margin-top: 10px;
     }
 
     .login-button:hover {
-      background-color: #2368c4;
+      background-color: #d84315;
     }
 
-    .signup-button {
-      background-color: #f5f5f5;
-      color: #2f80ed;
-      border: 1px solid #ccc;
+    .error-msg {
+      color: red;
+      text-align: center;
       margin-top: 10px;
-    }
-
-    .signup-button:hover {
-      background-color: #e9ecef;
+      font-size: 14px;
     }
 
     .footer {
@@ -128,9 +122,9 @@
 
   <div class="login-card">
     <div class="login-logo">
-      <i class="fas fa-shield-alt"></i>
+      <i class="fas fa-utensils"></i>
     </div>
-    <div class="login-title">Login</div>
+    <div class="login-title">Login to Restaurant Panel</div>
 
     <form action="/adminentry" method="POST">
       <div class="input-wrapper">
@@ -143,14 +137,24 @@
         <input type="password" name="password" placeholder="Password" required />
       </div>
 
+      <div class="input-wrapper">
+        <i class="fas fa-user-tag"></i>
+        <select name="role" required>
+          <option value="" disabled selected>Select Role</option>
+          <option value="admin">Admin</option>
+          <option value="staff">Staff</option>
+        </select>
+      </div>
+
       <button type="submit" class="login-button">Login</button>
     </form>
-    <!-- <form action="/adminsingup" method="GET">
-      <button type="submit" class="signup-button">Sign Up</button>
-    </form> -->
-     <span style="color: red;"><%=msg%></span>
+
+    <% if (msg) { %>
+      <div class="error-msg"><%= msg %></div>
+    <% } %>
+
     <div class="footer">
-      &copy; 2025 Admin Panel. All rights reserved.
+      &copy; 2025 Restaurant Billing. All rights reserved.
     </div>
   </div>
 

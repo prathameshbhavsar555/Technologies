@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    :root {
+:root {
       --bg-light: #ffffff;
       --sidebar-bg: #f8f9fa;
       --hover-bg: #e9ecef;
       --text-dark: #333;
-      --primary:#d4af37;
+      --primary: #dace2c;
       --transition: all 0.3s ease;
     }
 
@@ -81,6 +73,10 @@
       cursor: pointer;
       transition: var(--transition);
     }
+    .menu-item a{
+      color: #555;
+      text-decoration: none;
+    }
 
     .menu-item:hover {
       background: var(--hover-bg);
@@ -132,72 +128,3 @@
         padding: 1rem;
       }
     }
-  </style>
-</head>
-<body>
-
-  <div class="navbar">
-    <h1>Restaurant Staff</h1>
-    <i class="fas fa-bars toggle-btn" id="toggleSidebar"></i>
-  </div>
-
-  <div class="dashboard">
-    <div class="sidebar" id="sidebar">
-      <h2>Staff Panel</h2>
-
-      <div class="menu-item" onclick="toggleMenu('menuMenu')">
-        <span><i class="fas fa-utensils"></i> Menu</span>
-        <i class="fas fa-chevron-down"></i>
-      </div>
-      <div class="submenu" id="menuMenu">
-        <a href="#">Add Menu</a>
-        <a href="#">View Menu</a>
-      </div>
-
-      <div class="menu-item" onclick="toggleMenu('tableMenu')">
-        <span><i class="fas fa-chair"></i> Tables</span>
-        <i class="fas fa-chevron-down"></i>
-      </div>
-      <div class="submenu" id="tableMenu">
-        <a href="#">Add Table</a>
-        <a href="#">View Table</a>
-      </div>
-
-      <div class="menu-item">
-        <span><i class="fas fa-receipt"></i> Orders & Bills</span>
-      </div>
-
-      <div class="menu-item">
-        <span><i class="fas fa-user-cog"></i> Staff Profile</span>
-      </div>
-
-      <div class="menu-item">
-        <span><i class="fas fa-sign-out-alt"></i> Logout</span>
-      </div>
-    </div>
-
-    <div class="main-content">
-      <h2>Welcome Staff 🍽️</h2>
-    </div>
-  </div>
-
-  <script>
-    const toggleBtn = document.getElementById('toggleSidebar');
-    const sidebar = document.getElementById('sidebar');
-
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
-
-    function toggleMenu(id) {
-      document.querySelectorAll('.submenu').forEach(menu => {
-        if (menu.id !== id) menu.style.display = 'none';
-      });
-
-      const target = document.getElementById(id);
-      target.style.display = target.style.display === 'block' ? 'none' : 'block';
-    }
-  </script>
-
-</body>
-</html>

@@ -42,6 +42,12 @@ exports.addcategory=(req,res)=>{
 exports.viewmeanu=(req,res)=>{
     res.render("viewmeanu.ejs");
 }
+exports.addminprofile =((req,res)=>{
+    res.render("addminprofile.ejs");
+})
+exports.addminEdit =((req,res)=>{
+    res.render("addminEdit.ejs");
+})
 let admin={
     admin1:"shaheel",
     admin2:"prathamesh"
@@ -69,7 +75,6 @@ catch{
 }
 
 //Category CRUD Operation
-
 exports.viewcategory = async(req, res) => {
  try{
   let result=await regmodel.viewcategory();
@@ -81,7 +86,7 @@ exports.viewcategory = async(req, res) => {
  }
 };
 
-// 
+// Update Catecategory
 exports.updatecategory = async(req, res) => {
   try{
     const id=parseInt(req.query.id);
@@ -93,7 +98,6 @@ exports.updatecategory = async(req, res) => {
   }
 };
 //Delete Category
-// 
 exports.delcategory = async(req, res) => {
   try{
   const id=parseInt(req.query.id);
@@ -116,8 +120,8 @@ exports.insertcategories =async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to insert" });
   }
 };
+
 //Update By POST Method Category
-// 
 exports.updatecategoryH = async(req, res) => {
   try{
     let {id,name}=req.body;
@@ -131,7 +135,6 @@ exports.updatecategoryH = async(req, res) => {
 
 };
 //seraching category
-// 
 exports.searchCategory = async (req, res) => {
   try{
     const searchValue = req.query.sd;
@@ -143,11 +146,8 @@ exports.searchCategory = async (req, res) => {
   }
 };
 
-// _______________________________________________________
 //Menu CRUD Opearation
 //Delete Menu
-
-
 exports.deletemenus = async (req, res) => {
   try {
     const id = parseInt(req.query.id);
@@ -208,6 +208,7 @@ exports.updatemenus = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 exports.updateMenuHandler = async (req, res) => {
   try {
     const { id, item_name, category_id, price, description } = req.body;
@@ -281,6 +282,7 @@ exports.addstaffH = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 //USER ROUTS
 exports.userlogin = (req, res) => {
     res.render("userlogin.ejs", { msg: "" })
@@ -317,14 +319,8 @@ exports.checkUser = (req, res) => {
         res.end();
     })
 }
-//today changes
-exports.addminprofile =((req,res)=>{
-    res.render("addminprofile.ejs");
-})
-exports.addminEdit =((req,res)=>{
-    res.render("addminEdit.ejs");
-})
-// // table:
+
+// Table CRUD operation
 exports.addtable = (req, res) => {
   res.render("addtable.ejs", { msg: "" });
 };
@@ -384,8 +380,8 @@ exports.updatetableH = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-//seraching category
-// 
+
+//seraching category 
 exports.searchCategory = async (req, res) => {
   try{
 

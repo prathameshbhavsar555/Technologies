@@ -24,7 +24,7 @@
     <li><a href="#chef">Chef</a></li>
     <li><a href="#contact">Contact</a></li>
     <li >
-      <a href="/adminlogin">Login ▾</a>
+      <a href="/adminlogin" style="color:  #e6c400;">Login</a>
       <!-- <div class="dropdown-content">
         <a href="/adminlogin"><i class="fa-solid fa-user-tie"></i> Admin </a>
         <a href="/user-login"><i class="fa-solid fa-users"></i> User </a>
@@ -32,7 +32,7 @@
     </li>
   </ul>
 </nav>
-<!-- Responsive Navbar End -->
+
 <!-- Home -->
  <section ><h1>Home Page</h1></section>
 <!-- <section id="home" class="slider-section">
@@ -61,7 +61,7 @@
         Our chefs create mouth-watering dishes with love, while our cozy ambiance makes every moment memorable. 
         Join us for a culinary journey full of flavor, elegance, and hospitality.
       </p>
-      <a href="#menu" class="about-menu-link">
+      <a href="#menu" class="about-menu-link ">
         View Menu
       </a>
     </div>
@@ -109,25 +109,6 @@
   </div>
 </section>
 
-
-
-<!-- Restaurant gallery -->
-<section id="gallery" class="gallery-section">
-  <div class="gallery-container"> 
-    <h2 class="gallery-title">📸 Our <span class="gallery-highlight">Gallery</span></h2>
-    <div class="gallery-grid">
-      <img src="./images/gallary/gallary9.png" alt="Dish 1" class="gallery-img" />
-      <img src="./images/gallary/gallary2.png" alt="Dish 2" class="gallery-img" />
-      <img src="./images/gallary/gallary4.png" alt="Dish 3" class="gallery-img" />
-      <img src="./images/gallary/gallary3.png" alt="Interior" class="gallery-img" />
-      <img src="./images/gallary/gallary6.png" alt="Dish 1" class="gallery-img" />
-      <img src="./images/gallary/gallary7.png" alt="Dish 2" class="gallery-img" />
-      <img src="./images/gallary/gallary8.png" alt="Dish 3" class="gallery-img" />
-      <img src="./images/gallary/gallary5.png" alt="Interior" class="gallery-img" />
-    </div>
-  </div>
-</section>
-
 <!-- chef section -->
 <!-- <section id="chef" class="chef-section">
   <div class="chef-container">
@@ -164,8 +145,24 @@
 </section> -->
 <section id="chef"><h1>Chef Section</h1></section>
 
-<!-- Contact -->
+<!-- Restaurant gallery -->
+<section id="gallery" class="gallery-section">
+  <div class="gallery-container"> 
+    <h2 class="gallery-title">📸 Our <span class="gallery-highlight">Gallery</span></h2>
+    <div class="gallery-grid">
+      <img src="./images/gallary/gallary9.png" alt="Dish 1" class="gallery-img" />
+      <img src="./images/gallary/gallary2.png" alt="Dish 2" class="gallery-img" />
+      <img src="./images/gallary/gallary4.png" alt="Dish 3" class="gallery-img" />
+      <img src="./images/gallary/gallary3.png" alt="Interior" class="gallery-img" />
+      <img src="./images/gallary/gallary6.png" alt="Dish 1" class="gallery-img" />
+      <img src="./images/gallary/gallary7.png" alt="Dish 2" class="gallery-img" />
+      <img src="./images/gallary/gallary8.png" alt="Dish 3" class="gallery-img" />
+      <img src="./images/gallary/gallary5.png" alt="Interior" class="gallery-img" />
+    </div>
+  </div>
+</section>
 
+<!-- Contact -->
 <section id="contact">
   <!-- Map Side -->
   <div class="map-section">
@@ -218,9 +215,7 @@
     topButton.onclick = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-   </script>
-
-  <script>
+  
   // Hamburger menu toggle
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');

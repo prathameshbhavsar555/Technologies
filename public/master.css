@@ -1,6 +1,6 @@
 :root {
   --primary-bg: #000000;
-  --primary-color: #e6a800;
+  --primary-color:#d4af37;
   --secondary-bg: #1c1c1c;
   --light-bg: #f3f1f1;
   --menu-bg: #e9e8e8;
@@ -693,7 +693,7 @@ body.menu-open {
 }
 
 .contact-section form {
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
 }
