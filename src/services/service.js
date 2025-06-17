@@ -1,7 +1,7 @@
 let conn=require("../configuration/config.js");
 
 exports.checkData=(...checkUser)=>{
-       
+      
      let promise= new Promise((resolve,reject)=>{
         conn.query("select *from staff where email=? and contact_no=?",[...checkUser],(err,result)=>{
                 if(err){
@@ -12,6 +12,4 @@ exports.checkData=(...checkUser)=>{
         })                                                                                                                                                                                                              
     });
     return promise;
-
-
 }

@@ -9,24 +9,9 @@ router.get("/",regCtrl.home);
 router.get("/adminlogin",regCtrl.adminlogin);
 router.get("/adminsingup",regCtrl.adminsignup);
 router.post("/admindasboard",regCtrl.admindasboard);
-//router.get("/addcategory",regCtrl.addcategory);
-//router.get("/viewcategory",regCtrl.viewcategory);
-
-//today changes
-//router.get("/addmeanu",regCtrl.addmeanu);
-//router.get("/viewmeanu",regCtrl.viewmeanu);
-
-//router.post("/insertcategories",regCtrl.insertcategories);
-//router.get("/updatecategory",regCtrl.updatecategory);
-
-
-module.exports=router;
-
-//today changes
 router.get("/addminprofile",regCtrl.addminprofile);
 router.get("/addminEdit",regCtrl.addminEdit);
 
-//today shaheel changes
 //menu
 router.get("/addmeanu",regCtrl.addmeanu);
 router.get("/viewmeanu",regCtrl.viewmeanu);
@@ -59,13 +44,10 @@ router.get("/deletestaff",regCtrl.deletestaff);
 router.get("/updatestaff",regCtrl.updatestaff);
 router.post("/updatestaffH",regCtrl.updatestaffH);
 
-
 //search category
 router.get("/searchCategory",regCtrl.searchCategory);
 router.get("/searchmenu",regCtrl.searchmenu);
 router.get("/searchStaff",regCtrl.searchStaff);
-
-
 
 //table
 router.get("/addtable",regCtrl.addtable);
@@ -75,3 +57,5 @@ router.get("/deletetable",regCtrl.deletetable);
 router.get("/updatetable",regCtrl.updatetable);
 router.get("/searchtable",regCtrl.searchtable);
 router.post("/updatetableH",regCtrl.updatetableH);
+
+module.exports=router;

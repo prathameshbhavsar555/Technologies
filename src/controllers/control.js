@@ -2,7 +2,6 @@ const conn = require("../configuration/config.js");
 let serCtrl = require("../services/service.js");
 let regmodel = require("../modules/module.js");
 
-
 const multer = require("multer");
 const path = require("path");
 
@@ -39,32 +38,9 @@ exports.admindasboard=(req,res)=>{
 exports.addcategory=(req,res)=>{
     res.render("addcategory.ejs",{msg:""});
 }
-// exports.viewcategory = (req, res) => {
-//   conn.query("SELECT * FROM category", (err, result) => {
-//     if (err) {
-//       console.error("Error fetching categories:", err);
-//       return res.status(500).send("Internal Server Error");
-//     }
-//     res.render("viewcategory", { data: result });
-//   });
-// };
-//today changes
-// exports.addmeanu=(req,res)=>{
-//     res.render("addmeanu.ejs");`
-// }
 exports.viewmeanu=(req,res)=>{
     res.render("viewmeanu.ejs");
 }
-// exports.insertcategories = (req, res) => {
-//   let { name } = req.body;
-//   conn.query("INSERT INTO category VALUES (0, ?)", [name], (err) => {
-//     if (err) {
-//       return res.status(500).json({ success: false, message: "Failed to insert" });
-//     } else {
-//       return res.render("addcategory", { msg: "Category added" });
-//     }
-//   });
-// };
 let admin={
     admin1:"shaheel",
     admin2:"prathamesh"
@@ -94,17 +70,13 @@ exports.adminentry = (req, res) => {
         
         
       })
-
-      
     }
-   
 }
 
-
-//shheeel
-//category
+//Category CRUD Operation
+//view Category
 exports.viewcategory = (req, res) => {
-  conn.query("SELECT * FROM category", (err, result) => {
+  conn.query("select * from category", (err, result) => {
     if (err) {
       console.error("Error fetching categories:", err);
       return res.status(500).send("Internal Server Error");
@@ -112,11 +84,12 @@ exports.viewcategory = (req, res) => {
     res.render("viewcategory", { data: result });
   });
 };
+//update Category
 exports.updatecategory = (req, res) => {
   const id=parseInt(req.query.id);
   console.log("the updated id: ",id);
   
-  conn.query("SELECT * FROM category where id=?",[id], (err, result) => {
+  conn.query("select * from category where id=?",[id], (err, result) => {
     if (err) {
       console.error("Error fetching categories:", err);
       return res.status(500).send("Internal Server Error");
@@ -124,7 +97,7 @@ exports.updatecategory = (req, res) => {
     res.render("updatecategory", { data: result[0] });
   });
 };
-
+//Delete Category
 exports.delcategory = (req, res) => {
   const id=parseInt(req.query.id);
   console.log("the delete id: ",id);
@@ -137,9 +110,10 @@ exports.delcategory = (req, res) => {
     res.redirect("/viewcategory")
   });
 };
+//Insert Category
 exports.insertcategories = (req, res) => {
   let { name } = req.body;
-  conn.query("INSERT INTO category VALUES (0, ?)", [name], (err) => {
+  conn.query("insert into category values (0, ?)", [name], (err) => {
     if (err) {
       return res.status(500).json({ success: false, message: "Failed to insert" });
     } else {
@@ -147,7 +121,7 @@ exports.insertcategories = (req, res) => {
     }
   });
 };
-
+//Update By POST Method Category
 exports.updatecategoryH = (req, res) => {
   let {id,name}=req.body;
   console.log("the updated id: ",id);
@@ -162,8 +136,8 @@ exports.updatecategoryH = (req, res) => {
 };
 
 
-//menus 
-
+//Menu CRUD Opearation
+//Delete Menu
 exports.deletemenus = (req, res) => {
   const id=parseInt(req.query.id);
   console.log("the delete id: ",id);
@@ -176,6 +150,7 @@ exports.deletemenus = (req, res) => {
     res.redirect("/viewmeanu")
   });
 };
+//Add Menu
 exports.addmeanu=(req,res)=>{
   conn.query("select *from category",(err,result)=>{
     if(err){
@@ -186,6 +161,7 @@ exports.addmeanu=(req,res)=>{
     res.render("addmeanu.ejs",{msg:"",data:result});
   })    
 }
+//View Menu
 exports.viewmeanu=(req,res)=>{
      conn.query("SELECT * FROM menu", (err, result) => {
     if (err) {
@@ -195,19 +171,19 @@ exports.viewmeanu=(req,res)=>{
     res.render("viewmeanu", { data: result });
   });
 }
-
+//ADD Meanu Database
 exports.addmenuInDB = (req, res) => {
   let {item_name,category_id,price,description } = req.body;
   const image=req.file.filename;
-    console.log("Body:", req.body);
-    console.log("File:", req.file); 
-  conn.query("INSERT INTO menu VALUES (0,?,?,?,?,?)", [item_name,category_id,price,description,image], (err,result) => {
+    // console.log("Body:", req.body);
+    // console.log("File:", req.file); 
+  conn.query("insert into menu values (0,?,?,?,?,?)", [item_name,category_id,price,description,image], (err,result) => {
      if (err || result.length === 0) {
    
       return res.status(400).json({ success: false, message: "Invalid category ID" });
   }
     else {
-       conn.query("SELECT * FROM category", (err, categories) => {
+       conn.query("select * from category", (err, categories) => {
         if (err) {
           console.log("Error fetching categories:", err);
           return res.status(500).send("Internal Server Error");
@@ -217,10 +193,11 @@ exports.addmenuInDB = (req, res) => {
     }
   });
 };
+//Update Menu
 exports.updatemenus = (req, res) => {
   let id = req.query.id;
 
-  conn.query("SELECT * FROM menu WHERE id = ?", [id], (err, menuResult) => {
+  conn.query("select * from menu where id = ?", [id], (err, menuResult) => {
     if (err) {
       console.error("Error fetching menu item:", err);
       return res.status(500).send("Internal Server Error");
@@ -230,7 +207,7 @@ exports.updatemenus = (req, res) => {
       return res.status(404).send("Menu item not found");
     }
 
-    conn.query("SELECT * FROM category", (catErr, categoryResult) => {
+    conn.query("select * from category", (catErr, categoryResult) => {
       if (catErr) {
         console.error("Error fetching categories:", catErr);
         return res.status(500).send("Internal Server Error");
@@ -240,12 +217,13 @@ exports.updatemenus = (req, res) => {
     });
   });
 };
+//Update Menu
 exports.updateMenuHandler = (req, res) => {
 
    const { id, item_name, category_id, price, description } = req.body;
   let image = req.file ? req.file.filename : null;
 
-  let query = `UPDATE menu SET item_name = ?, category_id = ?, price = ?, description = ?`;
+  let query = `update menu set item_name = ?, category_id = ?, price = ?, description = ?`;
   let values = [item_name, category_id, price, description];
 
   if (image) {
@@ -307,8 +285,6 @@ exports.addminprofile =((req,res)=>{
 exports.addminEdit =((req,res)=>{
     res.render("addminEdit.ejs");
 })
-
-
 
 // stafff
 exports.viewstaff = (req, res) => {
