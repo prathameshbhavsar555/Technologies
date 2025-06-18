@@ -20,14 +20,15 @@ const admin = {
     admin1: 'shaheel',
     admin2: 'prathamesh'
 };
-exports.adminentry = (username, password) => {
+exports.adminentry = (username, password,role) => {
     console.log("username", username);
     console.log("password: ", password);
+    console.log("role: ", role);
 
 
     return new Promise((resolve, reject) => {
         if (username === admin.admin1 || username === admin.admin2) {
-            if ((username === admin.admin1 && password === '4444') || (username === admin.admin2 && password === '5555')) {
+            if ((username === admin.admin1 && password === '4444' && role==='admin') || (username === admin.admin2 && password === '5555' && role==='admin')) {
                 resolve({ status: 'admin' })
             } else {
                 resolve({ status: 'invalid' });
