@@ -10,32 +10,39 @@
   <style>
     :root {
       --primary-color: #fc8019;
-      --text-dark: #333;
-      --bg-light: #f6f6f6;
-      --card-bg: #ffffff;
-      --border-color: #eaeaea;
+      --bg-color: #fffaf3;
+      --card-bg: #fff;
+      --text-color: #333;
+      --border-color: #eee;
+      --hover-bg: #fff3e0;
     }
 
-    /* body {
+    body {
       font-family: 'Inter', sans-serif;
-      background-color: var(--bg-light);
+      background-color: var(--bg-color);
       margin: 0;
       padding: 0;
-      color: var(--text-dark);
-    } */
+      color: var(--text-color);
+    }
 
     .container {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 40px auto;
-      padding: 20px;
+      padding: 0 20px;
     }
 
     .page-title {
-      text-align: left;
-      font-size: 1.8rem;
+      font-size: 2rem;
       font-weight: 600;
+      color: var(--primary-color);
       margin-bottom: 25px;
-      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-title i {
+      color: var(--primary-color);
     }
 
     .search-bar {
@@ -44,17 +51,18 @@
     }
 
     #searchInput {
-      width: 300px;
+      width: 320px;
       padding: 10px 15px;
       font-size: 14px;
       border: 1px solid var(--border-color);
       border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
     .table-wrapper {
       background-color: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
       overflow-x: auto;
     }
 
@@ -64,14 +72,14 @@
     }
 
     thead {
-      background-color: #f9f9f9;
+      background-color: #fff8ee;
     }
 
     th, td {
       padding: 16px;
       text-align: left;
+      font-size: 15px;
       border-bottom: 1px solid var(--border-color);
-      font-size: 14px;
     }
 
     th {
@@ -79,11 +87,16 @@
       color: #555;
     }
 
+    tr:hover {
+      background-color: var(--hover-bg);
+    }
+
     td img {
-      width: 45px;
-      height: 45px;
-      border-radius: 8px;
+      width: 50px;
+      height: 50px;
       object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid #ddd;
     }
 
     .actions a {
@@ -94,12 +107,13 @@
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      transition: 0.2s;
+      gap: 5px;
+      font-weight: 500;
     }
 
     .btn-warning {
       background-color: #ffe082;
-      color: #222;
+      color: #5d4037;
     }
 
     .btn-warning:hover {
@@ -107,30 +121,31 @@
     }
 
     .btn-danger {
-      background-color: #ff8a80;
+      background-color: #ff7043;
       color: #fff;
     }
 
     .btn-danger:hover {
-      background-color: #ff5252;
-    }
-
-    .icon {
-      margin-right: 6px;
+      background-color: #ff3d00;
     }
 
     .no-data {
       text-align: center;
-      padding: 30px;
-      font-size: 16px;
+      padding: 40px;
+      font-size: 17px;
       color: #999;
     }
+
+    .icon {
+      color: var(--primary-color);
+    }
+    
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1 class="page-title">🍽️ All Menu Items</h1>
+    <h1 class="page-title"><i class="fas fa-utensils"></i> All Menu Items</h1>
 
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="🔍 Search menu..." onkeyup="searchMenu(this.value)" />
@@ -142,12 +157,12 @@
         <thead>
           <tr>
             <th>#</th>
-            <th><i class="fas fa-utensils icon"></i>Menu</th>
-            <th><i class="fas fa-layer-group icon"></i>Category</th>
-            <th><i class="fas fa-tags icon"></i>Price</th>
-            <th><i class="fas fa-align-left icon"></i>Description</th>
-            <th><i class="fas fa-image icon"></i>Image</th>
-            <th><i class="fas fa-cogs icon"></i>Actions</th>
+            <th><i class="fas fa-utensils icon"></i> Menu</th>
+            <th><i class="fas fa-layer-group icon"></i> Category</th>
+            <th><i class="fas fa-tags icon"></i> Price</th>
+            <th><i class="fas fa-align-left icon"></i> Description</th>
+            <th><i class="fas fa-image icon"></i> Image</th>
+            <th><i class="fas fa-cogs icon"></i> Actions</th>
           </tr>
         </thead>
         <tbody id="searchMenu">
@@ -155,16 +170,16 @@
             <tr>
               <td><%= index + 1 %></td>
               <td><%= item.item_name %></td>
-              <td><%= item.category_id %></td>
+             <td><%= item.category_id %></td>
               <td>₹ <%= item.price %></td>
               <td><%= item.description %></td>
               <td><img src="/uploads/<%= item.image %>" alt="Menu Image"></td>
               <td class="actions">
                 <a href="/updatemenus?id=<%= item.id %>" class="btn-warning">
-                  <i class="fas fa-edit icon"></i>Update
+                  <i class="fas fa-edit"></i>Update
                 </a>
                 <a href="/deletemenus?id=<%= item.id %>" class="btn-danger" onclick="return confirm('Delete this menu?')">
-                  <i class="fas fa-trash icon"></i>Delete
+                  <i class="fas fa-trash"></i>Delete
                 </a>
               </td>
             </tr>
@@ -172,7 +187,7 @@
         </tbody>
       </table>
       <% } else { %>
-        <div class="no-data">😞 No menus found</div>
+        <div class="no-data">😞 No menu items available</div>
       <% } %>
     </div>
   </div>

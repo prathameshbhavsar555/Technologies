@@ -1,33 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Update Dining Table</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #fc8019;
+      --text: #333;
+      --bg: #f6f6f6;
+      --border: #e5e5e5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 14px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .form-heading {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    label {
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: inline-block;
+      color: var(--text);
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #e56f00;
+    }
+
+    .form-label i {
+      margin-right: 6px;
+      color: var(--primary);
+    }
+  </style>
 </head>
-<body class="bg-light">
+<body>
 
-  <div class="container mt-5">
-    <h2 class="mb-4">Update Dining Table</h2>
+  <div class="form-container">
+    <h2 class="form-heading">🍽️ Update Table</h2>
 
-    <form action="/updatetableH" method="POST" class="border p-4 bg-white rounded shadow-sm">
+    <form action="/updatetableH" method="POST">
       <input type="hidden" name="table_id" value="<%= table.table_id %>" />
 
-      <div class="mb-3">
-        <label for="capacity" class="form-label">Capacity</label>
-        <input type="number" class="form-control" id="capacity" name="capacity" value="<%= table.capacity %>" required>
-      </div>
+      <label for="capacity" class="form-label">
+        <i class="fas fa-chair"></i>Capacity
+      </label>
+      <input type="number" id="capacity" name="capacity" value="<%= table.capacity %>" required />
 
-      <div class="mb-3">
-        <label for="availability_status" class="form-label">Availability Status</label>
-        <select class="form-select" name="availability_status" id="availability_status" required>
-          <option value="Available" <%= table.availability_status === 'Available' ? 'selected' : '' %>>Available</option>
-          <option value="Occupied" <%= table.availability_status === 'Occupied' ? 'selected' : '' %>>Occupied</option>
-        </select>
-      </div>
+      <label for="availability_status" class="form-label">
+        <i class="fas fa-toggle-on"></i>Availability Status
+      </label>
+      <select name="availability_status" id="availability_status" required>
+        <option value="Available" <%= table.availability_status === 'Available' ? 'selected' : '' %>>Available</option>
+        <option value="Occupied" <%= table.availability_status === 'Occupied' ? 'selected' : '' %>>Occupied</option>
+      </select>
 
-      <button type="submit" class="btn btn-primary">Update Table</button>
+      <button type="submit"><i class="fas fa-save"></i> Update Table</button>
     </form>
   </div>
 
