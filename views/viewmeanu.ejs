@@ -3,265 +3,180 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>View Menus</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <title>All Menus - Swiggy Style</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-    .container1{
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #f7f7f7;
-      color: #333;
-      padding: 40px 20px;
+    :root {
+      --primary-color: #fc8019;
+      --text-dark: #333;
+      --bg-light: #f6f6f6;
+      --card-bg: #ffffff;
+      --border-color: #eaeaea;
     }
 
+    /* body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-light);
+      margin: 0;
+      padding: 0;
+      color: var(--text-dark);
+    } */
+
     .container {
-      max-width: 1200px;
-      margin: auto;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
     }
 
     .page-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      text-align: center;
-      color: #d4af37;
-      margin-bottom: 40px;
-    }
-
-    .category-filters {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
+      text-align: left;
+      font-size: 1.8rem;
+      font-weight: 600;
       margin-bottom: 25px;
-    }
-
-    .category-filters button {
-      padding: 10px 20px;
-      font-size: 14px;
-      border: 1px solid #d4af37;
-      border-radius: 30px;
-      background-color: white;
-      color: #d4af37;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .category-filters button.active,
-    .category-filters button:hover {
-      background-color: #d4af37;
-      color: white;
+      color: var(--text-dark);
     }
 
     .search-bar {
-      display: flex;
-      justify-content: center;
-      position: relative;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
+      text-align: right;
     }
 
-    .search-bar input {
-      width: 100%;
-      max-width: 450px;
-      padding: 12px 16px 12px 42px;
+    #searchInput {
+      width: 300px;
+      padding: 10px 15px;
+      font-size: 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+
+    .table-wrapper {
+      background-color: var(--card-bg);
       border-radius: 12px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-      color: #333;
-      font-size: 16px;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      overflow-x: auto;
     }
 
-    .search-bar i {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #999;
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-  }
 
-  .menu-card {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
+    thead {
+      background-color: #f9f9f9;
+    }
 
-  .menu-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-  }
+    th, td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 14px;
+    }
 
-  .menu-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 1px solid #eee;
-  }
+    th {
+      font-weight: 600;
+      color: #555;
+    }
 
-  .menu-content {
-    display: flex;
-    flex-direction: column;
-    padding: 16px 20px;
-    gap: 6px;
-  }
+    td img {
+      width: 45px;
+      height: 45px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
 
-  .menu-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #d4af37;
-  }
+    .actions a {
+      padding: 6px 12px;
+      font-size: 13px;
+      border-radius: 6px;
+      margin-right: 5px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: 0.2s;
+    }
 
-  .menu-category::before {
-    content: attr(data-icon) " ";
-  }
+    .btn-warning {
+      background-color: #ffe082;
+      color: #222;
+    }
 
-  .menu-category {
-    font-size: 14px;
-    color: #888;
-  }
+    .btn-warning:hover {
+      background-color: #ffca28;
+    }
 
-  .menu-description {
-    font-size: 14px;
-    color: #444;
-    line-height: 1.5;
-    margin-top: 8px;
-  }
+    .btn-danger {
+      background-color: #ff8a80;
+      color: #fff;
+    }
 
-  .menu-price {
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-    margin-top: 12px;
-  }
+    .btn-danger:hover {
+      background-color: #ff5252;
+    }
 
-  .action-buttons {
-    margin-top: 14px;
-    display: flex;
-    gap: 10px;
-  }
+    .icon {
+      margin-right: 6px;
+    }
 
-  .action-buttons a {
-    font-size: 13px;
-    padding: 6px 14px;
-    border-radius: 6px;
-    text-decoration: none;
-    color: #fff;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: 0.2s;
-  }
-
-  .btn-update {
-    background-color: #ffc107;
-  }
-
-  .btn-update:hover {
-    background-color: #e0a800;
-  }
-
-  .btn-delete {
-    background-color: #dc3545;
-  }
-
-  .btn-delete:hover {
-    background-color: #c82333;
-  }
-
-    .alert-info {
+    .no-data {
       text-align: center;
-      margin-top: 30px;
+      padding: 30px;
+      font-size: 16px;
       color: #999;
     }
   </style>
 </head>
-
 <body>
-  <section class="container1">
-    <div class="container">
-    <h1 class="page-title">🍽️ Explore Our Menu</h1>
 
-    <!-- Category Filter -->
-    <div class="category-filters">
-      <button class="active" onclick="filterCategory('All')">All</button>
-      <button onclick="filterCategory('Breakfast')">Breakfast</button>
-      <button onclick="filterCategory('Lunch')">Lunch</button>
-      <button onclick="filterCategory('Dinner')">Dinner</button>
-    </div>
+  <div class="container">
+    <h1 class="page-title">🍽️ All Menu Items</h1>
 
-    <!-- Search Bar -->
     <div class="search-bar">
-      <i class="fas fa-search"></i>
-      <input type="text" placeholder="Search by item..." onkeyup="searchMenu(this.value)" />
+      <input type="text" id="searchInput" placeholder="🔍 Search menu..." onkeyup="searchMenu(this.value)" />
     </div>
 
-    <!-- Menu Cards -->
-    <div class="menu-grid">
+    <div class="table-wrapper">
       <% if (data.length > 0) { %>
-        <% data.forEach(function(item) { %>
-          <div class="menu-card menu-item" data-category="<%= item.category_name %>">
-            <img src="/uploads/<%= item.image %>" class="menu-image" alt="menu image" />
-            <div class="menu-content">
-              <div class="menu-title"><%= item.item_name %></div>
-             <% 
-  let icons = {
-    'Breakfast': '🍳',
-    'Lunch': '🍛',
-    'Dinner': '🍽️'
-  };
-%>
-<div class="menu-category" data-icon="<%= icons[item.category_name] || '' %>"><%= item.category_name %></div>
-
-              <div class="menu-description"><%= item.description %></div>
-              <div class="menu-price">₹<%= item.price %></div>
-              <div class="action-buttons">
-                <a href="/updatemenus?id=<%= item.id %>" class="btn-update"><i class="fas fa-edit"></i> Edit</a>
-                <a href="/deletemenus?id=<%= item.id %>" class="btn-delete" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt"></i> Delete</a>
-              </div>
-            </div>
-          </div>
-        <% }); %>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th><i class="fas fa-utensils icon"></i>Menu</th>
+            <th><i class="fas fa-layer-group icon"></i>Category</th>
+            <th><i class="fas fa-tags icon"></i>Price</th>
+            <th><i class="fas fa-align-left icon"></i>Description</th>
+            <th><i class="fas fa-image icon"></i>Image</th>
+            <th><i class="fas fa-cogs icon"></i>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="searchMenu">
+          <% data.forEach(function(item, index) { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= item.item_name %></td>
+              <td><%= item.category_id %></td>
+              <td>₹ <%= item.price %></td>
+              <td><%= item.description %></td>
+              <td><img src="/uploads/<%= item.image %>" alt="Menu Image"></td>
+              <td class="actions">
+                <a href="/updatemenus?id=<%= item.id %>" class="btn-warning">
+                  <i class="fas fa-edit icon"></i>Update
+                </a>
+                <a href="/deletemenus?id=<%= item.id %>" class="btn-danger" onclick="return confirm('Delete this menu?')">
+                  <i class="fas fa-trash icon"></i>Delete
+                </a>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
       <% } else { %>
-        <div class="alert-info">No menu items available.</div>
+        <div class="no-data">😞 No menus found</div>
       <% } %>
     </div>
   </div>
-  </section>
-  <script>
-    function filterCategory(category) {
-      const cards = document.querySelectorAll('.menu-item');
-      document.querySelectorAll('.category-filters button').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
 
-      cards.forEach(card => {
-        const cat = card.getAttribute('data-category');
-        if (category === 'All' || cat === category) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    function searchMenu(value) {
-      const cards = document.querySelectorAll('.menu-item');
-      const term = value.toLowerCase();
-
-      cards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(term) ? '' : 'none';
-      });
-    }
-  </script>
+  <script src="/menuAjax.js"></script>
 </body>
 </html>
