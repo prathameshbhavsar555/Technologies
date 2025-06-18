@@ -23,13 +23,38 @@ const upload = multer({ storage: storage });
 exports.upload = upload;
 
 exports.home = (req, res) => {
+  const role = req.session.role;
+
+  if (role === "admin") {
+    res.render("admindasboard");
+  } else if (role === "user") {
+    res.render("userdashboard");
+  } else {
     res.render("home.ejs");
+  }
 }
 
 //ADMIN ROUTES
 exports.adminlogin=(req,res)=>{
-    res.render("adminlogin.ejs",{msg:""});
+  const role = req.session.role;
+
+  if (role === "admin") {
+    return res.redirect("/dashboard");
+  } else if (role === "user") {
+    return res.redirect("/udashboard");
+  } else {
+    res.render("adminlogin.ejs", { msg: "" });
+  }
 }
+
+exports.logout = (req, res) => {
+  req.session.destroy(err => {
+  if (err) console.error("Session destroy error:", err);
+  res.redirect("/");
+});
+
+
+};
 exports.adminsignup=(req,res)=>{
     res.render("adminsignup.ejs");
 }
@@ -54,14 +79,15 @@ let admin={
 }
 exports.adminentry = async(req, res) => {
 try{
-  const {username,password}=req.body;
-  let result=await regmodel.adminentry(username,password);
+  const {username,password,role}=req.body;
+  let result=await regmodel.adminentry(username,password,role);
 console.log("result response: ",result);
 
   if(result.status==='admin'){
+    req.session.role = "admin";
      res.render("admindasboard");
   }else if(result.status==='staff'){
-
+      req.session.role = "user";
       res.render("userdashboard");
   }else{
 
@@ -72,6 +98,7 @@ catch{
   console.log("error in entry",err);
   res.status(500).send("internal server error");
 }
+
 }
 
 //Category CRUD Operation
@@ -309,6 +336,7 @@ exports.checkUser = (req, res) => {
     let result = serCtrl.checkData(email, password);
     result.then((r) => {
         if (r.length > 0) {
+            req.session.role = "user";
             res.render("userdashboard.ejs");
 
         } else {

@@ -5,10 +5,27 @@ const upload = require("../controllers/control.js").upload; // export upload fro
 let router=routes.Router();
 router.get("/",regCtrl.home);
 
+const auth=require("../middleware/auth.js")
 //ADMIN ROUTES
-router.get("/adminlogin",regCtrl.adminlogin);
-router.get("/adminsingup",regCtrl.adminsignup);
+
+//logout
+// router.get("/logout",regCtrl.logout);
+router.get("/logout", regCtrl.logout);
+//ADMIN ROUTES
+router.get("/login",auth.checkLoggedIn, regCtrl.adminlogin);
 router.post("/admindasboard",regCtrl.admindasboard);
+// middleware logic directly shere the page
+router.get("/dashboard", auth.isAdmin, (req, res) => {
+  res.render("admindasboard"); // your admin dashboard view
+});
+
+router.get("/udashboard", auth.isUser, (req, res) => {
+  res.render("userdashboard"); // your user dashboard view
+});
+
+// router.get("/adminlogin",regCtrl.adminlogin);
+router.get("/adminsingup",regCtrl.adminsignup);
+// router.post("/admindasboard",regCtrl.admindasboard);
 router.get("/addminprofile",regCtrl.addminprofile);
 router.get("/addminEdit",regCtrl.addminEdit);
 
@@ -34,7 +51,7 @@ router.get("/userlogin",regCtrl.userlogin);
 //router.get("/usersignup",regCtrl.usersignup);
 router.post("/saveLogin",regCtrl.saveLogin);
 router.post("/checkUser",regCtrl.checkUser);
-router.post("/adminentry",regCtrl.adminentry);
+router.post("/verify",regCtrl.adminentry);
 
 //staff
 router.get("/viewstaff",regCtrl.viewstaff)
