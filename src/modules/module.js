@@ -354,4 +354,61 @@ exports.searchmenu = (searchValue) => {
     });
 };
 
+//19-06
+// Get all menu items
+exports.getAllMenus = (callback) => {
+  conn.query("SELECT * FROM menu", callback);
+};
+
+// Get all order items for a given order
+exports.getOrderItems = (orderId, callback) => {
+  const sql = `
+    SELECT oi.*, m.item_name, m.image, m.price 
+    FROM order_items oi
+    JOIN menu m ON oi.menu_id = m.id
+    WHERE oi.order_id = ?`;
+  conn.query(sql, [orderId], callback);
+};
+
+// Add new item to order_items
+// exports.addOrderItem = (orderId, menuId, quantity, total_amt, callback) => {
+//   const sql = `INSERT INTO order_items (order_id, menu_id, quantity, total_amt) VALUES (?, ?, ?, ?)`;
+//   conn.query(sql, [orderId, menuId, quantity, total_amt], callback);
+// };
+// exports.addOrderItem = (orderId, menuId, quantity, total_amt, callback) => {
+//   const sql = `
+//     INSERT INTO order_items (order_id, menu_id, quantity, total_amt)
+//     VALUES (?, ?, ?, ?)
+//   `;
+//   conn.query(sql, [orderId, menuId, quantity, total_amt], callback);
+// };
+exports.addOrderItem = (orderId, menuId, qty, total, callback) => {
+    console.log("Inserting:", orderId, menuId, qty, total);
+  const sql = "INSERT INTO order_items (order_id, menu_id, quantity, total_amt) VALUES (?, ?, ?, ?)";
+  conn.query(sql, [parseInt(orderId), parseInt(menuId), parseInt(qty), parseFloat(total)], callback);
+};
+
+// Get staff ID by name
+exports.getStaffByName = (name) => {
+  return new Promise((resolve, reject) => {
+    conn.query("SELECT * FROM staff WHERE name = ?", [name], (err, result) => {
+      if (err) return reject(err);
+      resolve(result);
+    });
+  });
+};
+
+// Insert new order into order_master
+exports.insertOrder = (table_id, staff_id, ord_date, total_amt, ord_status) => {
+  return new Promise((resolve, reject) => {
+    conn.query(
+      "INSERT INTO order_master (table_id, staff_id, ord_date, total_amt, ord_status) VALUES (?, ?, ?, ?, ?)",
+      [table_id, staff_id, ord_date, total_amt, ord_status],
+      (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      }
+    );
+  });
+};
 

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      display: flex;
+      background-color: #f9f9f9;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      background-color: #ff5722;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .search-bar input {
+      width: 300px;
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .menu-section h2 {
+      text-align: center;
+      margin: 20px 0 10px;
+    }
+
+    .categories {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .categories button {
+      background: #f1f1f1;
+      border: none;
+      padding: 6px 12px;
+      margin: 0 5px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .categories button.active {
+      background: #ff5722;
+      color: white;
+    }
+
+    .content {
+      display: flex;
+    }
+
+    .menu-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      flex: 3;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      padding: 15px;
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card h4 {
+      margin-bottom: 6px;
+    }
+
+    .price {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .add-btn {
+      background: #ff5722;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .order-panel {
+      flex: 1;
+      background: #fff;
+      border-left: 1px solid #eee;
+      padding: 20px;
+      margin-left: 20px;
+      border-radius: 10px;
+      min-width: 260px;
+    }
+
+    .order-panel h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .order-details {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .order-box {
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .confirm-btn {
+      background: #28a745;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="container">
+    <!-- Main Content -->
+    <div class="main">
+
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <a href="/" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to View Dining Tables</a>
+        <div class="search-bar">
+          <input type="text" placeholder="Search menu...">
+        </div>
+      </div>
+
+      <!-- Menu Section -->
+      <div class="menu-section">
+        <h2>Our Menu</h2>
+        <p style="text-align:center; color: #777;">Delicious meals prepared fresh for you</p>
+
+        <!-- Categories -->
+        <div class="categories">
+          <button class="active">All</button>
+          <button>Breakfast</button>
+          <button>Lunch</button>
+          <button>Dinner</button>
+        </div>
+      </div>
+
+      <!-- Content Grid -->
+      <div class="content">
+
+        <!-- Menu Cards -->
+        <div class="menu-cards">
+          <% menus.forEach(menu=> { %>
+            <div class="card">
+              <img src="<%= menu.image %>" alt="<%= menu.item_name %>">
+              <h4>
+                <%= menu.item_name %>
+              </h4>
+              <p>₹<%= menu.price %>
+              </p>
+
+              <form action="/add-to-order" method="POST">
+                <input type="hidden" name="orderId" value="<%= orderId %>">
+                <input type="hidden" name="menu_id" value="<%= menu.id %>">
+                <input type="hidden" name="price" value="<%= menu.price %>">
+                <input type="number" name="qty" value="1" min="1" required>
+                <button type="submit">Add</button>
+              </form>
+
+
+            </div>
+            <% }) %>
+        </div>
+
+        <!-- Order Panel -->
+        <div class="order-panel">
+          <h3>Current Order</h3>
+          <div class="order-details">
+            <p><strong>Table ID:</strong>
+              <%= orderId %>
+            </p>
+            <p><strong>Date:</strong>
+              <%= date %>
+            </p>
+          </div>
+
+          <p style="margin-top: 10px;"><strong>Order Items</strong></p>
+          <% if (orders && orders.length> 0) { %>
+            <% orders.forEach(order=> { %>
+              <div class="order-box">
+                <p><strong>
+                    <%= order.item_name %>
+                  </strong></p>
+                <p>Qty: <%= order.quantity %> | Total: ₹<%= order.total_amt %>
+                </p>
+              </div>
+              <% }) %>
+              <hr />
+
+              <div style="background:#f4f4f4; padding:10px; border-radius:8px; margin-top:10px;">
+  <p style="font-weight:bold; font-size:16px;">Total: ₹<%= Number(total).toFixed(2) %></p>
+
+</div>
+
+                <% } else { %>
+                  <p>No items added yet.</p>
+                  <% } %>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</body>
+
+</html>

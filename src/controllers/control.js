@@ -23,28 +23,17 @@ const upload = multer({ storage: storage });
 exports.upload = upload;
 
 exports.home = (req, res) => {
-  const role = req.session.role;
 
-  if (role === "admin") {
-    res.render("admindasboard");
-  } else if (role === "user") {
-    res.render("userdashboard");
-  } else {
     res.render("home.ejs");
-  }
+  
 }
 
 //ADMIN ROUTES
 exports.adminlogin=(req,res)=>{
-  const role = req.session.role;
 
-  if (role === "admin") {
-    return res.redirect("/dashboard");
-  } else if (role === "user") {
-    return res.redirect("/udashboard");
-  } else {
+
     res.render("adminlogin.ejs", { msg: "" });
-  }
+  
 }
 
 exports.logout = (req, res) => {
@@ -84,11 +73,27 @@ try{
 console.log("result response: ",result);
 
   if(result.status==='admin'){
-    req.session.role = "admin";
      res.render("admindasboard");
   }else if(result.status==='staff'){
-      req.session.role = "user";
-      res.render("userdashboard");
+      try {
+        // Get staff ID by name (username == staff.name)
+        const [staff] = await regmodel.getStaffByName(username);
+
+        if (!staff) return res.render("userdashboard", { orderId: null });
+
+        const staff_id = staff.staff_id;
+        const table_id = 1; // You can change or make this dynamic
+        const ord_date = new Date().toISOString().split('T')[0];
+        const ord_status = 'Pending';
+
+        // Insert a new order and get ID
+        const newOrderId = await regmodel.insertOrder(table_id, staff_id, ord_date, 0, ord_status);
+
+        res.render("userdashboard", { orderId: newOrderId.insertId });
+    } catch (err) {
+        console.error("Error creating order for staff:", err);
+        res.render("userdashboard", { orderId: null });
+    }
   }else{
 
       res.render("adminlogin", { msg: "Invalid UserName & Password" });
@@ -461,4 +466,96 @@ exports.searchmenu = async (req, res) => {
   }
 };
 
+//stafftable
+exports.stafftable = async (req, res) => {
+  try {
+    const tables = await regmodel.viewtable();
+    const staff = await regmodel.getStaffByName("shah"); // or dynamic from login input
+    const staff_id = staff[0].staff_id;
 
+    res.render("stafftable", {
+      tables,
+      staff_id
+    });
+  } catch (err) {
+    console.error("Error loading stafftable:", err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+;
+exports.viewdashboardAdmin=((req,res)=>{
+  res.render("viewdashboardAdmin");
+});
+
+// exports.Allmenu=((req,res)=>{
+//   res.render("Allmenu");
+// });
+exports.viewOrders=((req,res)=>{
+  res.render("viewOrders");
+});
+  exports.renderMenuPage = (req, res) => {
+  console.log("🧠 req.params.orderId =", req.params.orderId);
+  const orderId = parseInt(req.params.orderId);
+
+  if (isNaN(orderId)) {
+    return res.status(400).send("❌ Invalid order ID in URL");
+  }
+
+  serCtrl.showMenuWithOrders(orderId, (err, result) => {
+    if (err) return res.status(500).send("Internal Server Error");
+
+    // ✅ Calculate total
+    // let total = 0;
+    // result.orders.forEach((item) => {
+    //   total += item.total_amt;
+    // });
+    let total = 0;
+result.orders.forEach((item) => {
+  total += Number(item.total_amt); // ✅ convert each to number
+});
+
+    const date = new Date().toISOString().slice(0, 10);
+    res.render("Allmenu", {
+      menus: result.menus,
+      orders: result.orders,
+      orderId,
+      date,
+      total // 👈 pass to EJS
+    });
+  });
+};
+
+
+exports.handleAddToOrder = (req, res) => {
+  const { orderId, menu_id, qty, price } = req.body;
+  const quantity = parseInt(qty);
+  const unitPrice = parseFloat(price);
+  const total_amt = quantity * unitPrice;
+
+  regmodel.addOrderItem(orderId, menu_id, quantity, total_amt, (err) => {
+    if (err) {
+      console.log("❌ Error inserting item:", err);
+      return res.status(500).send("Error adding item");
+    }
+    res.redirect(`/menu/${orderId}`);
+  });
+};
+
+exports.createOrderForTable = async (req, res) => {
+ try {
+    const table_id = parseInt(req.params.table_id);
+    const staff_id = parseInt(req.params.staff_id);
+
+    const ord_date = new Date().toISOString().split('T')[0];
+    const ord_status = 'Pending';
+
+    // Insert new order
+    const newOrder = await regmodel.insertOrder(table_id, staff_id, ord_date, 0, ord_status);
+
+    // Redirect to menu page with that new order
+    res.redirect(`/menu/${newOrder.insertId}`);
+  } catch (err) {
+    console.error("❌ Failed to create order:", err);
+    res.status(500).send("Failed to create order");
+  }
+};

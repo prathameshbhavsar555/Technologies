@@ -9,17 +9,15 @@ const auth=require("../middleware/auth.js")
 //ADMIN ROUTES
 
 //logout
-// router.get("/logout",regCtrl.logout);
-router.get("/logout", regCtrl.logout);
 //ADMIN ROUTES
-router.get("/login",auth.checkLoggedIn, regCtrl.adminlogin);
+router.get("/login", regCtrl.adminlogin);
 router.post("/admindasboard",regCtrl.admindasboard);
 // middleware logic directly shere the page
-router.get("/dashboard", auth.isAdmin, (req, res) => {
+router.get("/dashboard", (req, res) => {
   res.render("admindasboard"); // your admin dashboard view
 });
 
-router.get("/udashboard", auth.isUser, (req, res) => {
+router.get("/udashboard",  (req, res) => {
   res.render("userdashboard"); // your user dashboard view
 });
 
@@ -60,6 +58,16 @@ router.post("/addstaffH",regCtrl.addstaffH);
 router.get("/deletestaff",regCtrl.deletestaff);
 router.get("/updatestaff",regCtrl.updatestaff);
 router.post("/updatestaffH",regCtrl.updatestaffH);
+//today 18/06
+router.get("/stafftable",regCtrl.stafftable);
+router.get("/viewdashboardAdmin",regCtrl.viewdashboardAdmin);
+// router.get("/Allmenu",regCtrl.Allmenu);
+// router.get("/viewOrders",regCtrl.viewOrders);
+// router.get("/add-to-order",regCtrl.AddOrder);
+
+
+
+
 
 //search category
 router.get("/searchCategory",regCtrl.searchCategory);
@@ -74,5 +82,13 @@ router.get("/deletetable",regCtrl.deletetable);
 router.get("/updatetable",regCtrl.updatetable);
 router.get("/searchtable",regCtrl.searchtable);
 router.post("/updatetableH",regCtrl.updatetableH);
+
+
+
+
+router.get('/menu/:orderId', regCtrl.renderMenuPage);
+router.post('/add-to-order', regCtrl.handleAddToOrder);
+router.get("/create-order/:table_id/:staff_id", regCtrl.createOrderForTable);
+
 
 module.exports=router;

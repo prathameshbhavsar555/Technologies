@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Orders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* body {
+      background-color: #f5f8f5;
+      padding: 40px;
+    } */
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: right;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .filter-buttons {
+      margin-bottom: 30px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .filter-buttons button {
+      padding: 10px 20px;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .pending-btn {
+      background-color: green;
+    }
+
+    .completed-btn {
+      background-color: #ff5722;
+    }
+
+    .order-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+      width: 320px;
+    }
+
+    .order-info p {
+      margin: 6px 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .order-info strong {
+      font-weight: bold;
+    }
+
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .order-table th, .order-table td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .order-table th {
+      background-color: #f1f1f1;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Your Orders</h2>
+
+    <div class="filter-buttons">
+      <button class="pending-btn">View Pending Orders</button>
+      <button class="completed-btn">View Completed Orders</button>
+    </div>
+
+    <!-- Single Order Card -->
+    <div class="order-card">
+      <div class="order-info">
+        <p><strong>Order ID:</strong> 115</p>
+        <p><strong>Table ID:</strong> 9</p>
+        <p><strong>Staff:</strong> Amin Shaikh</p>
+        <p><strong>Date:</strong> 12/6/2025</p>
+        <p><strong>Status:</strong> Pending</p>
+
+        <p class="section-title">Items:</p>
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Price (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>idli</td>
+              <td>2</td>
+              <td>30</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

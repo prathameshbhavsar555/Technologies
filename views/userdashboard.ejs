@@ -9,22 +9,23 @@
     <div class="sidebar" id="sidebar">
     
       <h2>Staff Panel</h2>
-
       <div class="menu-item" onclick="toggleMenu('dashboardMenu')">
-        <span><i class="fas fa-chart-line"></i> Dashboard</span>
+        <span><i class="fas fa-chart-line"></i><a href="/viewdashboardAdmin" class="menu-link">Dashboard</a> </span>
       </div>
   
       <div class="menu-item" onclick="toggleMenu('tableMenu')">
-        <span><i class="fas fa-chair"></i><a href="#" class="menu-link"> Dinning Tables</a></span>
+        <span><i class="fas fa-chair"></i><a href="/stafftable" class="menu-link"> Dinning Tables</a></span>
       </div>
 
       <div class="menu-item" onclick="toggleMenu('menuMenu')">
-        <span><i class="fas fa-utensils"></i><a href="#" class="menu-link"> Menus</a></span>
+        <span><i class="fas fa-utensils"></i><a href="/menu/<%= orderId %>">View Menu</a>
+          
+
+          <!-- <a href="/menu/101">View Menu</a> -->
+</span>
       </div>
-
-
       <div class="menu-item">
-        <span><i class="fa-brands fa-jedi-order"></i><a href="#" class="menu-link"> Views Orders</a></span>
+        <span><i class="fa-brands fa-jedi-order"></i><a href="/viewOrders" class="menu-link"> Views Orders</a></span>
       </div>
 
       <div class="menu-item">
