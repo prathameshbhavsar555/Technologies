@@ -3,36 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Restaurant Webpage</title>
+  <title>ShahPrath Restaurant</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="./master.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
- <!-- Navbar Start -->
+<!-- Navbar Start -->
 <nav>
   <div class="logo">🍽️ MyRestaurant</div>
+
+  <!-- Hamburger Toggle Button -->
   <div class="hamburger" id="hamburger">
     <span></span>
     <span></span>
     <span></span>
   </div>
+
+  <!-- Nav Links -->
   <ul class="nav-links" id="navLinks">
-    <li><a href="#home">Home</a></li>
+    <li><a href="#home" class="active">Home</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#menu">Menu</a></li>
     <li><a href="#chef">Chef</a></li>
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li >
-      <a href="/login" style="color:  #e6c400;">Login</a>
-      <!-- <div class="dropdown-content">
-        <a href="/adminlogin"><i class="fa-solid fa-user-tie"></i> Admin </a>
-        <a href="/user-login"><i class="fa-solid fa-users"></i> User </a>
-      </div> -->
-    </li>
+    <li><a href="/login" class="login-btn">Login</a></li>
   </ul>
 </nav>
-
 <!-- Home -->
  <section ><h1>Home Page</h1></section>
 <!-- <section id="home" class="slider-section">
@@ -74,11 +72,11 @@
     <h2 class="menu-title">
       🍽️ Our Signature <span class="menu-highlight">Dishes</span>
     </h2>
-
+    <!-- Menu Grid -->
     <div class="menu-grid">
       <!-- Item 1 -->
-      <div class="menu-item">
-        <img src="./images/meanu/meanu1.png" alt="Butter Chicken" class="menu-img">
+      <div class="menu-item" data-category="main">
+        <img src="./images/meanu/meanu1.png" alt="Butter Chicken" class="menu-img" onclick="openLightbox(this)">
         <div class="menu-item-content">
           <h3 class="menu-item-title">Butter Chicken</h3>
           <p class="menu-item-desc">Rich creamy gravy, tender chicken, Indian spices.</p>
@@ -87,8 +85,8 @@
       </div>
 
       <!-- Item 2 -->
-      <div class="menu-item">
-        <img src="./images/meanu/meanu2.png" alt="Tandoori Platter" class="menu-img">
+      <div class="menu-item" data-category="starters">
+        <img src="./images/meanu/meanu2.png" alt="Tandoori Platter" class="menu-img" onclick="openLightbox(this)">
         <div class="menu-item-content">
           <h3 class="menu-item-title">Tandoori Platter</h3>
           <p class="menu-item-desc">Aromatic kebabs, paneer, and veggies grilled to perfection.</p>
@@ -97,8 +95,8 @@
       </div>
 
       <!-- Item 3 -->
-      <div class="menu-item">
-        <img src="./images/meanu/biryani.png" alt="Biryani" class="menu-img">
+      <div class="menu-item" data-category="main">
+        <img src="./images/meanu/biryani.png" alt="Royal Chicken Biryani" class="menu-img" onclick="openLightbox(this)">
         <div class="menu-item-content">
           <h3 class="menu-item-title">Royal Chicken Biryani</h3>
           <p class="menu-item-desc">Layered with saffron rice, slow-cooked chicken, and herbs.</p>
@@ -109,8 +107,25 @@
   </div>
 </section>
 
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox">
+  <div class="lightbox-content">
+    <span class="close-btn" onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-img" src="" alt="">
+    <h3 id="lightbox-title"></h3>
+    <p id="lightbox-desc"></p>
+    
+    <!-- Navigation arrows -->
+    <div class="lightbox-nav">
+      <span class="nav-arrow left" onclick="showPrev()">&larr;</span>
+      <span class="nav-arrow right" onclick="showNext()">&rarr;</span>
+    </div>
+  </div>
+</div>
+
+
 <!-- chef section -->
-<!-- <section id="chef" class="chef-section">
+<section id="chef" class="chef-section">
   <div class="chef-container">
     <h2 class="chef-title">Meet Our <span class="chef-highlight">Master Chef</span></h2>
     <p class="chef-intro">
@@ -142,8 +157,8 @@
       </div>
     </div>
   </div>
-</section> -->
-<section id="chef"><h1>Chef Section</h1></section>
+</section>
+<!-- <section id="chef"><h1>Chef Section</h1></section> -->
 
 <!-- Restaurant gallery -->
 <section id="gallery" class="gallery-section">
@@ -216,15 +231,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
   
-  // Hamburger menu toggle
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('navLinks');
-  hamburger.onclick = () => {
-    navLinks.classList.toggle('active');
-    hamburger.classList.toggle('open');
-    document.body.classList.toggle('menu-open', navLinks.classList.contains('active'));
-  };
-
   // Close menu on link click (for single-page navigation)
   document.querySelectorAll('.nav-links a').forEach(link => {
     link.onclick = () => {
@@ -243,5 +249,65 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 </script>
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+
+  // Lightbox functionality
+  const menuItems = document.querySelectorAll('.menu-item');
+  let currentIndex = 0;
+
+  function openLightbox(img) {
+    const index = [...menuItems].findIndex(item => item.querySelector('img') === img);
+    if (index !== -1) {
+      currentIndex = index;
+      loadLightbox(menuItems[index]);
+      document.getElementById('lightbox').style.display = 'flex';
+    }
+  }
+
+  function loadLightbox(item) {
+    const img = item.querySelector('img');
+    const title = item.querySelector('.menu-item-title').textContent;
+    const desc = item.querySelector('.menu-item-desc').textContent;
+
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox-title').textContent = title;
+    document.getElementById('lightbox-desc').textContent = desc;
+  }
+
+  function showNext() {
+    currentIndex = (currentIndex + 1) % menuItems.length;
+    loadLightbox(menuItems[currentIndex]);
+  }
+
+  function showPrev() {
+    currentIndex = (currentIndex - 1 + menuItems.length) % menuItems.length;
+    loadLightbox(menuItems[currentIndex]);
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+  }
+
+  // Close on outside click
+  document.getElementById('lightbox').addEventListener('click', function (e) {
+    if (e.target === this) closeLightbox();
+  });
+
+  // Keyboard Controls
+  document.addEventListener('keydown', (e) => {
+    const isOpen = document.getElementById('lightbox').style.display === 'flex';
+    if (!isOpen) return;
+
+    if (e.key === 'ArrowRight') showNext();
+    if (e.key === 'ArrowLeft') showPrev();
+    if (e.key === 'Escape') closeLightbox();
+  });</script>
+
 </body>
 </html>

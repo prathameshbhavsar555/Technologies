@@ -154,3 +154,100 @@ body {
     padding: 1rem;
   }
 }
+
+.nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .nav-link {
+      color: var(--primary);
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .nav-link:hover {
+      text-decoration: underline;
+    }
+    .chevron {
+      margin-left: auto;
+      transition: transform 0.3s ease;
+    }
+    .chevron.rotated {
+      transform: rotate(180deg);
+    }
+      .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .profile-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .profile-name {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+    }
+    .nav-link {
+      color: var(--primary);
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .nav-link:hover {
+      text-decoration: underline;
+    }
+    .theme-toggle {
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+    .notifications {
+      position: relative;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+    .notifications .badge {
+      position: absolute;
+      top: -5px;
+      right: -8px;
+      background: red;
+      color: white;
+      font-size: 0.65rem;
+      border-radius: 50%;
+      padding: 2px 5px;
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+    }
+    html.dark-mode {
+      --bg-light: #1a1a1a;
+      --sidebar-bg: #252525;
+      --hover-bg: #333;
+      --text-dark: #fff;
+      --secondary: #aaa;
+    }
+    html.dark-mode body {
+      background: var(--bg-light);
+      color: var(--text-dark);
+    }
+    html.dark-mode .navbar,
+    html.dark-mode .sidebar,
+    html.dark-mode .main-content {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+    }
