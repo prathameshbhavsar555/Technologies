@@ -23,13 +23,6 @@ exports.showMenuWithOrders = (orderId, callback) => {
   });
 };
 
-// exports.addItemToOrder = (data, callback) => {
-//   const { orderId, menu_id, qty, price } = data;
-//   const total = qty * price;
-
-//   regmodel.addOrderItem(orderId, menu_id, qty, total, callback);
-// };
-// 
 exports.addItemToOrder = (data, callback) => {
   const orderId = parseInt(data.orderId);
   const menuId = parseInt(data.menu_id);
@@ -42,7 +35,6 @@ exports.addItemToOrder = (data, callback) => {
   }
 
   const total = qty * price;
-
   regmodel.addOrderItem(orderId, menuId, qty, total, callback);
 };
 

@@ -80,13 +80,15 @@ router.get("/updatetable",regCtrl.updatetable);
 router.get("/searchtable",regCtrl.searchtable);
 router.post("/updatetableH",regCtrl.updatetableH);
 
-router.get('/menu/:orderId', regCtrl.renderMenuPage);
+router.get('/menu/:orderId/', regCtrl.renderMenuPage);
 router.post('/add-to-order', regCtrl.handleAddToOrder);
 router.get("/create-order/:table_id/:staff_id", regCtrl.createOrderForTable);
 
 // //prathamesh
 
 router.get('/dashboarde', regCtrl.getDashboardData);
+router.post("/confirm-order", regCtrl.confirmorder);
+
 
 
 

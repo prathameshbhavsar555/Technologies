@@ -470,7 +470,7 @@ exports.searchmenu = async (req, res) => {
 exports.stafftable = async (req, res) => {
   try {
     const tables = await regmodel.viewtable();
-    const staff = await regmodel.getStaffByName("sonu"); // or dynamic from login input
+    const staff = await regmodel.getStaffByName("shah"); // or dynamic from login input
     const staff_id = staff[0].staff_id;
 
     res.render("stafftable", {
@@ -484,9 +484,45 @@ exports.stafftable = async (req, res) => {
 };
 ;
 
-exports.viewOrders=((req,res)=>{
-  res.render("viewOrders");
-});
+
+exports.viewOrders = async (req, res) => {
+  try {
+    const orders = await regmodel.getAllOrdersWithItems(); // new function
+
+    res.render("viewOrders", {
+      orders
+    });
+
+  // res.render("viewOrders");
+  } catch (err) {
+    console.error("Error loading orders:", err);
+    res.status(500).send("Failed to load orders");
+  }
+};
+// exports.viewOrders = async (req, res) => {
+//   try {
+//     const allOrders = await regmodel.getAllOrdersWithItems();
+
+//     const pendingOrderList = allOrders.filter(order => order.ord_status === "Pending");
+//     const completedOrderList = allOrders.filter(order => order.ord_status === "Completed");
+
+//     res.render("viewOrders", {
+//       pendingOrders: pendingOrderList,
+//       completedOrders: completedOrderList
+//     });
+//   } catch (err) {
+//     console.error("❌ Error loading viewOrders:", err);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
+
+
+
+
+
+
+
   exports.renderMenuPage = (req, res) => {
   console.log("🧠 req.params.orderId =", req.params.orderId);
   const orderId = parseInt(req.params.orderId);
@@ -498,11 +534,6 @@ exports.viewOrders=((req,res)=>{
   serCtrl.showMenuWithOrders(orderId, (err, result) => {
     if (err) return res.status(500).send("Internal Server Error");
 
-    // ✅ Calculate total
-    // let total = 0;
-    // result.orders.forEach((item) => {
-    //   total += item.total_amt;
-    // });
     let total = 0;
 result.orders.forEach((item) => {
   total += Number(item.total_amt); // ✅ convert each to number
@@ -596,3 +627,23 @@ conn.query(sql, (err, results) => {
   });
 });
 }
+
+
+exports.confirmorder = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+
+    // Optional: Calculate updated total from order_items
+    const total = await regmodel.getOrderTotal(orderId);
+    await regmodel.updateOrderTotal(orderId, total);
+
+    // Update status to Confirmed
+    await regmodel.updateOrderStatus(orderId, 'Confirmed');
+
+    // Redirect to view orders
+    res.redirect("/viewOrders");
+  } catch (err) {
+    console.error("Error confirming order:", err);
+    res.status(500).send("Failed to confirm order");
+  }
+};

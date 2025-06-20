@@ -12,14 +12,10 @@
       padding: 0;
     }
 
-    /* body {
-      background-color: #f5f8f5;
-      padding: 40px;
-    } */
-
     .container {
-      max-width: 900px;
+      max-width: 1200px;
       margin: auto;
+      padding: 20px;
     }
 
     h2 {
@@ -52,13 +48,17 @@
       background-color: #ff5722;
     }
 
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
     .order-card {
       background-color: white;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
-      width: 320px;
     }
 
     .order-info p {
@@ -105,34 +105,43 @@
       <button class="completed-btn">View Completed Orders</button>
     </div>
 
-    <!-- Single Order Card -->
-    <div class="order-card">
-      <div class="order-info">
-        <p><strong>Order ID:</strong> 115</p>
-        <p><strong>Table ID:</strong> 9</p>
-        <p><strong>Staff:</strong> Amin Shaikh</p>
-        <p><strong>Date:</strong> 12/6/2025</p>
-        <p><strong>Status:</strong> Pending</p>
+    <% if (orders && orders.length > 0) { %>
+      <div class="orders-grid">
+        <% orders.forEach(order => { %>
+          <div class="order-card">
+            <div class="order-info">
+              <p><strong>Order ID:</strong> <%= order.order_id %></p>
+              <p><strong>Table ID:</strong> <%= order.table_id %></p>
+              <p><strong>Staff:</strong> <%= order.staff_name %></p>
+              <p><strong>Date:</strong> <%= order.ord_date %></p>
+              <p><strong>Status:</strong> <%= order.ord_status %></p>
 
-        <p class="section-title">Items:</p>
-        <table class="order-table">
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Qty</th>
-              <th>Price (₹)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>idli</td>
-              <td>2</td>
-              <td>30</td>
-            </tr>
-          </tbody>
-        </table>
+              <p class="section-title">Items:</p>
+              <table class="order-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price (₹)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% order.items.forEach(item => { %>
+                    <tr>
+                      <td><%= item.item_name %></td>
+                      <td><%= item.quantity %></td>
+                      <td><%= item.price %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <% }) %>
       </div>
-    </div>
+    <% } else { %>
+      <p>No orders found.</p>
+    <% } %>
 
   </div>
 

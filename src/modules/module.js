@@ -412,3 +412,136 @@ exports.insertOrder = (table_id, staff_id, ord_date, total_amt, ord_status) => {
   });
 };
 
+exports.getOrderTotal = (orderId) => {
+  return new Promise((resolve, reject) => {
+    conn.query(
+      "SELECT SUM(total_amt) AS total FROM order_items WHERE order_id = ?",
+      [orderId],
+      (err, result) => {
+        if (err) return reject(err);
+        resolve(result[0].total || 0);
+      }
+    );
+  });
+};
+
+exports.updateOrderTotal = (orderId, total_amt) => {
+  return new Promise((resolve, reject) => {
+    conn.query(
+      "UPDATE order_master SET total_amt = ? WHERE order_id = ?",
+      [total_amt, orderId],
+      (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      }
+    );
+  });
+};
+
+exports.updateOrderStatus = (orderId, status) => {
+  return new Promise((resolve, reject) => {
+    conn.query(
+      "UPDATE order_master SET ord_status = ? WHERE order_id = ?",
+      [status, orderId],
+      (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      }
+    );
+  });
+};
+
+// exports.getAllOrdersWithItems = () => {
+//   return new Promise((resolve, reject) => {
+//     const sql = `
+//       SELECT 
+//         om.order_id, om.table_id, om.staff_id, om.ord_date, om.ord_status,
+//         s.name AS staff_name,
+//         oi.quantity, oi.total_amt, m.item_name, m.price
+//       FROM order_master om
+//       JOIN order_items oi ON om.order_id = oi.order_id
+//       JOIN menu m ON oi.menu_id = m.id
+//       JOIN staff s ON om.staff_id = s.staff_id
+//       ORDER BY om.order_id DESC;
+//     `;
+
+//     conn.query(sql, (err, results) => {
+//       if (err) return reject(err);
+
+//       // Group orders by order_id
+//       const groupedOrders = {};
+
+//       results.forEach(row => {
+//         const {
+//           order_id, table_id, ord_date, ord_status, staff_name,
+//           item_name, quantity, price
+//         } = row;
+
+//         if (!groupedOrders[order_id]) {
+//           groupedOrders[order_id] = {
+//             order_id,
+//             table_id,
+//             ord_date,
+//             ord_status,
+//             staff_name,
+//             items: []
+//           };
+//         }
+
+//         groupedOrders[order_id].items.push({
+//           item_name,
+//           quantity,
+//           price
+//         });
+//       });
+
+//       resolve(Object.values(groupedOrders)); // convert object to array
+//     });
+//   });
+// };
+
+
+exports.getAllOrdersWithItems = async () => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      SELECT 
+        o.order_id, o.table_id, o.staff_id, o.ord_date, o.ord_status,
+        s.name,
+        i.menu_id, i.quantity, i.total_amt,
+        m.item_name, m.price
+      FROM order_master o
+      JOIN staff s ON o.staff_id = s.staff_id
+      JOIN order_items i ON o.order_id = i.order_id
+      JOIN menu m ON i.menu_id = m.id
+      ORDER BY o.order_id DESC;
+    `;
+
+    conn.query(sql, (err, results) => {
+      if (err) return reject(err);
+
+      // group by order_id
+      const ordersMap = {};
+      results.forEach(row => {
+        if (!ordersMap[row.order_id]) {
+          ordersMap[row.order_id] = {
+            order_id: row.order_id,
+            table_id: row.table_id,
+            staff_name: row.name,
+            ord_date: row.ord_date,
+            ord_status: row.ord_status,
+            items: []
+          };
+        }
+
+        ordersMap[row.order_id].items.push({
+          item_name: row.item_name,
+          quantity: row.quantity,
+          price: row.price
+        });
+      });
+
+      const allOrders = Object.values(ordersMap);
+      resolve(allOrders);
+    });
+  });
+};

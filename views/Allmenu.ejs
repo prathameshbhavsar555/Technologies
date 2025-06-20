@@ -267,8 +267,11 @@
     <% }) %>
 
     <div class="total-box">
-      <p><strong>Total: ₹<%= Number(total).toFixed(2) %></strong></p>
-      <button class="confirm-btn">Confirm Order</button>
+      <p><strong>Total: ₹<%= Number(total).toFixed(2) %><
+        /strong></p><form action="/confirm-order" method="POST">
+  <input type="hidden" name="orderId" value="<%= orderId %>">
+  <button type="submit" class="confirm-btn">Confirm Order</button>
+</form>
     </div>
   <% } else { %>
     <p>No items added yet.</p>
