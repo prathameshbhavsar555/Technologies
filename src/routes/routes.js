@@ -60,13 +60,10 @@ router.get("/updatestaff",regCtrl.updatestaff);
 router.post("/updatestaffH",regCtrl.updatestaffH);
 //today 18/06
 router.get("/stafftable",regCtrl.stafftable);
-router.get("/viewdashboardAdmin",regCtrl.viewdashboardAdmin);
+
 // router.get("/Allmenu",regCtrl.Allmenu);
-// router.get("/viewOrders",regCtrl.viewOrders);
+router.get("/viewOrders",regCtrl.viewOrders);//Prathamesh 19
 // router.get("/add-to-order",regCtrl.AddOrder);
-
-
-
 
 
 //search category
@@ -83,12 +80,14 @@ router.get("/updatetable",regCtrl.updatetable);
 router.get("/searchtable",regCtrl.searchtable);
 router.post("/updatetableH",regCtrl.updatetableH);
 
-
-
-
 router.get('/menu/:orderId', regCtrl.renderMenuPage);
 router.post('/add-to-order', regCtrl.handleAddToOrder);
 router.get("/create-order/:table_id/:staff_id", regCtrl.createOrderForTable);
+
+// //prathamesh
+
+router.get('/dashboarde', regCtrl.getDashboardData);
+
 
 
 module.exports=router;

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Menu Page</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Swiggy Menu</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     * {
       margin: 0;
@@ -14,14 +13,19 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
+    body {
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
     .container {
       display: flex;
-      background-color: #f9f9f9;
+      padding: 20px;
+      gap: 20px;
     }
 
     .main {
-      flex: 1;
-      padding: 20px;
+      flex: 3;
     }
 
     .top-bar {
@@ -32,24 +36,31 @@
     }
 
     .back-btn {
-      background-color: #ff5722;
+      background: #ff6600;
       color: white;
-      padding: 6px 14px;
-      border-radius: 5px;
+      padding: 8px 16px;
+      border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
     }
 
     .search-bar input {
       width: 300px;
-      padding: 8px 12px;
-      border-radius: 5px;
+      padding: 10px;
+      border-radius: 8px;
       border: 1px solid #ccc;
     }
 
     .menu-section h2 {
       text-align: center;
-      margin: 20px 0 10px;
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .menu-section p {
+      text-align: center;
+      color: #777;
+      margin-bottom: 16px;
     }
 
     .categories {
@@ -58,144 +69,158 @@
     }
 
     .categories button {
-      background: #f1f1f1;
+      background: #eee;
       border: none;
-      padding: 6px 12px;
-      margin: 0 5px;
+      padding: 8px 16px;
+      margin: 5px;
       border-radius: 20px;
       cursor: pointer;
+      transition: 0.3s ease;
+      font-size: 15px;
     }
 
-    .categories button.active {
-      background: #ff5722;
+    .categories button.active,
+    .categories button:hover {
+      background: #ff6600;
       color: white;
     }
 
     .content {
       display: flex;
+      gap: 20px;
     }
 
     .menu-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
       flex: 3;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
     }
 
     .card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-      padding: 15px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
       text-align: center;
+      padding: 15px;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
     }
 
     .card img {
       width: 100%;
-      height: 120px;
+      height: 140px;
       object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 10px;
+      border-radius: 10px;
     }
 
     .card h4 {
-      margin-bottom: 6px;
+      margin: 10px 0 5px;
+      font-size: 18px;
     }
 
-    .price {
-      font-weight: bold;
+    .card p {
+      margin: 0 0 8px;
+      font-weight: 500;
+    }
+
+    .card input[type="number"] {
+      width: 60px;
+      padding: 4px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
       margin-bottom: 10px;
     }
 
-    .add-btn {
-      background: #ff5722;
+    .card button {
+      background: #ff6600;
       color: white;
       padding: 6px 12px;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
     }
 
     .order-panel {
       flex: 1;
-      background: #fff;
-      border-left: 1px solid #eee;
+      background: white;
       padding: 20px;
-      margin-left: 20px;
-      border-radius: 10px;
-      min-width: 260px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .order-panel h3 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .order-details {
-      font-size: 14px;
+      font-size: 20px;
       margin-bottom: 10px;
     }
 
     .order-box {
-      background: #f9f9f9;
-      border-radius: 10px;
+      background: #f4f4f4;
       padding: 10px;
-      margin-bottom: 10px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .total-box {
+      margin-top: 10px;
+      padding: 10px;
+      background: #fefefe;
+      border-top: 1px solid #ddd;
     }
 
     .confirm-btn {
       background: #28a745;
       color: white;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 5px;
+      padding: 10px;
       width: 100%;
-      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
       margin-top: 10px;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
   <section class="container">
-    <!-- Main Content -->
+
     <div class="main">
 
       <!-- Top Bar -->
       <div class="top-bar">
-        <a href="/" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to View Dining Tables</a>
+        <a href="/stafftable" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Dinning Table</a>
         <div class="search-bar">
-          <input type="text" placeholder="Search menu...">
+          <input type="text" id="searchInput" placeholder=" 🔍 Search menu...">
         </div>
       </div>
 
       <!-- Menu Section -->
       <div class="menu-section">
-        <h2>Our Menu</h2>
-        <p style="text-align:center; color: #777;">Delicious meals prepared fresh for you</p>
+        <h2> 🍽️ Our Menu </h2>
+        <p>Delicious meals prepared fresh for you</p>
 
-        <!-- Categories -->
         <div class="categories">
-          <button class="active">All</button>
-          <button>Breakfast</button>
-          <button>Lunch</button>
-          <button>Dinner</button>
+          <button class="active" onclick="filterCategory('all')">🍽️ All</button>
+          <button onclick="filterCategory('Breakfast')">🍳 Breakfast</button>
+          <button onclick="filterCategory('Lunch')">🍛 Lunch</button>
+          <button onclick="filterCategory('Dinner')">🍲 Dinner</button>
         </div>
       </div>
 
-      <!-- Content Grid -->
+      <!-- Menu Cards -->
       <div class="content">
+        <div class="menu-cards" id="menuCards">
+          <% menus.forEach(menu => { %>
+            <div class="card" data-name="<%= menu.item_name.toLowerCase() %>" data-category="<%= menu.category %>">
+              <img src="/uploads/<%= menu.image %>" alt="<%= menu.item_name %>">
 
-        <!-- Menu Cards -->
-        <div class="menu-cards">
-          <% menus.forEach(menu=> { %>
-            <div class="card">
-              <img src="<%= menu.image %>" alt="<%= menu.item_name %>">
-              <h4>
-                <%= menu.item_name %>
-              </h4>
-              <p>₹<%= menu.price %>
-              </p>
+              <h4><%= menu.item_name %></h4>
+              <p>₹<%= menu.price %></p>
 
               <form action="/add-to-order" method="POST">
                 <input type="hidden" name="orderId" value="<%= orderId %>">
@@ -204,50 +229,83 @@
                 <input type="number" name="qty" value="1" min="1" required>
                 <button type="submit">Add</button>
               </form>
-
-
             </div>
-            <% }) %>
+          <% }) %>
         </div>
 
         <!-- Order Panel -->
         <div class="order-panel">
-          <h3>Current Order</h3>
-          <div class="order-details">
-            <p><strong>Table ID:</strong>
-              <%= orderId %>
-            </p>
-            <p><strong>Date:</strong>
-              <%= date %>
-            </p>
-          </div>
+  <h3>Current Order</h3>
+  <p><strong>Table ID:</strong> <%= orderId %></p>
+  <p><strong>Date:</strong> <%= date %></p>
 
-          <p style="margin-top: 10px;"><strong>Order Items</strong></p>
-          <% if (orders && orders.length> 0) { %>
-            <% orders.forEach(order=> { %>
-              <div class="order-box">
-                <p><strong>
-                    <%= order.item_name %>
-                  </strong></p>
-                <p>Qty: <%= order.quantity %> | Total: ₹<%= order.total_amt %>
-                </p>
-              </div>
-              <% }) %>
-              <hr />
+  <hr style="margin: 10px 0;">
 
-              <div style="background:#f4f4f4; padding:10px; border-radius:8px; margin-top:10px;">
-  <p style="font-weight:bold; font-size:16px;">Total: ₹<%= Number(total).toFixed(2) %></p>
+  <p><strong>Order Items:</strong></p>
 
+  <% if (orders && orders.length > 0) { %>
+    <% orders.forEach(order => { %>
+      <div class="order-box">
+        <p><strong><%= order.item_name %></strong></p>
+
+        <form action="/update-qty" method="POST" style="display: flex; align-items: center; gap: 6px; margin-bottom: 5px;">
+          <input type="hidden" name="order_item_id" value="<%= order.order_item_id %>">
+          <input type="hidden" name="order_id" value="<%= order.order_id %>">
+
+          <button type="submit" name="action" value="decrement" style="background-color: #ff6600; color: white; border: none; border-radius: 4px; padding: 2px 8px;">−</button>
+          <span><%= order.quantity %></span>
+          <button type="submit" name="action" value="increment" style="background-color: #ff6600; color: white; border: none; border-radius: 4px; padding: 2px 8px;">+</button>
+        </form>
+
+        <p>₹<%= order.total_amt %></p>
+
+        <form action="/remove-item" method="POST">
+          <input type="hidden" name="order_item_id" value="<%= order.order_item_id %>">
+          <button type="submit" style="background: none; border: none; color: red; cursor: pointer;">🗑 Cancel</button>
+        </form>
+      </div>
+    <% }) %>
+
+    <div class="total-box">
+      <p><strong>Total: ₹<%= Number(total).toFixed(2) %></strong></p>
+      <button class="confirm-btn">Confirm Order</button>
+    </div>
+  <% } else { %>
+    <p>No items added yet.</p>
+  <% } %>
 </div>
-
-                <% } else { %>
-                  <p>No items added yet.</p>
-                  <% } %>
-        </div>
-
       </div>
     </div>
-  </section>
-</body>
 
+  </section>
+
+  <script>
+    // Search Functionality
+    const searchInput = document.getElementById("searchInput");
+    const cards = document.querySelectorAll(".card");
+
+    searchInput.addEventListener("input", function () {
+      const value = this.value.toLowerCase();
+      cards.forEach(card => {
+        const name = card.getAttribute("data-name");
+        card.style.display = name.includes(value) ? "block" : "none";
+      });
+    });
+
+    // Category Filter
+    function filterCategory(category) {
+      document.querySelectorAll(".categories button").forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+
+      cards.forEach(card => {
+        const cardCategory = card.getAttribute("data-category");
+        if (category === "all" || cardCategory === category) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+  </script>
+</body>
 </html>

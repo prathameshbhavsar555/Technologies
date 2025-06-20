@@ -4,92 +4,149 @@
   <meta charset="UTF-8">
   <title>Dining Tables - Foodies Kitchen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-     * {
+    * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Segoe UI', sans-serif;
     }
-    .main {
-      flex: 1;
-      padding: 40px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+
+    .container{
+      background: linear-gradient(to bottom right, #fdfbfb, #ebedee);
+      padding: 40px 20px;
     }
-    .section {
-      flex: 1;
-      min-width: 300px;
-    }
-    h3 {
-      font-size: 18px;
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-    .table-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-    .table-card {
-      border: 1px solid #eee;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+
+    h2 {
       text-align: center;
+      font-size: 26px;
+      margin-bottom: 40px;
+      color: #ff5722;
     }
-    .table-card h4 {
-      font-size: 16px;
-      margin-bottom: 5px;
+
+    .table-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: auto;
     }
+
+    .table-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      padding: 25px 20px;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .table-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .table-card h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
     .table-card p {
       font-size: 14px;
+      margin: 4px 0;
       color: #666;
-      margin-bottom: 10px;
     }
-    .table-card button {
-      background-color: #FF5722;
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 20px;
+      margin: 10px 0;
       color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
     }
-    .table-card button:hover {
-      background-color: #e64a19;
+
+    .badge i {
+      margin-right: 6px;
+      font-size: 12px;
+    }
+
+    .available {
+      background-color: #28a745;
+    }
+
+    .occupied {
+      background-color: #dc3545;
+    }
+
+    .action-button {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(to right, #ff5722, #ff7043);
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .action-button:hover {
+      background: linear-gradient(to right, #e64a19, #ff7043);
+    }
+
+    .action-button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 600px) {
+      .table-card {
+        padding: 20px 15px;
+      }
+
+      .table-card h3 {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="main">
-    <div class="section">
-      <h3>Available Tables</h3>
-      <div class="table-grid">
-        <% tables.filter(t => t.availability_status === 'Available').forEach(table => { %>
-          <div class="table-card">
-            <h4>Table - <%= table.table_id %></h4>
-            <p>Capacity: <%= table.capacity %> people</p>
-          <a href="/create-order/<%= table.table_id %>/<%= staff_id %>" class="btn btn-warning">Take Order</a>
+<section class="container">
+   <h2><i class="fa-solid fa-utensils"></i> Manage Dining Tables</h2>
 
+  <div class="table-container">
 
+    <% tables.forEach(table => { %>
+      <div class="table-card">
+        <h3><i class="fa-solid fa-chair"></i> Table - <%= table.table_id %></h3>
+        <p><i class="fa-solid fa-users"></i> Capacity: <%= table.capacity %> people</p>
+
+        <% if (table.availability_status === 'Available') { %>
+          <div class="badge available">
+            <i class="fa-solid fa-circle"></i> Available
           </div>
-        <% }) %>
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>Occupied Tables</h3>
-      <div class="table-grid">
-        <% tables.filter(t => t.availability_status === 'Occupied').forEach(table => { %>
-          <div class="table-card">
-            <h4>Table - <%= table.table_id %></h4>
-            <p>Capacity: <%= table.capacity %> people</p>
-            <button>Take Order</button>
+          <a href="/create-order/<%= table.table_id %>/<%= staff_id %>" class="action-button">
+            <i class="fa-solid fa-receipt"></i> Take Order
+          </a>
+        <% } else { %>
+          <div class="badge occupied">
+            <i class="fa-solid fa-circle"></i> Occupied
           </div>
-        <% }) %>
+          <button class="action-button" disabled>
+            <i class="fa-solid fa-lock"></i> Occupied
+          </button>
+        <% } %>
       </div>
-    </div>
+    <% }) %>
+
   </div>
+
+</section>
 </body>
 </html>

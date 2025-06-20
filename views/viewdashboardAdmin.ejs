@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Restaurant Dashboard -</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+</head>
+<body>
+  <div class="dashboard">
+    <div class="dashboard-wrapper">
+  <div class="dashboard-header">
+    <h4>Welcome to Restaurant Dashboard</h4>
+  </div>
+  <div class="card-container">
+    <!-- Total Categories -->
+    <div class="card-box">
+      <h6>Total Categories</h6>
+      <h5><%= totalCategories %></h5>
+    </div>
+
+    <!-- Total Menus -->
+    <div class="card-box">
+      <h6>Total Menus</h6>
+      <h5><%= totalMenus %></h5>
+    </div>
+
+    <!-- Total Tables -->
+    <div class="card-box">
+      
+      <h6>Total Tables</h6>
+      <h5><%= totalTables %></h5>
+      <div class="badges">
+        <span class="badge available">Available: <%= availableTables %></span>
+        <span class="badge occupied">Occupied: <%= occupiedTables %></span>
+      </div>
+    </div>
+
+    <!-- Total Orders -->
+    <div class="card-box">
+      <h6>Your Total Orders</h6>
+      <h5><%= totalOrders %></h5>
+      <div class="badges">
+        <span class="badge completed">Completed: <%= completedOrders %></span>
+        <span class="badge pending">Pending: <%= pendingOrders %></span>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</body>
+</html>
