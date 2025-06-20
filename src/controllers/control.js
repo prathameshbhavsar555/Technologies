@@ -77,6 +77,7 @@ console.log("result response: ",result);
   }else if(result.status==='staff'){
       try {
         // Get staff ID by name (username == staff.name)
+        req.session.username = username;
         const [staff] = await regmodel.getStaffByName(username);
 
         if (!staff) return res.render("userdashboard", { orderId: null });
@@ -467,22 +468,43 @@ exports.searchmenu = async (req, res) => {
 };
 
 //stafftable
+// exports.stafftable = async (req, res) => {
+//   try {
+//     const tables = await regmodel.viewtable();
+//     const staff = await regmodel.getStaffByName("shah"); // or dynamic from login input
+//     const staff_id = staff[0].staff_id;
+
+//     res.render("stafftable", {
+//       tables,
+//       staff_id
+//     });
+//   } catch (err) {
+//     console.error("Error loading stafftable:", err);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+// ;
+// GET /stafftable?username=shah
 exports.stafftable = async (req, res) => {
   try {
+    const username = req.session.username;
+    console.log("username by the session: ",username);
+    
     const tables = await regmodel.viewtable();
-    const staff = await regmodel.getStaffByName("shah"); // or dynamic from login input
-    const staff_id = staff[0].staff_id;
+    const [staff] = await regmodel.getStaffByName(username);
+
+    if (!staff) return res.status(404).send("Staff not found");
 
     res.render("stafftable", {
       tables,
-      staff_id
+      staff_id: staff.staff_id
     });
   } catch (err) {
     console.error("Error loading stafftable:", err);
     res.status(500).send("Internal Server Error");
   }
 };
-;
+
 
 
 exports.viewOrders = async (req, res) => {
