@@ -13,14 +13,32 @@ exports.checkData=(...checkUser)=>{
     });
     return promise;
 }
-exports.showMenuWithOrders = (orderId, callback) => {
-  regmodel.getAllMenus((err, menus) => {
-    if (err) return callback(err);
-    regmodel.getOrderItems(orderId, (err2, orders) => {
-      if (err2) return callback(err2);
-      callback(null, { menus, orders });
+// exports.showMenuWithOrders = (orderId, callback) => {
+//   regmodel.getAllMenus((err, menus) => {
+//     if (err) return callback(err);
+//     regmodel.getOrderItems(orderId, (err2, orders) => {
+//       if (err2) return callback(err2);
+//       callback(null, { menus, orders });
+//     });
+//   });
+// };
+exports.showMenuWithOrders = async (orderId) => {
+  try {
+    const menus = await new Promise((resolve, reject) => {
+      regmodel.getAllMenus((err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
     });
-  });
+
+    const orders = await regmodel.getOrderItems(orderId); // This already returns a Promise
+
+    return { menus, orders };
+
+  } catch (err) {
+    throw err;
+  }
+  
 };
 
 exports.addItemToOrder = (data, callback) => {
