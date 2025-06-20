@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Your Orders</title>
@@ -58,7 +59,7 @@
       background-color: white;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     }
 
     .order-info p {
@@ -77,7 +78,8 @@
       margin-top: 10px;
     }
 
-    .order-table th, .order-table td {
+    .order-table th,
+    .order-table td {
       border: 1px solid #ccc;
       padding: 6px 10px;
       text-align: center;
@@ -95,6 +97,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
@@ -105,16 +108,26 @@
       <button class="completed-btn">View Completed Orders</button>
     </div>
 
-    <% if (orders && orders.length > 0) { %>
+    <% if (orders && orders.length> 0) { %>
       <div class="orders-grid">
-        <% orders.forEach(order => { %>
+        <% orders.forEach(order=> { %>
           <div class="order-card">
             <div class="order-info">
-              <p><strong>Order ID:</strong> <%= order.order_id %></p>
-              <p><strong>Table ID:</strong> <%= order.table_id %></p>
-              <p><strong>Staff:</strong> <%= order.staff_name %></p>
-              <p><strong>Date:</strong> <%= order.ord_date %></p>
-              <p><strong>Status:</strong> <%= order.ord_status %></p>
+              <p><strong>Order ID:</strong>
+                <%= order.order_id %>
+              </p>
+              <p><strong>Table ID:</strong>
+                <%= order.table_id %>
+              </p>
+              <p><strong>Staff:</strong>
+                <%= order.staff_name %>
+              </p>
+              <p><strong>Date:</strong>
+                <%= order.ord_date %>
+              </p>
+              <p><strong>Status:</strong>
+                <%= order.ord_status %>
+              </p>
 
               <p class="section-title">Items:</p>
               <table class="order-table">
@@ -126,24 +139,40 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% order.items.forEach(item => { %>
+                  <% order.items.forEach(item=> { %>
                     <tr>
-                      <td><%= item.item_name %></td>
-                      <td><%= item.quantity %></td>
-                      <td><%= item.price %></td>
+                      <td>
+                        <%= item.item_name %>
+                      </td>
+                      <td>
+                        <%= item.quantity %>
+                      </td>
+                      <td>
+                        <%= item.price %>
+                      </td>
                     </tr>
-                  <% }) %>
+                    <% }) %>
                 </tbody>
               </table>
+                
+                <% if ( session.role === 'admin') { %>
+       <form action="/generate-bill/<%= order.order_id %>" method="GET" style="margin-top:10px;">
+                  <button>Generate Bill</button>
+                </form>
+                <form action="/complete-order/<%= order.order_id %>" method="POST" style="margin-top:5px;">
+                  <button>Mark Completed</button>
+                </form>
+                <% } %>
             </div>
           </div>
-        <% }) %>
+          <% }) %>
       </div>
-    <% } else { %>
-      <p>No orders found.</p>
-    <% } %>
+      <% } else { %>
+        <p>No orders found.</p>
+        <% } %>
 
   </div>
 
 </body>
+
 </html>
