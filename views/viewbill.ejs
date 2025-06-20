@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bill - Order <%= order.order_id %></title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    h2 { margin-bottom: 10px; }
+    .no-print { margin-top: 20px; }
+    @media print {
+      .no-print { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <h2>Bill for Order ID: <%= order.order_id %></h2>
+  <p><strong>Date:</strong> <%= order.ord_date %></p>
+  <p><strong>Table ID:</strong> <%= order.table_id %></p>
+  <p><strong>Status:</strong> <%= order.ord_status %></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% items.forEach(item => { %>
+        <tr>
+          <td><%= item.item_name %></td>
+          <td><%= item.quantity %></td>
+          <td><%= item.price %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <h3>Total: ₹<%= total %></h3>
+
+  <button class="no-print" onclick="window.print()">🖨️ Print Bill</button>
+</body>
+</html>

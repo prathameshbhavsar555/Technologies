@@ -88,8 +88,18 @@ router.get("/create-order/:table_id/:staff_id", regCtrl.createOrderForTable);
 
 router.get('/dashboarde', regCtrl.getDashboardData);
 router.post("/confirm-order", regCtrl.confirmorder);
+router.post("/cancelorder/:orderId", regCtrl.cancelOrder);
 
 
 
+
+
+// GET: generate bill
+router.get("/generate-bill/:orderId", regCtrl.generateBill);
+router.get("/viewbillsadmin", regCtrl.viewBills);
+
+
+// POST: mark as completed
+router.post("/complete-order/:orderId", regCtrl.markOrderCompleted);
 
 module.exports=router;

@@ -20,7 +20,7 @@ const admin = {
     admin1: 'shaheel',
     admin2: 'prathamesh'
 };
-exports.adminentry = (username, password,role) => {
+exports.adminentry = (username, password, role) => {
     console.log("username", username);
     console.log("password: ", password);
     console.log("role: ", role);
@@ -28,7 +28,7 @@ exports.adminentry = (username, password,role) => {
 
     return new Promise((resolve, reject) => {
         if (username === admin.admin1 || username === admin.admin2) {
-            if ((username === admin.admin1 && password === '4444' && role==='admin') || (username === admin.admin2 && password === '5555' && role==='admin')) {
+            if ((username === admin.admin1 && password === '4444' && role === 'admin') || (username === admin.admin2 && password === '5555' && role === 'admin')) {
                 resolve({ status: 'admin' })
             } else {
                 resolve({ status: 'invalid' });
@@ -36,7 +36,7 @@ exports.adminentry = (username, password,role) => {
         } else {
             conn.query("select *from staff where name=? and contact_no=?", [username, password], (err, result) => {
 
-                 if (err) return reject(err);
+                if (err) return reject(err);
 
                 if (result.length > 0) {
                     resolve({ status: 'staff' });
@@ -357,98 +357,99 @@ exports.searchmenu = (searchValue) => {
 //19-06
 // Get all menu items
 exports.getAllMenus = (callback) => {
-  conn.query("SELECT * FROM menu", callback);
+    conn.query("SELECT * FROM menu", callback);
 };
 
 // Get all order items for a given order
-exports.getOrderItems = (orderId, callback) => {
-  const sql = `
-    SELECT oi.*, m.item_name, m.image, m.price 
-    FROM order_items oi
-    JOIN menu m ON oi.menu_id = m.id
-    WHERE oi.order_id = ?`;
-  conn.query(sql, [orderId], callback);
+exports.getOrderItems = async (orderId) => {
+    const query = `
+    SELECT i.menu_id, m.item_name, i.quantity, i.total_amt AS price
+    FROM order_items i
+    JOIN menu m ON i.menu_id = m.id
+    WHERE i.order_id = ?
+  `;
+
+    return new Promise((resolve, reject) => {
+        conn.query(query, [orderId], (err, result) => {
+            if (err) {
+                console.error("❌ getOrderItems error:", err);
+                return reject(err);
+            }
+            resolve(result); // ✅ return the array of items
+        });
+    });
 };
 
-// Add new item to order_items
-// exports.addOrderItem = (orderId, menuId, quantity, total_amt, callback) => {
-//   const sql = `INSERT INTO order_items (order_id, menu_id, quantity, total_amt) VALUES (?, ?, ?, ?)`;
-//   conn.query(sql, [orderId, menuId, quantity, total_amt], callback);
-// };
-// exports.addOrderItem = (orderId, menuId, quantity, total_amt, callback) => {
-//   const sql = `
-//     INSERT INTO order_items (order_id, menu_id, quantity, total_amt)
-//     VALUES (?, ?, ?, ?)
-//   `;
-//   conn.query(sql, [orderId, menuId, quantity, total_amt], callback);
-// };
+
+
 exports.addOrderItem = (orderId, menuId, qty, total, callback) => {
     console.log("Inserting:", orderId, menuId, qty, total);
-  const sql = "INSERT INTO order_items (order_id, menu_id, quantity, total_amt) VALUES (?, ?, ?, ?)";
-  conn.query(sql, [parseInt(orderId), parseInt(menuId), parseInt(qty), parseFloat(total)], callback);
+    const sql = "INSERT INTO order_items (order_id, menu_id, quantity, total_amt) VALUES (?, ?, ?, ?)";
+    conn.query(sql, [parseInt(orderId), parseInt(menuId), parseInt(qty), parseFloat(total)], callback);
 };
 
 // Get staff ID by name
 exports.getStaffByName = (name) => {
-  return new Promise((resolve, reject) => {
-    conn.query("SELECT * FROM staff WHERE name = ?", [name], (err, result) => {
-      if (err) return reject(err);
-      resolve(result);
+    return new Promise((resolve, reject) => {
+        conn.query("SELECT * FROM staff WHERE name = ?", [name], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        });
     });
-  });
 };
 
 // Insert new order into order_master
 exports.insertOrder = (table_id, staff_id, ord_date, total_amt, ord_status) => {
-  return new Promise((resolve, reject) => {
-    conn.query(
-      "INSERT INTO order_master (table_id, staff_id, ord_date, total_amt, ord_status) VALUES (?, ?, ?, ?, ?)",
-      [table_id, staff_id, ord_date, total_amt, ord_status],
-      (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
-      }
-    );
-  });
+    return new Promise((resolve, reject) => {
+        conn.query(
+            "INSERT INTO order_master (table_id, staff_id, ord_date, total_amt, ord_status) VALUES (?, ?, ?, ?, ?)",
+            [table_id, staff_id, ord_date, total_amt, ord_status],
+            (err, result) => {
+                if (err) return reject(err);
+                
+                resolve(result);
+            }
+        );
+    });
 };
 
 exports.getOrderTotal = (orderId) => {
-  return new Promise((resolve, reject) => {
-    conn.query(
-      "SELECT SUM(total_amt) AS total FROM order_items WHERE order_id = ?",
-      [orderId],
-      (err, result) => {
-        if (err) return reject(err);
-        resolve(result[0].total || 0);
-      }
-    );
-  });
+    return new Promise((resolve, reject) => {
+        conn.query(
+            "SELECT SUM(total_amt) AS total FROM order_items WHERE order_id = ?",
+            [orderId],
+            (err, result) => {
+                if (err) return reject(err);
+                resolve(result[0].total || 0);
+            }
+        );
+    });
 };
 
 exports.updateOrderTotal = (orderId, total_amt) => {
-  return new Promise((resolve, reject) => {
-    conn.query(
-      "UPDATE order_master SET total_amt = ? WHERE order_id = ?",
-      [total_amt, orderId],
-      (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
-      }
-    );
-  });
+    return new Promise((resolve, reject) => {
+        conn.query(
+            "UPDATE order_master SET total_amt = ? WHERE order_id = ?",
+            [total_amt, orderId],
+            (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            }
+        );
+    });
 };
 
 exports.updateOrderStatus = (orderId, status) => {
-  return new Promise((resolve, reject) => {
-    conn.query(
-      "UPDATE order_master SET ord_status = ? WHERE order_id = ?",
-      [status, orderId],
-      (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
-      }
-    );
-  });
+    return new Promise((resolve, reject) => {
+        conn.query(
+            "UPDATE order_master SET ord_status = ? WHERE order_id = ?",
+            [status, orderId],
+            (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            }
+        );
+    });
 };
 
 // exports.getAllOrdersWithItems = () => {
@@ -502,8 +503,8 @@ exports.updateOrderStatus = (orderId, status) => {
 
 
 exports.getAllOrdersWithItems = async () => {
-  return new Promise((resolve, reject) => {
-    const sql = `
+    return new Promise((resolve, reject) => {
+        const sql = `
       SELECT 
         o.order_id, o.table_id, o.staff_id, o.ord_date, o.ord_status,
         s.name,
@@ -516,32 +517,107 @@ exports.getAllOrdersWithItems = async () => {
       ORDER BY o.order_id DESC;
     `;
 
-    conn.query(sql, (err, results) => {
-      if (err) return reject(err);
+        conn.query(sql, (err, results) => {
+            if (err) return reject(err);
 
-      // group by order_id
-      const ordersMap = {};
-      results.forEach(row => {
-        if (!ordersMap[row.order_id]) {
-          ordersMap[row.order_id] = {
-            order_id: row.order_id,
-            table_id: row.table_id,
-            staff_name: row.name,
-            ord_date: row.ord_date,
-            ord_status: row.ord_status,
-            items: []
-          };
-        }
+            // group by order_id
+            const ordersMap = {};
+            results.forEach(row => {
+                if (!ordersMap[row.order_id]) {
+                    ordersMap[row.order_id] = {
+                        order_id: row.order_id,
+                        table_id: row.table_id,
+                        staff_name: row.name,
+                        ord_date: row.ord_date,
+                        ord_status: row.ord_status,
+                        items: []
+                    };
+                }
 
-        ordersMap[row.order_id].items.push({
-          item_name: row.item_name,
-          quantity: row.quantity,
-          price: row.price
+                ordersMap[row.order_id].items.push({
+                    item_name: row.item_name,
+                    quantity: row.quantity,
+                    price: row.price
+                });
+            });
+
+            const allOrders = Object.values(ordersMap);
+            resolve(allOrders);
         });
-      });
+    });
+};
 
-      const allOrders = Object.values(ordersMap);
-      resolve(allOrders);
+exports.getOrderDetailsById = async (orderId) => {
+    const query = `
+    SELECT o.order_id, o.table_id, o.ord_date, o.ord_status, s.name AS staff_name
+    FROM order_master o
+    JOIN staff s ON o.staff_id = s.staff_id
+    WHERE o.order_id = ?
+  `;
+    return new Promise((resolve, reject) => {
+        conn.query(query, [orderId], (err, result) => {
+            if (err) return reject(err);
+            resolve(result[0]); // return single row
+        });
+    });
+};
+
+
+exports.getTableIdFromOrder = async (orderId) => {
+  const query = `SELECT table_id FROM order_master WHERE order_id = ?`;
+
+  return new Promise((resolve, reject) => {
+    conn.query(query, [orderId], (err, result) => {
+      if (err) return reject(err);
+      if (result.length > 0) resolve(result[0].table_id);
+      else reject(new Error("Order not found"));
+    });
+  });
+};
+
+exports.updateTableAvailability = async (table_id, status) => {
+  return new Promise((resolve, reject) => {
+    const query = `UPDATE dinning_table SET availability_status = ? WHERE table_id = ?`;
+    conn.query(query, [status, table_id], (err, result) => {
+      if (err) return reject(err);
+      resolve(result);
+    });
+  });
+};
+
+
+
+
+
+
+exports.getAllCompletedBills = () => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      SELECT 
+        o.order_id, 
+        o.ord_date, 
+        o.total_amt, 
+        s.name AS staff_name, 
+        t.table_id
+      FROM 
+        order_master o
+      JOIN 
+        staff s ON o.staff_id = s.staff_id
+      JOIN 
+        dinning_table t ON o.table_id = t.table_id
+      WHERE 
+        o.ord_status = 'Completed'
+      ORDER BY 
+        o.order_id DESC
+    `;
+
+    conn.query(sql, (err, result) => {
+      if (err) {
+        console.error("❌ Error fetching completed bills:", err);
+        reject(err);
+      } else {
+        resolve(result);
+      }
     });
   });
 };

@@ -252,30 +252,33 @@
           <input type="hidden" name="order_item_id" value="<%= order.order_item_id %>">
           <input type="hidden" name="order_id" value="<%= order.order_id %>">
 
-          <button type="submit" name="action" value="decrement" style="background-color: #ff6600; color: white; border: none; border-radius: 4px; padding: 2px 8px;">−</button>
+          <!-- <button type="submit" name="action" value="decrement" style="background-color: #ff6600; color: white; border: none; border-radius: 4px; padding: 2px 8px;">−</button> -->
           <span><%= order.quantity %></span>
-          <button type="submit" name="action" value="increment" style="background-color: #ff6600; color: white; border: none; border-radius: 4px; padding: 2px 8px;">+</button>
+          <!-- <button type="submit" name="action" value="increment" style="background-color: #ff6600; color: white; border: none; border-radius: 4px; padding: 2px 8px;">+</button> -->
         </form>
 
-        <p>₹<%= order.total_amt %></p>
+        <p><%= order.total_amt %></p>
 
-        <form action="/remove-item" method="POST">
-          <input type="hidden" name="order_item_id" value="<%= order.order_item_id %>">
-          <button type="submit" style="background: none; border: none; color: red; cursor: pointer;">🗑 Cancel</button>
-        </form>
       </div>
+      
     <% }) %>
+    
+
+
 
     <div class="total-box">
-      <p><strong>Total: ₹<%= Number(total).toFixed(2) %><
-        /strong></p><form action="/confirm-order" method="POST">
+      <p><strong>Total: ₹<%= Number(total).toFixed(2) %></strong></p>
+        <form action="/confirm-order" method="POST">
   <input type="hidden" name="orderId" value="<%= orderId %>">
   <button type="submit" class="confirm-btn">Confirm Order</button>
 </form>
     </div>
+  
   <% } else { %>
     <p>No items added yet.</p>
   <% } %>
+  
+
 </div>
       </div>
     </div>
