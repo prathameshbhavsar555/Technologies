@@ -1,8 +1,68 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <link rel="stylesheet" href="./dashboard.css">
+<style>
+  *,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ .module1 {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  max-width: 900px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1.25rem;
+  transition: all 400ms;
+}
+
+.card {
+  flex: 1;
+  height: 100%;
+  transition: all 400ms;
+  cursor: pointer;
+}
+.card > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card {
+  flex: 1;
+  height: 100%;
+  transition: all 400ms;
+  cursor: pointer;
+}
+.card:nth-child(odd) {
+  translate: 0 -20px;
+}
+.card:nth-child(even) {
+  translate: 0 20px;
+}
+.container:hover .card:not(:hover) {
+  filter: grayscale(100%);
+}
+.card:hover {
+  flex: 3;
+}
+
+</style>
 <!-- Navbar -->
 <div class="navbar">
-  <h1>Restaurant Staff</h1>
+  <h1>🍽️ The Royal ShahPrath</h1>
   <div class="nav-right">
     <div class="theme-toggle" id="themeToggle">
       <i class="fas fa-moon"></i>
@@ -49,7 +109,7 @@
 
     <div class="menu-item">
       <i class="fas fa-user-cog"></i>
-      <a href="#" class="menu-link">Staff Profile</a>
+      <a href="/staffProfile" class="menu-link">Staff Profile</a>
     </div>
 
     <div class="menu-item">
@@ -59,7 +119,25 @@
   </div>
 
   <div class="main-content" id="content-area">
-    <h2>Welcome Staff 🍽️</h2>
+    <section class="module1">
+        <div class="container">
+     <div class="card">
+        <img src="./images/background/dashboard2.png">
+      </div>
+      <div class="card">
+        <img src="./images/background/dashboard1.png">
+      </div>
+      <div class="card">
+        <img src="./images/background/dashboard3.png">
+      </div>
+      <div class="card">
+        <img src="./images/background/dashboard4.jpg">
+      </div>
+      <div class="card">
+        <img src="./images/background/bashboard5.jpg">
+      </div>
+    </div>
+      </section>
   </div>
 </div>
 

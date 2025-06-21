@@ -19,53 +19,53 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
 exports.upload = upload;
-
+// Home Route
 exports.home = (req, res) => {
-
   res.render("home.ejs");
-
 }
 
 //ADMIN ROUTES
 exports.adminlogin = (req, res) => {
-
-
   res.render("adminlogin.ejs", { msg: "" });
-
 }
 
 exports.logout = (req, res) => {
   req.session.destroy(err => {
-    if (err) console.error("Session destroy error:", err);
+    if (err) console.error("Session Destroy error:", err);
     res.redirect("/");
-  });
-
-
+ });
 };
+
 exports.adminsignup = (req, res) => {
   res.render("adminsignup.ejs");
 }
+
 exports.admindasboard = (req, res) => {
   res.render("admindasboard.ejs", { filename: "no" });
 }
+
 exports.addcategory = (req, res) => {
   res.render("addcategory.ejs", { filename: "addcategory.ejs", msg: "" });
 }
+
 exports.viewmeanu = (req, res) => {
   res.render("viewmeanu.ejs");
 }
+
 exports.addminprofile = ((req, res) => {
   res.render("addminprofile.ejs");
 })
+
 exports.addminEdit = ((req, res) => {
   res.render("addminEdit.ejs");
 })
+
 let admin = {
   admin1: "shaheel",
   admin2: "prathamesh"
 }
+
 exports.adminentry = async (req, res) => {
   try {
     const { username, password, role } = req.body;
@@ -74,8 +74,7 @@ exports.adminentry = async (req, res) => {
 
     if (result.status === 'admin') {
       req.session.role = 'admin';
-
-        req.session.username = 'admin';
+      req.session.username = 'admin';
       res.render("admindasboard");
     } else if (result.status === 'staff') {
       try {
@@ -100,7 +99,6 @@ exports.adminentry = async (req, res) => {
         res.render("userdashboard", { orderId: null });
       }
     } else {
-
       res.render("adminlogin", { msg: "Invalid UserName & Password" });
     }
   }
@@ -108,7 +106,6 @@ exports.adminentry = async (req, res) => {
     console.log("error in entry", err);
     res.status(500).send("internal server error");
   }
-
 }
 
 //Category CRUD Operation
@@ -134,6 +131,7 @@ exports.updatecategory = async (req, res) => {
     res.status(500).send("internal server error");
   }
 };
+
 //Delete Category
 exports.delcategory = async (req, res) => {
   try {
@@ -145,13 +143,13 @@ exports.delcategory = async (req, res) => {
     res.status(500).send("internal server error");
   }
 };
-//Insert Category
-// 
+
+//Insert Category 
 exports.insertcategories = async (req, res) => {
   try {
     let { name } = req.body;
     let result = await regmodel.insertcategories(name);
-    res.render("addcategory", { msg: "category added" });
+    res.render("addcategory", { msg: "Added Successfully" });
   }
   catch (err) {
     res.status(500).json({ success: false, message: "Failed to insert" });
@@ -171,6 +169,7 @@ exports.updatecategoryH = async (req, res) => {
   }
 
 };
+
 //seraching category
 exports.searchCategory = async (req, res) => {
   try {
@@ -224,7 +223,7 @@ exports.addmenuInDB = async (req, res) => {
     await regmodel.addmenuInDB(item_name, category_id, price, description, image);
 
     const categories = await regmodel.getAllCategories();
-    res.render("addmeanu", { msg: "menu added in db", data: categories });
+    res.render("addmeanu", { msg: "Added Succssfully", data: categories });
   } catch (err) {
     console.error("Error inserting menu:", err);
     res.status(400).json({ success: false, message: "Invalid category ID" });
@@ -259,8 +258,7 @@ exports.updateMenuHandler = async (req, res) => {
   }
 };
 
-// stafff
-
+// stafff CRUD Operation
 exports.viewstaff = async (req, res) => {
   try {
     let result = await regmodel.viewstaff();
@@ -320,7 +318,7 @@ exports.addstaffH = async (req, res) => {
   }
 };
 
-//USER ROUTS
+//USER CONTROLLER
 exports.userlogin = (req, res) => {
   res.render("userlogin.ejs", { msg: "" })
 
@@ -422,17 +420,13 @@ exports.updatetableH = async (req, res) => {
 //seraching category 
 exports.searchCategory = async (req, res) => {
   try {
-
     const searchValue = req.query.sd;
-
     let result = await regmodel.searchCategory(searchValue);
     res.json(result);
-
   }
   catch (err) {
     res.json([]);
   }
-
 };
 
 exports.searchtable = async (req, res) => {
@@ -471,31 +465,13 @@ exports.searchmenu = async (req, res) => {
   }
 };
 
-//stafftable
-// exports.stafftable = async (req, res) => {
-//   try {
-//     const tables = await regmodel.viewtable();
-//     const staff = await regmodel.getStaffByName("shah"); // or dynamic from login input
-//     const staff_id = staff[0].staff_id;
-
-//     res.render("stafftable", {
-//       tables,
-//       staff_id
-//     });
-//   } catch (err) {
-//     console.error("Error loading stafftable:", err);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-// ;
-// GET /stafftable?username=shah
 exports.stafftable = async (req, res) => {
   try {
     const username = req.session.username;
     console.log("username by the session: ", username);
 
     const tables = await regmodel.viewtable();
-    const [staff] = await regmodel.getStaffByName('shah');
+    const [staff] = await regmodel.getStaffByName(username);
 
     if (!staff) return res.status(404).send("Staff not found");
 
@@ -509,91 +485,32 @@ exports.stafftable = async (req, res) => {
   }
 };
 
-
-
 exports.viewOrders = async (req, res) => {
   try {
-    const orders = await regmodel.getAllOrdersWithItems(); // new function
+    const orders = await regmodel.getAllOrdersWithItems(); 
 console.log("the session valeu ",(req.session.role))
     res.render("viewOrders", {
       orders,
       session:req.session
     });
-
-    // res.render("viewOrders");
+    
   } catch (err) {
     console.error("Error loading orders:", err);
     res.status(500).send("Failed to load orders");
   }
 };
-// exports.viewOrders = async (req, res) => {
-//   try {
-//     const allOrders = await regmodel.getAllOrdersWithItems();
 
-//     const pendingOrderList = allOrders.filter(order => order.ord_status === "Pending");
-//     const completedOrderList = allOrders.filter(order => order.ord_status === "Completed");
-
-//     res.render("viewOrders", {
-//       pendingOrders: pendingOrderList,
-//       completedOrders: completedOrderList
-//     });
-//   } catch (err) {
-//     console.error("❌ Error loading viewOrders:", err);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
-
-
-
-
-
-
-
-// exports.renderMenuPage = (req, res) => {
-//   console.log("🧠 req.params.orderId =", req.params.orderId);
-//   const orderId = parseInt(req.params.orderId);
-
-//   if (isNaN(orderId)) {
-//     return res.status(400).send("❌ Invalid order ID in URL");
-//   }
-
-//   serCtrl.showMenuWithOrders(orderId, (err, result) => {
-//     console.log("insie the err: ", err);
-//     console.log("insie the : ", result);
-//     if (err) return res.status(500).send("Internal Server Error");
-
-//     console.log("data is comming: ", result);
-//     let total = 0;
-//     result.orders.forEach((item) => {
-//       total += Number(item.total_amt);
-//     });
-
-//     const date = new Date().toISOString().slice(0, 10);
-//     res.render("Allmenu", {
-//       menus: result.menus,
-//       orders: result.orders,
-//       orderId,
-//       date,
-//       total
-//     });
-//   });
-// };
 exports.renderMenuPage = async (req, res) => {
   try {
     const orderId = parseInt(req.params.orderId);
-
     if (isNaN(orderId)) {
       return res.status(400).send("Invalid order ID in URL");
     }
-
     const result = await serCtrl.showMenuWithOrders(orderId);
-
     let total = 0;
     result.orders.forEach(item => {
       total += Number(item.price);
     });
-
     const username = req.query.username || ''||req.session.username
     const date = new Date().toISOString().slice(0, 10);
     res.render("Allmenu", {
@@ -627,7 +544,6 @@ exports.handleAddToOrder = (req, res) => {
 
 exports.createOrderForTable = async (req, res) => {
   try {
-    console.log("shaeel chal rha hai : this one : ");
     const table_id = parseInt(req.params.table_id);
     const staff_id = parseInt(req.params.staff_id);
 
@@ -649,7 +565,7 @@ exports.createOrderForTable = async (req, res) => {
   }
 };
 
-//prathamesh
+//DashBoard 
 exports.getDashboardData = (req, res) => {
   const queries = {
     categories: "SELECT COUNT(*) AS count FROM category",
@@ -661,7 +577,6 @@ exports.getDashboardData = (req, res) => {
     completedOrders: "SELECT COUNT(*) AS count FROM order_master WHERE ord_status = 'Completed'",
     pendingOrders: "SELECT COUNT(*) AS count FROM order_master WHERE ord_status = 'Pending'"
   };
-
 
   const sql = `
     ${queries.categories};
@@ -692,12 +607,9 @@ exports.getDashboardData = (req, res) => {
   });
 }
 
-
 exports.confirmorder = async (req, res) => {
   try {
     const { orderId } = req.body;
-
-    // Optional: Calculate updated total from order_items
     const total = await regmodel.getOrderTotal(orderId);
     await regmodel.updateOrderTotal(orderId, total);
 
@@ -712,15 +624,6 @@ exports.confirmorder = async (req, res) => {
   }
 };
 
-
-// exports.generateBill = async (req, res) => {
-//   if (req.session.role !== 'admin') {
-//     return res.status(403).send("Access Denied: Only admin can generate bills");
-//   }
-
-//   const orderId = req.params.orderId;
-//   // Fetch order + items and render the bill page
-// };
 exports.generateBill = async (req, res) => {
   try {
     const orderId = parseInt(req.params.orderId);
@@ -761,60 +664,28 @@ exports.markOrderCompleted = async (req, res) => {
     }
 
     const orderId = req.params.orderId;
-
-    // ✅ 1. Set order status to completed
     await regmodel.updateOrderStatus(orderId, "Completed");
-
-    // ✅ 2. Set that table as available again
-    const tableId = await regmodel.getTableIdFromOrder(orderId); // <- you'll need to create this // this one i need  to make
+    const tableId = await regmodel.getTableIdFromOrder(orderId); 
     await regmodel.updateTableAvailability(tableId, "Available");
-
     res.redirect("/viewOrders");
-  }
-  // try {
-  //   if (req.session.role !== 'admin') {
-  //     return res.status(403).send("Access Denied");
-  //   }
-
-  //   const orderId = req.params.orderId;
-
-  //   await regmodel.updateOrderStatus(orderId, "Completed");
-  //   res.redirect("/viewOrders");
-  // } 
+  } 
   catch (err) {
     console.error("❌ Error completing order:", err);
     res.status(500).send("Failed to complete order");
   }
 };
-// exports.markOrderCompleted = async (req, res) => {
-//   if (req.session.role !== 'admin') {
-//     return res.status(403).send("Access Denied: Only admin can complete orders");
-//   }
-
-//   const orderId = req.params.orderId;
-//   await regmodel.updateOrderStatus(orderId, 'Completed');
-//   res.redirect("/viewOrders");
-// };
-
 
 exports.cancelOrder = async (req, res) => {
   try {
     const orderId = req.params.orderId;
     const username = req.query.username;
-
-    // Cancel logic
     await regmodel.cancelOrderById(orderId);
-
-    // Redirect to staff dashboard
-    // res.redirect(`/userdashboard?username=${username}`);
     res.redirect(`/udashboard?username=${username}`);``
-    
   } catch (err) {
     console.error("❌ Error cancelling order:", err);
     res.status(500).send("Failed to cancel order.");
   }
 };
-
 
 exports.viewBills = async (req, res) => {
   try {
@@ -829,3 +700,5 @@ exports.viewBills = async (req, res) => {
     res.status(500).send("Error loading bills");
   }
 };
+
+//Staff Profile

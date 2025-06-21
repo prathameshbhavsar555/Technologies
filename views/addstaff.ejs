@@ -20,12 +20,13 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .container {
+    .container33 {
       background-color: #ffffff;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      height: 70vh;
+      margin-top: 30px;
     }
 
     .card {
@@ -35,7 +36,6 @@
       max-width: 400px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       border-radius: 12px;
-      margin-bottom: 110px;
     }
 
     h2 {
@@ -44,26 +44,38 @@
       color: #fc8019;
     }
 
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      color: #333;
+    .input-group {
+      position: relative;
+      margin-bottom: 16px;
     }
 
-    input {
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      color: #999;
+    }
+
+    .input-group input {
       width: 100%;
-      padding: 10px 14px;
-      margin-bottom: 16px;
+      padding: 10px 14px 10px 38px;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 15px;
       transition: border-color 0.3s;
     }
 
-    input:focus {
+    .input-group input:focus {
       border-color: #fc8019;
       outline: none;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #333;
     }
 
     button {
@@ -91,26 +103,37 @@
   </style>
 </head>
 <body>
-<section class="container">
+<section class="container33">
   <div class="card">
     <h2><i class="fas fa-user-plus"></i> Add Staff</h2>
     
     <form action="/addstaffH" method="POST">
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" required>
+  <label for="name">Name</label>
+  <div class="input-group">
+    <i class="fas fa-user"></i>
+    <input type="text" id="name" name="name" placeholder="Enter full name" required>
+  </div>
 
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" required>
+  <label for="email">Email Address</label>
+  <div class="input-group">
+    <i class="fas fa-envelope"></i>
+    <input type="email" id="email" name="email" placeholder="Enter email address" required>
+  </div>
 
-      <label for="contact">Contact</label>
-      <input type="text" id="contact" name="contact" required>
+  <label for="contact">Contact</label>
+  <div class="input-group">
+    <i class="fas fa-phone"></i>
+    <input type="text" id="contact" name="contact" placeholder="Enter contact number" required>
+  </div>
 
-      <label for="salary">Salary</label>
-      <input type="text" id="salary" name="salary" required>
+  <label for="salary">Salary</label>
+  <div class="input-group">
+    <i class="fas fa-money-bill-wave"></i>
+    <input type="text" id="salary" name="salary" placeholder="Enter salary amount" required>
+  </div>
 
-      <button type="submit">Add Staff</button>
-    </form>
-
+  <button type="submit">Add Staff</button>
+</form>
     <div class="message"><%= msg %></div>
   </div>
 </section>

@@ -13,15 +13,7 @@ exports.checkData=(...checkUser)=>{
     });
     return promise;
 }
-// exports.showMenuWithOrders = (orderId, callback) => {
-//   regmodel.getAllMenus((err, menus) => {
-//     if (err) return callback(err);
-//     regmodel.getOrderItems(orderId, (err2, orders) => {
-//       if (err2) return callback(err2);
-//       callback(null, { menus, orders });
-//     });
-//   });
-// };
+
 exports.showMenuWithOrders = async (orderId) => {
   try {
     const menus = await new Promise((resolve, reject) => {
@@ -55,4 +47,5 @@ exports.addItemToOrder = (data, callback) => {
   const total = qty * price;
   regmodel.addOrderItem(orderId, menuId, qty, total, callback);
 };
+
 

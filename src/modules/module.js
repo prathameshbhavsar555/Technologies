@@ -452,56 +452,6 @@ exports.updateOrderStatus = (orderId, status) => {
     });
 };
 
-// exports.getAllOrdersWithItems = () => {
-//   return new Promise((resolve, reject) => {
-//     const sql = `
-//       SELECT 
-//         om.order_id, om.table_id, om.staff_id, om.ord_date, om.ord_status,
-//         s.name AS staff_name,
-//         oi.quantity, oi.total_amt, m.item_name, m.price
-//       FROM order_master om
-//       JOIN order_items oi ON om.order_id = oi.order_id
-//       JOIN menu m ON oi.menu_id = m.id
-//       JOIN staff s ON om.staff_id = s.staff_id
-//       ORDER BY om.order_id DESC;
-//     `;
-
-//     conn.query(sql, (err, results) => {
-//       if (err) return reject(err);
-
-//       // Group orders by order_id
-//       const groupedOrders = {};
-
-//       results.forEach(row => {
-//         const {
-//           order_id, table_id, ord_date, ord_status, staff_name,
-//           item_name, quantity, price
-//         } = row;
-
-//         if (!groupedOrders[order_id]) {
-//           groupedOrders[order_id] = {
-//             order_id,
-//             table_id,
-//             ord_date,
-//             ord_status,
-//             staff_name,
-//             items: []
-//           };
-//         }
-
-//         groupedOrders[order_id].items.push({
-//           item_name,
-//           quantity,
-//           price
-//         });
-//       });
-
-//       resolve(Object.values(groupedOrders)); // convert object to array
-//     });
-//   });
-// };
-
-
 exports.getAllOrdersWithItems = async () => {
     return new Promise((resolve, reject) => {
         const sql = `

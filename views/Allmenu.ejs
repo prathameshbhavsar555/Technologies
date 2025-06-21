@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Swiggy Menu</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     * {
       margin: 0;
@@ -13,12 +14,8 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
-    body {
-      background-color: #f9f9f9;
-      color: #333;
-    }
 
-    .container {
+    .container66 {
       display: flex;
       padding: 20px;
       gap: 20px;
@@ -36,7 +33,7 @@
     }
 
     .back-btn {
-      background: #ff6600;
+      background:#fc8019;
       color: white;
       padding: 8px 16px;
       border-radius: 6px;
@@ -81,7 +78,7 @@
 
     .categories button.active,
     .categories button:hover {
-      background: #ff6600;
+      background: #fc8019;
       color: white;
     }
 
@@ -98,14 +95,11 @@
     }
 
     .card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
-      text-align: center;
-      padding: 15px;
-      transition: transform 0.3s;
-    }
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  transition: transform 0.2s ease;
+}
 
     .card:hover {
       transform: translateY(-5px);
@@ -124,9 +118,11 @@
     }
 
     .card p {
-      margin: 0 0 8px;
-      font-weight: 500;
-    }
+  color: #fc8019;
+  font-weight: 600;
+  font-size: 16px;
+}
+
 
     .card input[type="number"] {
       width: 60px;
@@ -137,7 +133,7 @@
     }
 
     .card button {
-      background: #ff6600;
+      background: #fc8019;
       color: white;
       padding: 6px 12px;
       border: none;
@@ -183,11 +179,18 @@
       margin-top: 10px;
       cursor: pointer;
     }
+    .categories button {
+  transition: background 0.3s, transform 0.2s;
+}
+.categories button:hover {
+  transform: scale(1.05);
+}
+
   </style>
 </head>
 
 <body>
-  <section class="container">
+  <section class="container66">
 
     <div class="main">
 
@@ -227,7 +230,7 @@
                 <input type="hidden" name="menu_id" value="<%= menu.id %>">
                 <input type="hidden" name="price" value="<%= menu.price %>">
                 <input type="number" name="qty" value="1" min="1" required>
-                <button type="submit">Add</button>
+                <button type="submit"><i class="fas fa-plus"></i> Add</button>
               </form>
             </div>
           <% }) %>
@@ -263,9 +266,6 @@
       
     <% }) %>
     
-
-
-
     <div class="total-box">
       <p><strong>Total: ₹<%= Number(total).toFixed(2) %></strong></p>
         <form action="/confirm-order" method="POST">
@@ -275,7 +275,7 @@
     </div>
   
   <% } else { %>
-    <p>No items added yet.</p>
+    <p style="color: #999; text-align: center;">🛒 No items added yet.</p>
   <% } %>
   
 

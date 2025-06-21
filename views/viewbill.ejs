@@ -1,45 +1,182 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Bill - Order <%= order.order_id %></title>
   <style>
-    body { font-family: Arial; padding: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    h2 { margin-bottom: 10px; }
-    .no-print { margin-top: 20px; }
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #fafafa;
+      padding: 30px 15px;
+    }
+
+    .bill-wrapper {
+      max-width: 700px;
+      margin: auto;
+      background-color: #fff;
+      padding: 40px 35px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .header {
+      text-align: center;
+      border-bottom: 2px dashed #eee;
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      color: #fc8019;
+      margin-bottom: 5px;
+      font-size: 28px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .info {
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    .info p {
+      margin: 6px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #fc8019;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .totals {
+      text-align: right;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .totals p {
+      margin: 6px 0;
+    }
+
+    .totals strong {
+      font-size: 18px;
+    }
+
+    .qr-box {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .qr-box img {
+      width: 120px;
+      margin-bottom: 10px;
+    }
+
+    .qr-box p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .print-btn {
+      display: block;
+      margin: 30px auto 0;
+      background-color: #fc8019;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-size: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .print-btn:hover {
+      background-color: #e76800;
+    }
+
     @media print {
-      .no-print { display: none; }
+      .print-btn {
+        display: none;
+      }
+
+      body {
+        background-color: white;
+      }
+
+      .bill-wrapper {
+        box-shadow: none;
+        border: none;
+      }
     }
   </style>
 </head>
 <body>
-  <h2>Bill for Order ID: <%= order.order_id %></h2>
-  <p><strong>Date:</strong> <%= order.ord_date %></p>
-  <p><strong>Table ID:</strong> <%= order.table_id %></p>
-  <p><strong>Status:</strong> <%= order.ord_status %></p>
+  <div class="bill-wrapper">
 
-  <table>
-    <thead>
-      <tr>
-        <th>Item</th>
-        <th>Qty</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% items.forEach(item => { %>
+    <div class="header">
+      <h1>🍽️ The Royal ShahPratht</h1>
+      <p>Order Summary & Bill Receipt</p>
+    </div>
+
+    <div class="info">
+      <p><strong>Order ID:</strong> <%= order.order_id %></p>
+      <p><strong>Date:</strong> <%= order.ord_date %></p>
+      <p><strong>Table ID:</strong> <%= order.table_id %></p>
+      <p><strong>Status:</strong> <%= order.ord_status %></p>
+    </div>
+
+    <table>
+      <thead>
         <tr>
-          <td><%= item.item_name %></td>
-          <td><%= item.quantity %></td>
-          <td><%= item.price %></td>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price (₹)</th>
         </tr>
-      <% }) %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% items.forEach(item => { %>
+          <tr>
+            <td><%= item.item_name %></td>
+            <td><%= item.quantity %></td>
+            <td><%= item.price %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
 
-  <h3>Total: ₹<%= total %></h3>
+    <div class="totals">
+      <p>Subtotal: ₹<%= total %></p>
+      <p>Tax (5%): ₹<%= (total * 0.05).toFixed(2) %></p>
+      <p><strong>Total: ₹<%= (total * 1.05).toFixed(2) %></strong></p>
+    </div>
 
-  <button class="no-print" onclick="window.print()">🖨️ Print Bill</button>
+    <div class="qr-box">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=OrderID:<%= order.order_id %>" alt="QR Code">
+      <p>Scan to view your order</p>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">🖨️ Print Bill</button>
+  </div>
 </body>
 </html>

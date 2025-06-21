@@ -4,7 +4,7 @@
   --secondary-bg: #1c1c1c;
   --light-bg: #f3f1f1;
   --menu-bg: #e9e8e8;
-  --gallery-bg: #f0f0f0;
+  --gallery-bg: #000000;
   --chef-bg: #e7e7e7;
   --text-dark: #0d0d0d;
   --text-light: #ffffff;
@@ -508,6 +508,7 @@ footer {
 
 .gallery-title {
   font-size: 36px;
+  color: var(--text-light);
   margin-bottom: 40px;
 }
 

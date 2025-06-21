@@ -3,64 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit Admin Profile</title>
+  <title>Edit Admin Profile | Swiggy Style</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
   <style>
-    /* body {
+    * {
+      box-sizing: border-box;
       font-family: 'Segoe UI', sans-serif;
-      background: #f2f4f8;
       margin: 0;
       padding: 0;
-    } */
-    .edit-container {
-      max-width: 700px;
-      margin: 60px auto;
-      background: #fff;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
-    .edit-container h2 {
+
+    body {
+      background-color: #fff8f2;
+      padding: 40px 20px;
+    }
+
+    .edit-container {
+      max-width: 720px;
+      margin: auto;
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
       text-align: center;
-      color: #ff6b6b;
+      color: #fc8019;
+      font-size: 26px;
       margin-bottom: 30px;
     }
+
+    h2 i {
+      margin-right: 10px;
+    }
+
     .form-group {
       margin-bottom: 20px;
     }
+
     label {
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
-      color: #444;
+      color: #333;
     }
+
     input, textarea {
       width: 100%;
-      padding: 10px 14px;
+      padding: 12px 15px;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: 0.2s;
+      border-radius: 10px;
+      font-size: 16px;
+      background-color: #fafafa;
+      transition: 0.3s;
     }
+
     input:focus, textarea:focus {
-      border-color: #ff6b6b;
+      border-color: #fc8019;
+      background-color: #fff;
       outline: none;
     }
+
     .btn-save {
       display: block;
       width: 100%;
-      padding: 12px;
-      background: #ff6b6b;
+      padding: 14px;
+      background-color: #fc8019;
+      color: #fff;
       border: none;
-      color: white;
+      border-radius: 10px;
+      font-size: 17px;
       font-weight: bold;
-      border-radius: 8px;
-      font-size: 1.1rem;
       cursor: pointer;
-      transition: 0.3s;
+      transition: background 0.3s ease;
+      margin-top: 10px;
     }
+
     .btn-save:hover {
-      background: #e85c5c;
+      background-color: #e46f0f;
+    }
+
+    @media (max-width: 600px) {
+      .edit-container {
+        padding: 30px 20px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
@@ -69,24 +100,22 @@
   <div class="edit-container">
     <h2><i class="fas fa-user-edit"></i> Edit Admin Profile</h2>
     <form action="/update-profile" method="POST">
-      
-      <!-- Admin Info -->
+
       <div class="form-group">
         <label for="adminName">Full Name</label>
         <input type="text" id="adminName" name="adminName" value="Prathamesh Bhavsar" required>
       </div>
-      
+
       <div class="form-group">
         <label for="adminEmail">Email</label>
         <input type="email" id="adminEmail" name="adminEmail" value="prathamesh@example.com" required>
       </div>
-      
+
       <div class="form-group">
         <label for="adminUsername">Username</label>
         <input type="text" id="adminUsername" name="adminUsername" value="prathamesh_admin">
       </div>
 
-      <!-- Restaurant Info -->
       <div class="form-group">
         <label for="restaurantName">Restaurant Name</label>
         <input type="text" id="restaurantName" name="restaurantName" value="Spicy Garden" required>
@@ -107,7 +136,6 @@
         <input type="text" id="hours" name="hours" value="11:00 AM – 11:00 PM">
       </div>
 
-      <!-- Submit -->
       <button type="submit" class="btn-save"><i class="fas fa-save"></i> Save Changes</button>
     </form>
   </div>

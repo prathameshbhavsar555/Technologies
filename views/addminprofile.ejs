@@ -7,87 +7,109 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-    /* body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f0f2f5;
-      color: #333;
-    } */
+    }
+
     .container {
       max-width: 1000px;
-      margin:auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      margin: auto;
+      background: #ffffff;
+      border-radius: 15px;
       overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
+
     .header {
-      background: linear-gradient(to right, #ff6b6b, #ff9770);
-      padding: 40px;
+      background: linear-gradient(to right, #fc8019, #ff9770);
+      padding: 20px 10px;
       display: flex;
       align-items: center;
+      color: white;
       gap: 30px;
-      color: #fff;
+      flex-wrap: wrap;
     }
+
     .header img {
       width: 120px;
       height: 120px;
       border-radius: 50%;
       border: 4px solid #fff;
       object-fit: cover;
+      background-color: white;
     }
-    .header .info h1 {
-      font-size: 2rem;
+
+    .info h1 {
+      font-size: 28px;
+      font-weight: bold;
       margin-bottom: 8px;
     }
-    .header .info p {
-      margin: 4px 0;
-      font-size: 0.95rem;
+
+    .info p {
+      margin: 5px 0;
+      font-size: 15px;
     }
+
     .details {
       padding: 30px;
       display: flex;
       flex-wrap: wrap;
       gap: 40px;
     }
-    .details .section {
+
+    .section {
       flex: 1 1 400px;
     }
-    .details h3 {
-      color: #ff6b6b;
-      margin-bottom: 10px;
+
+    .section h3 {
+      color: #fc8019;
+      font-size: 18px;
+      margin-bottom: 12px;
     }
-    .details p {
+
+    .section p {
       margin: 8px 0;
-      font-size: 1rem;
+      font-size: 15px;
     }
-    .details p i {
+
+    .section p i {
       margin-right: 10px;
-      color: #ff6b6b;
+      color: #fc8019;
     }
+
     .edit-btn {
       display: inline-block;
-      margin: 30px;
+      margin: 20px 30px;
       padding: 12px 25px;
-      background-color: #ff6b6b;
+      background-color: #fc8019;
       color: white;
       text-decoration: none;
       border-radius: 30px;
       font-weight: bold;
-      text-align: center;
       transition: 0.3s ease;
+      text-align: center;
     }
+
     .edit-btn:hover {
-      background-color: #e85c5c;
+      background-color: #e46f0f;
     }
 
     @media (max-width: 768px) {
       .header {
         flex-direction: column;
         text-align: center;
+      }
+
+      .header img {
+        margin-bottom: 20px;
+      }
+
+      .edit-btn {
+        display: block;
+        width: 80%;
+        margin: 30px auto;
       }
     }
   </style>
@@ -106,7 +128,7 @@
 
     <div class="details">
       <div class="section">
-        <h3>Restaurant Information</h3>
+        <h3>🍽️ Restaurant Information</h3>
         <p><i class="fas fa-utensils"></i> <strong>Name:</strong> Spicy Garden</p>
         <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> MG Road, Pune</p>
         <p><i class="fas fa-phone"></i> <strong>Contact:</strong> +91 9876543210</p>
@@ -114,7 +136,7 @@
       </div>
 
       <div class="section">
-        <h3>Account Details</h3>
+        <h3>👤 Account Details</h3>
         <p><i class="fas fa-user"></i> <strong>Username:</strong> prathamesh_admin</p>
         <p><i class="fas fa-calendar-alt"></i> <strong>Member Since:</strong> Jan 2023</p>
         <p><i class="fas fa-key"></i> <strong>Password:</strong> ********</p>

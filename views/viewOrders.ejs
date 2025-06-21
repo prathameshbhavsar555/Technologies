@@ -3,8 +3,12 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Your Orders</title>
+  <title>Your Orders - Swiggy Style</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font Awesome (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     * {
       box-sizing: border-box;
@@ -13,63 +17,91 @@
       padding: 0;
     }
 
-    .container {
+   
+
+    .container55 {
       max-width: 1200px;
       margin: auto;
-      padding: 20px;
+      padding: 30px 20px;
     }
 
     h2 {
-      text-align: right;
-      color: #333;
-      margin-bottom: 20px;
+      text-align: center;
+      color: #fc8019;
+      margin-bottom: 30px;
+      font-weight: bold;
     }
 
     .filter-buttons {
-      margin-bottom: 30px;
       display: flex;
+      justify-content: center;
       gap: 20px;
+      margin-bottom: 30px;
     }
 
     .filter-buttons button {
-      padding: 10px 20px;
+      padding: 10px 22px;
       border: none;
-      color: white;
+      border-radius: 25px;
       font-weight: bold;
-      border-radius: 5px;
       cursor: pointer;
       font-size: 14px;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
 
     .pending-btn {
-      background-color: green;
+      background-color: #ffc107;
+      color: #000;
+    }
+
+    .pending-btn:hover {
+      background-color: #e0a800;
     }
 
     .completed-btn {
-      background-color: #ff5722;
+      background-color: #28a745;
+      color: white;
+    }
+
+    .completed-btn:hover {
+      background-color: #218838;
     }
 
     .orders-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 20px;
     }
 
     .order-card {
       background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      padding: 20px 25px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+      transition: transform 0.2s;
+    }
+
+    .order-card:hover {
+      transform: translateY(-4px);
     }
 
     .order-info p {
-      margin: 6px 0;
-      font-size: 14px;
+      margin: 8px 0;
+      font-size: 14.5px;
       color: #333;
     }
 
     .order-info strong {
       font-weight: bold;
+      color: #555;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin-top: 18px;
+      font-size: 15px;
+      color: #555;
     }
 
     .order-table {
@@ -80,8 +112,8 @@
 
     .order-table th,
     .order-table td {
-      border: 1px solid #ccc;
-      padding: 6px 10px;
+      border: 1px solid #ddd;
+      padding: 8px 12px;
       text-align: center;
       font-size: 14px;
     }
@@ -90,44 +122,74 @@
       background-color: #f1f1f1;
     }
 
-    .section-title {
-      font-weight: bold;
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
       margin-top: 15px;
-      font-size: 15px;
+    }
+
+    .action-buttons button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .action-buttons form {
+      margin: 0;
+    }
+
+    .generate-btn {
+      background-color: #fc8019;
+      color: white;
+    }
+
+    .generate-btn:hover {
+      background-color: #e86c00;
+    }
+
+    .complete-btn {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .complete-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .no-orders {
+      text-align: center;
+      font-size: 16px;
+      color: #888;
+      margin-top: 40px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h2>Your Orders</h2>
+  <div class="container55">
+    <h2><i class="fas fa-receipt me-2"></i> Your Orders</h2>
 
     <div class="filter-buttons">
       <button class="pending-btn">View Pending Orders</button>
       <button class="completed-btn">View Completed Orders</button>
     </div>
 
-    <% if (orders && orders.length> 0) { %>
+    <% if (orders && orders.length > 0) { %>
       <div class="orders-grid">
-        <% orders.forEach(order=> { %>
+        <% orders.forEach(order => { %>
           <div class="order-card">
             <div class="order-info">
-              <p><strong>Order ID:</strong>
-                <%= order.order_id %>
-              </p>
-              <p><strong>Table ID:</strong>
-                <%= order.table_id %>
-              </p>
-              <p><strong>Staff:</strong>
-                <%= order.staff_name %>
-              </p>
-              <p><strong>Date:</strong>
-                <%= order.ord_date %>
-              </p>
-              <p><strong>Status:</strong>
-                <%= order.ord_status %>
-              </p>
+              <p><strong>Order ID:</strong> <%= order.order_id %></p>
+              <p><strong>Table ID:</strong> <%= order.table_id %></p>
+              <p><strong>Staff:</strong> <%= order.staff_name %></p>
+              <p><strong>Date:</strong> <%= order.ord_date %></p>
+              <p><strong>Status:</strong> <%= order.ord_status %></p>
 
               <p class="section-title">Items:</p>
               <table class="order-table">
@@ -139,40 +201,34 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% order.items.forEach(item=> { %>
+                  <% order.items.forEach(item => { %>
                     <tr>
-                      <td>
-                        <%= item.item_name %>
-                      </td>
-                      <td>
-                        <%= item.quantity %>
-                      </td>
-                      <td>
-                        <%= item.price %>
-                      </td>
+                      <td><%= item.item_name %></td>
+                      <td><%= item.quantity %></td>
+                      <td><%= item.price %></td>
                     </tr>
-                    <% }) %>
+                  <% }) %>
                 </tbody>
               </table>
-                
-                <% if ( session.role === 'admin') { %>
-       <form action="/generate-bill/<%= order.order_id %>" method="GET" style="margin-top:10px;">
-                  <button>Generate Bill</button>
-                </form>
-                <form action="/complete-order/<%= order.order_id %>" method="POST" style="margin-top:5px;">
-                  <button>Mark Completed</button>
-                </form>
-                <% } %>
+
+              <% if (session.role === 'admin') { %>
+                <div class="action-buttons">
+                  <form action="/generate-bill/<%= order.order_id %>" method="GET">
+                    <button class="generate-btn">Generate Bill</button>
+                  </form>
+                  <form action="/complete-order/<%= order.order_id %>" method="POST">
+                    <button class="complete-btn">Mark Completed</button>
+                  </form>
+                </div>
+              <% } %>
             </div>
           </div>
-          <% }) %>
+        <% }) %>
       </div>
-      <% } else { %>
-        <p>No orders found.</p>
-        <% } %>
-
+    <% } else { %>
+      <p class="no-orders">No orders found.</p>
+    <% } %>
   </div>
 
 </body>
-
 </html>
