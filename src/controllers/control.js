@@ -46,11 +46,12 @@ exports.admindasboard = (req, res) => {
 }
 
 exports.addcategory = (req, res) => {
-  res.render("addcategory.ejs", { filename: "addcategory.ejs", msg: "" });
+  res.render("admindasboard.ejs", { filename: "addcategory.ejs", msg: "" });
 }
 
 exports.viewmeanu = (req, res) => {
-  res.render("viewmeanu.ejs");
+
+   res.render("admindasboard.ejs", { filename: "viewmeanu.ejs"});
 }
 
 exports.addminprofile = ((req, res) => {
@@ -75,7 +76,7 @@ exports.adminentry = async (req, res) => {
     if (result.status === 'admin') {
       req.session.role = 'admin';
       req.session.username = 'admin';
-      res.render("admindasboard");
+      res.render("admindasboard",{filename:"no"});
     } else if (result.status === 'staff') {
       try {
         // Get staff ID by name (username == staff.name)
@@ -149,7 +150,7 @@ exports.insertcategories = async (req, res) => {
   try {
     let { name } = req.body;
     let result = await regmodel.insertcategories(name);
-    res.render("addcategory", { msg: "Added Successfully" });
+    res.render("admindasboard.ejs", {filename:"addcategory.ejs", msg: "Added Successfully" });
   }
   catch (err) {
     res.status(500).json({ success: false, message: "Failed to insert" });
@@ -209,7 +210,8 @@ exports.addmeanu = async (req, res) => {
 exports.viewmeanu = async (req, res) => {
   try {
     const result = await regmodel.viewmeanu();
-    res.render("viewmeanu", { data: result });
+    res.render("admindasboard.ejs", { filename: "viewmeanu.ejs", data: result});
+  
   } catch (err) {
     console.error("Error fetching menus:", err);
     res.status(500).send("Internal Server Error");

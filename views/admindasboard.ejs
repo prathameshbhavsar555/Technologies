@@ -96,7 +96,7 @@
         <i class="fas fa-chevron-down chevron"></i>
       </div>
       <div class="submenu" id="categoryMenu">
-        <a href="/addcategory" class="menu-link">Add Category</a>
+        <a href="/addcategory" >Add Category</a>
         <a href="/viewcategory" class="menu-link">View Category</a>
       </div>
       <div class="menu-item" onclick="toggleMenu('menuMenu', this)">
@@ -105,7 +105,7 @@
       </div>
       <div class="submenu" id="menuMenu">
         <a href="/addmeanu" class="menu-link">Add Menu</a>
-        <a href="/viewmeanu" class="menu-link">View Menu</a>
+        <a href="/viewmeanu">View Menu</a>
       </div>
       <div class="menu-item" onclick="toggleMenu('staffMenu', this)">
         <i class="fas fa-user-friends"></i> <span>Staffs</span>
@@ -139,7 +139,10 @@
         <a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a>
       </div>
     </div>
-    <div class="main-content" id="content-area">
+    <div class="main-content">
+      <%if(filename==="no")
+      {
+        %>
       <section class="module1">
         <div class="container11">
       <div class="card">
@@ -159,10 +162,18 @@
       </div>
     </div>
       </section>
+      <%
+       }
+       else
+       {
+        %>
+        <%-include(filename)%>
+        <%
+       }%>
     </div>
   </div>
 
-  <!-- JavaScript -->
+  
   <script>
     const toggleBtn = document.getElementById('toggleSidebar');
     const sidebar = document.getElementById('sidebar');
