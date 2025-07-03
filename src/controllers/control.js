@@ -55,11 +55,11 @@ exports.viewmeanu = (req, res) => {
 }
 
 exports.addminprofile = ((req, res) => {
-  res.render("addminprofile.ejs");
+  res.render("admindasboard.ejs", { filename: "addminprofile.ejs"});
 })
 
 exports.addminEdit = ((req, res) => {
-  res.render("addminEdit.ejs");
+  res.render("admindasboard.ejs", { filename: "addminEdit.ejs"});
 })
 
 let admin = {
@@ -113,7 +113,7 @@ exports.adminentry = async (req, res) => {
 exports.viewcategory = async (req, res) => {
   try {
     let result = await regmodel.viewcategory();
-    res.render("viewcategory", { data: result })
+    res.render("admindasboard.ejs", { filename: "viewcategory.ejs", data: result })
   }
   catch (err) {
     console.log("error fetching categories", err);
@@ -200,7 +200,7 @@ exports.deletemenus = async (req, res) => {
 exports.addmeanu = async (req, res) => {
   try {
     const result = await regmodel.getAllCategories();
-    res.render("addmeanu.ejs", { msg: "", data: result });
+    res.render("admindasboard.ejs", { filename: "addmeanu.ejs",  msg: "", data: result });
   } catch (err) {
     console.log("Error when fetching data from category:", err);
     res.status(500).send("Internal Server Error");
@@ -264,7 +264,7 @@ exports.updateMenuHandler = async (req, res) => {
 exports.viewstaff = async (req, res) => {
   try {
     let result = await regmodel.viewstaff();
-    res.render("viewstaff", { data: result });
+    res.render("admindasboard.ejs", { filename: "viewstaff.ejs", data: result});
   } catch (err) {
     console.error("Error fetching staff:", err);
     res.status(500).send("Internal Server Error");
@@ -306,7 +306,7 @@ exports.updatestaffH = async (req, res) => {
 };
 
 exports.addstaff = (req, res) => {
-  res.render("addstaff.ejs", { msg: "" });
+  res.render("admindasboard.ejs", { filename: "addstaff.ejs", msg: ""});
 };
 
 exports.addstaffH = async (req, res) => {
@@ -360,7 +360,7 @@ exports.checkUser = (req, res) => {
 
 // Table CRUD operation
 exports.addtable = (req, res) => {
-  res.render("addtable.ejs", { msg: "" });
+  res.render("admindasboard.ejs", { filename: "addtable.ejs", msg: ""});
 };
 
 exports.addtableIndb = async (req, res) => {
@@ -378,7 +378,7 @@ exports.viewtable = async (req, res) => {
   try {
     let result = await regmodel.viewtable();
     console.log("result: ", result);
-    res.render("viewtable", { data: result });
+    res.render("admindasboard.ejs", { filename: "viewtable.ejs", msg: "", data: result});
   } catch (err) {
     console.error("Error fetching table:", err);
     res.status(500).send("Internal Server Error");
@@ -491,10 +491,8 @@ exports.viewOrders = async (req, res) => {
   try {
     const orders = await regmodel.getAllOrdersWithItems(); 
 console.log("the session valeu ",(req.session.role))
-    res.render("viewOrders", {
-      orders,
-      session:req.session
-    });
+    res.render("admindasboard.ejs", { filename: "viewOrders.ejs",  orders,
+      session:req.session});
     
   } catch (err) {
     console.error("Error loading orders:", err);
